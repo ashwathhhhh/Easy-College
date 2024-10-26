@@ -28,14 +28,17 @@ with requests.session() as s:
     
     if attendance_table:
         # Iterate through all rows in the table
+
         rows = attendance_table.find_all('tr')
         
         # Loop through each row and get cell data
+
         count = 0
         min_attendance = 75
         min_attendance_exemp = 65
         bunk = 0 
         attend = 0
+
         for row in rows:
             count= count+1
             #print(count)
@@ -44,6 +47,7 @@ with requests.session() as s:
             if count == 1:
                 pass
             else:
+                html_course_code = ''
                 course_code = (row_data[0])
                 total_hours = int(row_data[1])
                 exemption_hours = int(row_data[2])
@@ -52,21 +56,13 @@ with requests.session() as s:
                 percentage = int(row_data[5])
                 percentage_with_exemption = int(row_data[6])
                 percentage_with_med_exemption = int(row_data[7])
-                '''print(course_code)
-                print(total_hours)
-                print(exemption_hours)
-                print(absent_hours)
-                print(present_hours)
-                print(percentage)
-                print(percentage_with_exemption)
-                print(percentage_with_med_exemption)'''
+               
                 # Do something with the data
+
                 total_can_bunk = int(0.25 * float(total_hours))
-                print('total can bunk =',total_can_bunk)
                 total_need_to_attend = int( 0.75 * float(total_hours))
                 total_need_to_attend_exemp = int(0.65*total_hours)
                 total_can_bunk_exemp = int(0.35 * total_hours)
-                print('total need to attend =',total_need_to_attend)
                 if exemption_hours == 0:
                     if percentage >= min_attendance:
                         print('course code =',course_code)
@@ -76,19 +72,21 @@ with requests.session() as s:
                         attend = total_need_to_attend - present_hours
                         print('attend =',attend)
                 else:
+                    print("With exemption")
                     if percentage_with_med_exemption >= min_attendance_exemp:
                         print('course code =',course_code)
                         bunk = total_can_bunk_exemp - absent_hours
                         print('remaining bunk for sem =',bunk)
 
-
+                html_course_code = '23Z311'
+                if course_code == html_course_code:
+                    if_i_bunk = 4 #replace this 0 with input from HTML file
+                    attendance_after_bunk = round(present_hours/(total_hours+if_i_bunk) * 100,2)
+                    print('attendance after bunk =',attendance_after_bunk)
 
 
                 print("\n")
-                #print(row_data)
-            #print("this is \n\n")
-            #print(type(row_data))
-            #print("0th index:",row_data[0])  # Print each row of data
+                
     else:
         print("Attendance table not found.")
 
