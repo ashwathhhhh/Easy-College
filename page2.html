@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy College</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #222; /* Dark background */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #66d9ef;
+            z-index: 1000;
+        }
+
+        /* Container for the main buttons */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 100px; /* Space for header */
+            flex: 1;
+        }
+
+        /* Button Styling */
+        .button {
+            width: 200px;
+            height: 200px;
+            background-color: #444;
+            color: #66d9ef;
+            border: 2px solid #666;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-align: center;
+            text-decoration: none; /* Remove underline */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Button hover effect */
+        .button:hover {
+            transform: scale(1.05);
+            background-color: #555;
+        }
+
+        /* Footer */
+        
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            color: #40e0d0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #333;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        footer .development-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        footer .developer a {
+            color: #40e0d0;
+            text-decoration: none;
+        }
+
+        footer .developer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Static Header -->
+    <div class="header">EzClg</div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Button for CGPA CALC -->
+        <a href="#" class="button">CGPA CALC</a>
+        <!-- Button for BUNKR -->
+        <a href="#" class="button">BUNKR</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="development-text">App in development!!</p>
+        <p>© 2024 Copyright: CGPA CALC</p>
+        <p class="developer">
+            <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
+        </p>
+    </footer>
+</body>
+</html>
