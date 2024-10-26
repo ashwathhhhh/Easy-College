@@ -30,11 +30,33 @@ with requests.session() as s:
         # Iterate through all rows in the table
 
         rows = attendance_table.find_all('tr')
+
+        #define varaiblees
+        credits1=0
+        count=0
+        summation=0
+        total_credits=0
+        cpga=0
         
         # Loop through each row and get cell data
         for row in rows:
-            count= count+1
-            #print(count)
+            count+=1
             columns = row.find_all('td')
-            row_data = [column.get_text(strip=True) for column in columns]  # Extract text from each column
-            print(row_data)
+            row_data = [column.get_text(strip=True) for column in columns] 
+
+            if count==1:
+                pass
+
+            else:           
+                credits1 = int(row_data[3])
+                grade = row_data[4]
+                total_credits+=credits1
+                if credits1 ==0:
+                    pass
+                else:
+                    product= credits1 * int(grade[0:2])
+                    summation += product
+        
+        cgpa = summation/total_credits
+        print(cgpa)
+                
