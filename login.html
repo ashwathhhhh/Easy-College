@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Form</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    /* Navbar styles */
+    .navbar {
+            background-color: transparent; 
+            padding: 10px;
+            text-align: center;
+            width: 100%; /* Full width */
+            position: fixed; /* Fixed position */
+            top: 0; /* Stick to the top */
+            left: 0; /* Align to the left */
+            z-index: 1000; /* Ensure it is above other content */
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url('background.jpeg') no-repeat center center/cover;
+        background-size: cover;
+    }
+    .login-container {
+        width: 500px;
+        height: 300px;
+        padding: 3rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    .login-container h2 {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .input-field {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin: 0.5rem 0;
+        border-radius: 5px;
+        background: #fff;
+    }
+    .input-field i {
+        margin-right: 10px;
+        color: #888;
+    }
+    .input-field input {
+        border: none;
+        outline: none;
+        width: 100%;
+    }
+    .login-btn {
+        width: 100%;
+        padding: 10px;
+        margin-top: 1rem;
+        border: none;
+        border-radius: 5px;
+        background: linear-gradient(45deg, #ff6b6b, #f06595);
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .login-btn:hover {
+        opacity: 0.9;
+    }
+     /* Footer styles */
+     footer {
+            text-align: center;
+            padding: 10px 20px;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: transparent;
+            font-size: 14px;
+            flex-shrink: 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer .development-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        footer .developer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer .developer a:hover {
+            text-decoration: underline;
+        }
+</style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Easy College</h1>
+    </div>
+<div class="login-container">
+    <h2>ACCOUNT LOGIN</h2>
+    <div class="input-field">
+        <i>&#128100;</i>
+        <input type="text" placeholder="User name" required>
+    </div>
+    <div class="input-field">
+        <i>&#128274;</i>
+        <input type="password" placeholder="Password" required>
+    </div>
+    <button class="login-btn">LOGIN</button>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p class="development-text">App in development!!</p>
+    <p> 2024 Copyright: Easy College</p>
+    <p class="developer">
+        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
+    </p>
+</footer>
+
+</body>
+</html>
