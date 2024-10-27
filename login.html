@@ -46,6 +46,7 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         text-align: center;
     }
+    
     .login-container h2 {
         color: #fff;
         font-size: 1.5rem;
@@ -95,19 +96,27 @@
             bottom: 0;
             width: 100%;
         }
-
+        footer p {
+        margin: 5px 0; /* Reduce the gap */
+        padding: 0;
+    }
         footer .development-text {
             font-size: 16px;
             font-weight: bold;
         }
 
         footer .developer a {
+            font-size: 17px;
             color: white;
             text-decoration: none;
         }
 
         footer .developer a:hover {
             text-decoration: underline;
+        }
+
+        footer .Copyright{
+            font-size: 17px;
         }
 </style>
 </head>
@@ -131,9 +140,9 @@
 <!-- Footer -->
 <footer>
     <p class="development-text">App in development!!</p>
-    <p> 2024 Copyright: Easy College</p>
+    <p class = "Copyright"> 2024 Copyright: Easy College</p>
     <p class="developer">
-        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
+        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
     </p>
 </footer>
 

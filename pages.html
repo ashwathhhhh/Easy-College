@@ -29,13 +29,15 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: url('keyboard-background.jpeg') no-repeat center center fixed;
+        background: url('background.jpeg') no-repeat center center fixed;
         background-size: cover;
         font-family: Arial, sans-serif;
         color: white;
+        
     }
     .container {
         text-align: center;
+        
     }
     h1 {
         font-size: 3em;
@@ -46,12 +48,16 @@
         margin: 0 0 30px;
     }
     .options {
-        background-color: rgba(0, 0, 0, 0.5);
         padding: 30px;
-        border-radius: 10px;
         display: flex;
         justify-content: space-around;
         width: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        height: 200px;
+        padding-top: 70px;
     }
     .button {
         background: none;
@@ -62,12 +68,12 @@
         transition: transform 0.2s;
     }
     .button img {
-        width: 50px;
-        height: 50px;
+        width: 110px;
+        height: 110px;
         margin-bottom: 10px;
     }
     .button p {
-        font-size: 1em;
+        font-size: 20px;
     }
     .button:hover {
         transform: scale(1.1);
@@ -85,7 +91,10 @@
         bottom: 0;
         width: 100%;
     }
-
+    footer p {
+        margin: 5px 0; /* Reduce the gap */
+        padding: 0;
+    }
     footer .development-text {
         font-size: 16px;
         font-weight: bold;
@@ -108,16 +117,15 @@
         </div>
         <div class="options">
             <button class="button" onclick="alert('Bunkr Selected')">
-                <img src="bunkr-icon.png" alt="Bunkr Icon">
-                <p>Bunkr</p>
+                <img src="attendance.jpeg" alt="Bunkr Icon">
+                <p>Attendance</p>
             </button>
             <button class="button" onclick="alert('CGPA CALC Selected')">
                 <img src="cgpa-icon.png" alt="CGPA Icon">
-                <p>CGPA CALC</p>
+                <p>CGPA</p>
             </button>
         </div>
     </div>
-
 <!-- Footer -->
 <footer>
     <p class="development-text">App in development!!</p>
