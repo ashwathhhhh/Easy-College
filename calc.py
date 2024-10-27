@@ -46,13 +46,15 @@ with requests.session() as s:
 
             if count==1:
                 pass
-
+            
             else:           
                 credits1 = int(row_data[3])
                 grade = row_data[4]
                 total_credits+=credits1
                 if credits1 ==0:
                     pass
+                elif grade[0:2] == "RA":
+                    print("Arrear. No CGPA.")
                 else:
                     product= credits1 * int(grade[0:2])
                     summation += product
