@@ -10,8 +10,8 @@ payload = {
     '__VIEWSTATEGENERATOR':'E64D2FFE',
     '__EVENTVALIDATION':'g5OBX22lxevnco1RsfI7lUiyxoHI+6VULprfgdME6INMMlo9Oe0BE9gsycWj2DoX8swZzfek9Gr8MUiNflq8lcySikpulwQQKUI94CndKh0SPQllSuWIBvtwz4v5zyv7t0nmgGBQbO/ig3RUhsl2m4c5NCz/SW5+pDQ586mCeUKc3/jmmcX+BqQ2XCyalh6g7zlwC2SDlptxBPOGGd5wIuc9wmXmLC9FwvRXYNRe3JHHjcSiZtJchiYIEhCnlcG4iOMjPH6I47HS9TRKX8co2Sy7KCa5s1Fdk3zVjSIZjL8=',
     'rdolst':'S',
-    'txtusercheck':'23z309',
-    'txtpwdcheck':'ashwath',
+    'txtusercheck':'23z360',
+    'txtpwdcheck':'03JAN2006',
     'abcd3':'Login'
 }
 
@@ -36,7 +36,8 @@ with requests.session() as s:
         count=0
         summation=0
         total_credits=0
-        cpga=0
+        gpa=0
+        
         
         # Loop through each row and get cell data
         for row in rows:
@@ -54,11 +55,11 @@ with requests.session() as s:
                 if credits1 ==0:
                     pass
                 elif grade[0:2] == "RA":
-                    print("Arrear. No CGPA.")
+                    print("Arrear. No gpa.")
                 else:
                     product= credits1 * int(grade[0:2])
                     summation += product
         
-        cgpa = summation/total_credits
-        print(cgpa)
+        gpa = summation/total_credits
+        print(gpa)
                 
