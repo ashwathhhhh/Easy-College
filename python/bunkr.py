@@ -1,8 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
+from creds import get_credentials  # Import the function
 
 loginurl = 'https://ecampus.psgtech.ac.in/studzone2/AttWfLoginPage.aspx'
 secure_url = 'https://ecampus.psgtech.ac.in/studzone2/AttWfPercView.aspx'
+
+# Get credentials from creds.py
+username, password = get_credentials()
 
 # Payload for logging in
 payload = {
@@ -10,10 +14,13 @@ payload = {
     '__VIEWSTATEGENERATOR':'E64D2FFE',
     '__EVENTVALIDATION':'g5OBX22lxevnco1RsfI7lUiyxoHI+6VULprfgdME6INMMlo9Oe0BE9gsycWj2DoX8swZzfek9Gr8MUiNflq8lcySikpulwQQKUI94CndKh0SPQllSuWIBvtwz4v5zyv7t0nmgGBQbO/ig3RUhsl2m4c5NCz/SW5+pDQ586mCeUKc3/jmmcX+BqQ2XCyalh6g7zlwC2SDlptxBPOGGd5wIuc9wmXmLC9FwvRXYNRe3JHHjcSiZtJchiYIEhCnlcG4iOMjPH6I47HS9TRKX8co2Sy7KCa5s1Fdk3zVjSIZjL8=',
     'rdolst':'S',
-    'txtusercheck':'23z309',
-    'txtpwdcheck':'ashwath',
+    'txtusercheck': username,  # Use the username from creds.py
+    'txtpwdcheck': password,   # Use the password from creds.py
     'abcd3':'Login'
 }
+
+# Rest of your code remains the same
+
 
 with requests.session() as s:
     # Post the login data to the login URL
