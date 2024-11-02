@@ -9,10 +9,13 @@ def login():
         name = request.form["nm"]
         password = request.form["pw"]
         print(name,password,sep = "\n")
-        return(name)
+        return redirect(url_for("pages"))
     else:
         return render_template("login.html")
 
+@app.route("/pages")
+def pages():
+    return render_template("pages.html")
 
 
 if __name__ == "__main__":
