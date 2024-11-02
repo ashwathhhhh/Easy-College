@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
-
+from bunkr import get_attendance_data
 
 app = Flask(__name__)
 
@@ -16,6 +16,11 @@ def login():
 @app.route("/pages")
 def pages():
     return render_template("pages.html")
+
+@app.route('/attendance')
+def attendance():
+    attendance_data = get_attendance_data()
+    return render_template('attendance.html', **attendance_data)
 
 
 if __name__ == "__main__":
