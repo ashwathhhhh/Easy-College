@@ -33,7 +33,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: url('images/background.jpeg') no-repeat center center/cover;
+        background: url('../static/images/background.jpeg') no-repeat center center/cover;
         background-size: cover;
     }
     .login-container {
@@ -70,7 +70,7 @@
         width: 100%;
     }
     .login-btn {
-        padding-top: 35px;
+        padding-top: 25px;
     font-size: 18px;
     color: #e1e1e1;
     font-family: inherit;
@@ -83,6 +83,7 @@
     transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
     transition-duration: 400ms;
     transition-property: color;
+    background-color: transparent;
 }
 
 .login-btn:focus,
@@ -152,15 +153,16 @@
     </div>
 <div class="login-container">
     <h2>Welcome</h2>
-    <div class="input-field">
-        <i>&#128100;</i>
-        <input type="text" placeholder="User name" required>
-    </div>
-    <div class="input-field">
-        <i>&#128274;</i>
-        <input type="password" placeholder="Password" required>
-    </div>
-    <button class="login-btn">LOGIN</button>
+    <form action="#" method="POST">
+        <div class="input-field"> <p>Name:</p>
+            <p><input type="text" name = "nm"></p>
+        </div>
+        <div class="input-field">
+            <p>Password:</p>
+            <p><input type="password" name = "pw"></p>
+        </div>
+        <button class="login-btn">LOGIN</button>
+    </form>
 </div>
 
 <!-- Footer -->
