@@ -145,12 +145,49 @@
         footer .Copyright{
             font-size: 17px;
         }
+        .navbar {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .navbar-links {
+        display: flex;
+    }
+
+    .navbar-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 16px;
+    }
+
+    .navbar-links a:hover {
+        text-decoration: underline;
+    }
 </style>
 </head>
 <body>
-    <div class="navbar">
+    <nav class="navbar">
         <h1>Easy College</h1>
-    </div>
+        <div class="navbar-links">
+            <a href="#">Contact</a>
+            <a href="#">About Us</a>
+        </div>
+    </nav>
 <div class="login-container">
     <h2>Welcome</h2>
     <form action="#" method="POST">
