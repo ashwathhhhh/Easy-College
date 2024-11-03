@@ -12,36 +12,14 @@
             font-family: Arial, sans-serif;
         }
         /* Update the navbar CSS */
-.navbar {
-    background-color: transparent; 
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    transition: opacity 0.3s ease-in-out; /* Changed from transform to opacity */
-    opacity: 1;
-}
 
-.navbar h1 {
-    color: white;
-    margin: 0;
-    font-size: 24px;
-}
-
-.navbar.hidden {
-    opacity: 0; /* Changed from transform to opacity */
-    pointer-events: none; /* Prevents interaction when hidden */
-}
 
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background:black;
+            background:rgba(0, 0, 0, 0.911);
             background-size: cover;
             padding-top: 80px;
         }
@@ -147,13 +125,57 @@ footer .developer a:hover {
 footer .Copyright {
     font-size: 17px;
 }
+.navbar {
+        background-color: rgba(0, 0, 0, 0.233);
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .navbar-links {
+        display: flex;
+    }
+
+    .navbar-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 16px;
+    }
+
+    .navbar-links a:hover {
+        text-decoration: underline;
+    }
+    .easy {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <h1>Easy College</h1>
-    </div>
-
+    <nav class="navbar">
+        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <div class="navbar-links">
+            <a href="#">Contact</a>
+            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary">Logout</a>
+    
+        </div>
+    </nav>
     <div class="content">
         {% for result in results %} 
         <div class="login-container">

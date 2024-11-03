@@ -6,22 +6,7 @@
 <title>Pages</title>
 <style>
     /* Navbar styles */
-    .navbar {
-        background-color: transparent; 
-        padding: 10px;
-        text-align: center;
-        width: 100%; /* Full width */
-        position: fixed; /* Fixed position */
-        top: 0; /* Stick to the top */
-        left: 0; /* Align to the left */
-        z-index: 1000; /* Ensure it is above other content */
-    }
-
-    .navbar h1 {
-        color: white;
-        margin: 0;
-        font-size: 24px;
-    }
+    
     body, html {
         margin: 0;
         padding: 0;
@@ -108,13 +93,58 @@
     footer .developer a:hover {
         text-decoration: underline;
     }
+    .navbar {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .navbar-links {
+        display: flex;
+    }
+
+    .navbar-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 16px;
+    }
+
+    .navbar-links a:hover {
+        text-decoration: underline;
+    }
+    .easy {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
-    <div class="container">
-        <div class="navbar">
-            <h1>Easy College</h1>
+    <nav class="navbar">
+        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <div class="navbar-links">
+            <a href="#">Contact</a>
+            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary">Logout</a>
+    
         </div>
+    </nav>
+    <div class="container">
         <form action="#" method="POST">
         <div class="options">
             <button class="button">

@@ -178,14 +178,22 @@
     .navbar-links a:hover {
         text-decoration: underline;
     }
+    .easy {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
     <nav class="navbar">
-        <h1>Easy College</h1>
+        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
         <div class="navbar-links">
             <a href="#">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary">Logout</a>
+    
         </div>
     </nav>
 <div class="login-container">
