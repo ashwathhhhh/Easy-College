@@ -17,6 +17,11 @@ def login():
     else:
         return render_template("login.html")
 
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/pages",methods = ["POST","GET"])
 def pages():
     if request.method == "POST":
