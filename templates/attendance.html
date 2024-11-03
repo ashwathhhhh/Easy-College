@@ -11,25 +11,31 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-        .navbar {
-            background-color: transparent; 
-            padding: 10px;
-            text-align: center;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            transition: transform 0.3s ease-in-out;
-        }
-        .navbar h1 {
-            color: white;
-            margin: 0;
-            font-size: 24px;
-        }
-        .navbar.hidden {
-            transform: translateY(-100%);
-        }
+        /* Update the navbar CSS */
+.navbar {
+    background-color: transparent; 
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out; /* Changed from transform to opacity */
+    opacity: 1;
+}
+
+.navbar h1 {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+}
+
+.navbar.hidden {
+    opacity: 0; /* Changed from transform to opacity */
+    pointer-events: none; /* Prevents interaction when hidden */
+}
+
         body {
             display: flex;
             flex-direction: column;
@@ -50,92 +56,96 @@
         .login-container {
     width: 500px;
     padding: 2.5rem;
-    background: rgba(255, 255, 255, 0.1); /* Slightly more transparent */
-    backdrop-filter: blur(15px); /* Increased blur for better blending */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
     border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Softer shadow */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
     margin-bottom: 20px;
     transition: transform 0.2s ease-in-out;
 }
 
 .attendance {
-    color: #f0f0f0; /* Softer white for better readability against background */
+    color: #e0e0e0;
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    padding: 1.2rem;
+    padding: 1.5rem;
 }
 
 .attendance div {
     text-align: center;
-    font-size: 1.25rem;
-    padding: 8px 0;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Softer shadow for readability */
+    font-size: 20px;
+    padding: 6px 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     letter-spacing: 0.5px;
+    color: white; /* Changed to white */
 }
 
-/* Specific styling for each type of information */
-.attendance div:nth-child(1) { /* Course Code */
+/* Course Code styling */
+.attendance div:nth-child(1) {
     font-weight: 600;
-    font-size: 1.4rem;
-    color: #d1d1d1; /* Light gray for a softer look */
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* Lighter border */
-    padding-bottom: 12px;
+    font-size: 25px;
+    color: #93E9BE;/* Keeping the soft light blue */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+    margin-bottom: 5px;
 }
 
-.attendance div:nth-child(2) { /* Status */
-    font-weight: 500;
-    color: #ffcc00; /* Soft gold color */
+/* Result Status styling */
+.attendance div:last-child {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color:  #ADD8E6; /* Keeping the light cyan blue */
     text-transform: uppercase;
-}
-
-.attendance div:nth-child(3) { /* Value */
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #a0e0a0; /* Soft light green */
-}
-
-/* New style effect instead of hover */
-.attendance div {
-    transition: transform 0.3s ease; /* Smooth transition for all elements */
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    padding: 10px 0;
+    margin-top: 5px;
+    background: rgba(102, 217, 255, 0.08);
+    border-radius: 6px;
 }
 
 .login-container:hover {
-    transform: translateY(-2px); /* Slight lift effect on container hover */
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6); /* Enhanced shadow on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
 }
 
-/* Footer styling */
+/* Footer styling remains the same */
 footer { 
     text-align: center;
     padding: 10px 20px;
-    color: #f0f0f0; /* Softer white */
+    color: #f0f0f0;
     font-family: 'Courier New', Courier, monospace;
-    background-color: rgba(0, 0, 0, 0.6); /* Darker footer for contrast */
+    background-color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
     width: 100%;
     display: none;
 }
-        footer p {
-            margin: 5px 0;
-            padding: 0;
-        }
-        footer .development-text {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        footer .developer a {
-            font-size: 17px;
-            color: white;
-            text-decoration: none;
-        }
-        footer .developer a:hover {
-            text-decoration: underline;
-        }
-        footer .Copyright{
-            font-size: 17px;
-        }
+
+footer p {
+    margin: 5px 0;
+    padding: 0;
+}
+
+footer .development-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+footer .developer a {
+    font-size: 17px;
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+footer .developer a:hover {
+    text-decoration: underline;
+}
+
+footer .Copyright {
+    font-size: 17px;
+}
     </style>
 </head>
 <body>
@@ -148,8 +158,10 @@ footer {
         <div class="login-container">
             <div class="attendance">
                 <div>Course Code: {{ result.course_code }}</div>
-                <div>Status: {{ result.status }}</div>
-                <div>Value: {{ result.value}}</div>
+                <div>Physical Attendance: {{result.Physical_Attendance}}</div>
+                <div> Attendance With Exemption: {{result.Attendance_Exemption}}</div>
+                <div>{{ result.status }} :  {{ result.value}}</div>
+                
             </div>
         </div>
         {% endfor %}
@@ -163,33 +175,31 @@ footer {
         </p>
     </footer>
 
-    <script>
-        let lastScrollY = window.scrollY;
+    // Replace the existing script with this
+<script>
+    window.addEventListener('scroll', function() {
+        // Footer visibility
+        var footer = document.querySelector('footer');
+        var contentBottom = document.querySelector('.content').getBoundingClientRect().bottom;
+        var windowHeight = window.innerHeight;
 
-        window.addEventListener('scroll', function() {
-            // Footer visibility
-            var footer = document.querySelector('footer');
-            var contentBottom = document.querySelector('.content').getBoundingClientRect().bottom;
-            var windowHeight = window.innerHeight;
+        if (contentBottom <= windowHeight) {
+            footer.style.display = 'block';
+        } else {
+            footer.style.display = 'none';
+        }
 
-            if (contentBottom <= windowHeight) {
-                footer.style.display = 'block';
-            } else {
-                footer.style.display = 'none';
-            }
+        // Navbar visibility - only show when at top of page
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 10) { // Adding small threshold of 10px
+            navbar.classList.add('hidden');
+        } else {
+            navbar.classList.remove('hidden');
+        }
+    });
 
-            // Navbar visibility
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > lastScrollY) { // Scrolling down
-                navbar.classList.add('hidden');
-            } else { // Scrolling up
-                navbar.classList.remove('hidden');
-            }
-            lastScrollY = window.scrollY;
-        });
-
-        // Trigger the scroll event on page load
-        window.dispatchEvent(new Event('scroll'));
-    </script>
+    // Trigger the scroll event on page load
+    window.dispatchEvent(new Event('scroll'));
+</script>
 </body>
 </html>

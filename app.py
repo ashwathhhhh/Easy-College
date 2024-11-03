@@ -61,6 +61,8 @@ def attendance():
                     bunk = total_can_bunk - absent_hours
                     results.append({
                         "course_code": course_code,
+                        "Physical_Attendance" : percentage,
+                        "Attendance_Exemption" : percentage_with_med_exemption,
                         "status": "Remaining bunks for semester",
                         "value": bunk
                     })
@@ -68,15 +70,19 @@ def attendance():
                     attend = total_need_to_attend - present_hours
                     results.append({
                         "course_code": course_code,
+                        "Physical_Attendance" : percentage,
+                        "Attendance_Exemption" : percentage_with_med_exemption,
                         "status": "Need to attend more classes",
                         "value": attend
                     })
             else:
-                if percentage_with_med_exemption >= 65:
+                if percentage_with_med_exemption >= 75 and percentage >= 65:
                     bunk = total_can_bunk_exemp - absent_hours
                     results.append({
                         "course_code": course_code,
-                        "status": "Remaining bunks with exemption",
+                        "Physical_Attendance" : percentage,
+                        "Attendance_Exemption" : percentage_with_med_exemption,
+                        "status": "Remaining bunks for semester",
                         "value": bunk
                     })
 
