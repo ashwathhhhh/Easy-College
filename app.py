@@ -68,11 +68,7 @@ def attendance():
             if exemption_hours == 0:
                 if percentage >= 75:
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
-                    print(course_name)
-                    print(course_code)
-                    print(bunk)
-                    print(exemption_bunk)
-                    print("\n")
+                    exemption_bunk= 5000
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
@@ -80,15 +76,11 @@ def attendance():
                         "Attendance_Exemption" : percentage_with_med_exemption,
                         "status": "Remaining bunks",
                         "bunk": bunk,
-                        "exemption_bunks" : str(exemption_bunk)
+                        "exemption_bunks" : exemption_bunk
                     })
                 else:
                     attend = math.ceil((total_hours - present_hours)/(1-threshold))
-                    print(course_name)
-                    print(course_code)
-                    print(bunk)
-                    print(exemption_bunk)
-                    print("\n")
+                    exemption_bunk = 5000
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
@@ -96,7 +88,7 @@ def attendance():
                         "Attendance_Exemption" : percentage_with_med_exemption,
                         "status": "Attend",
                         "bunk": bunk,
-                        "exemption_bunks" : str(exemption_bunk)
+                        "exemption_bunks" : exemption_bunk
                     })
             else:
                 if percentage_with_med_exemption >= 75 and percentage >= 65:
