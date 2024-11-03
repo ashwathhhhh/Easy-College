@@ -3,12 +3,14 @@ from bunkr import return_data
 
 app = Flask(__name__)
 
-@app.route("/", methods = ["POST","GET"])
+@app.route("/", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         name = request.form["nm"]
         password = request.form["pw"]
-        print(name,password,sep = "\n")
+        # Store credentials in session or pass them to return_data function
+        global credentials
+        credentials = {"name": name, "password": password}
         return redirect(url_for("pages"))
     else:
         return render_template("login.html")
@@ -23,10 +25,16 @@ def pages():
 @app.route('/attendance')
 def attendance():
     results = []
-    rows = return_data()
-    # Process the rows
+    # Pass the credentials to return_data function
+    rows = return_data(credentials["name"], credentials["password"])
+    
+    if rows is None:
+        return "Unable to fetch attendance data. Please check your credentials."
+        
+    # Rest of your attendance processing code remains the same
     count = 0
     for row in rows:
+        # ... (rest of your existing code)
         count += 1
         columns = row.find_all('td')
         row_data = [column.get_text(strip=True) for column in columns]  # Extract text from each column
@@ -34,7 +42,6 @@ def attendance():
         if count == 1:
             pass  # Skip header row
         else:
-            print(row_data)
             course_code = row_data[0]
             total_hours = int(row_data[1])
             exemption_hours = int(row_data[2])
@@ -75,9 +82,6 @@ def attendance():
 
     # Pass results to the template
     return render_template('attendance.html', results=results)
-    
-    
-
 
 if __name__ == "__main__":
     app.run(debug=True)
