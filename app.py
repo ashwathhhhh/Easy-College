@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request
 from bunkr import return_data
+from Timetable import timetable
 
 app = Flask(__name__)
 
@@ -55,39 +56,43 @@ def attendance():
             total_need_to_attend = int(0.75 * float(total_hours))
             total_need_to_attend_exemp = int(0.65 * total_hours)
             total_can_bunk_exemp = int(0.35 * total_hours)
-
+            course_name = timetable[course_code]
             if exemption_hours == 0:
                 if percentage >= 75:
                     bunk = total_can_bunk - absent_hours
                     results.append({
+                        "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance" : percentage,
                         "Attendance_Exemption" : percentage_with_med_exemption,
-                        "status": "Remaining bunks for semester",
+                        "status": "Remaining bunks",
                         "value": bunk
                     })
                 else:
                     attend = total_need_to_attend - present_hours
                     results.append({
+                        "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance" : percentage,
                         "Attendance_Exemption" : percentage_with_med_exemption,
-                        "status": "Need to attend more classes",
+                        "status": "Attend",
                         "value": attend
                     })
             else:
                 if percentage_with_med_exemption >= 75 and percentage >= 65:
                     bunk = total_can_bunk_exemp - absent_hours
                     results.append({
+                        "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance" : percentage,
                         "Attendance_Exemption" : percentage_with_med_exemption,
-                        "status": "Remaining bunks for semester",
+                        "status": "Remaining bunks",
                         "value": bunk
                     })
+    sorted_results = sorted(results, key=lambda x: x['Attendance_Exemption'], reverse=False)
 
     # Pass results to the template
-    return render_template('attendance.html', results=results)
+    return render_template('attendance.html', results=sorted_results)
 
 if __name__ == "__main__":
     app.run(debug=True) 
