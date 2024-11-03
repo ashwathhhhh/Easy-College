@@ -4,127 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance</title>
-</head>
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
-    /* Navbar styles */
-    .navbar {
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
             background-color: transparent; 
             padding: 10px;
             text-align: center;
-            width: 100%; /* Full width */
-            position: fixed; /* Fixed position */
-            top: 0; /* Stick to the top */
-            left: 0; /* Align to the left */
-            z-index: 1000; /* Ensure it is above other content */
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
         }
-
         .navbar h1 {
             color: white;
             margin: 0;
             font-size: 24px;
         }
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: url('../static/images/background.jpeg') no-repeat center center/cover;
-        background-size: cover;
-    }
-    .login-container {
-        width: 500px;
-        height: 900;
-        padding: 3rem;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        text-align: center;
-    }
-    
-    .login-container h2 {
-        color: #fff;
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-.attendance {
-        color: white; /* Set text color to white */
-    }
-     /* Footer styles */
-     footer { 
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: url('../static/images/background.jpeg') no-repeat center center/cover;
+            background-size: cover;
+            padding-top: 80px;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .login-container {
+            width: 500px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .attendance {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .attendance div {
+            text-align: center;
+            font-size: 20px;
+            padding: 5px 0;
+        }
+        footer { 
             text-align: center;
             padding: 10px 20px;
             color: white;
             font-family: 'Courier New', Courier, monospace;
-            background-color: transparent;
+            background-color: rgba(0, 0, 0, 0.5);
             font-size: 14px;
-            flex-shrink: 0;
-            position: fixed;
-            bottom: 0;
             width: 100%;
+            display: none;
         }
         footer p {
-        margin: 5px 0; /* Reduce the gap */
-        padding: 0;
-    }
+            margin: 5px 0;
+            padding: 0;
+        }
         footer .development-text {
             font-size: 16px;
             font-weight: bold;
         }
-
         footer .developer a {
             font-size: 17px;
             color: white;
             text-decoration: none;
         }
-
         footer .developer a:hover {
             text-decoration: underline;
         }
-
         footer .Copyright{
             font-size: 17px;
         }
-</style>
+    </style>
+</head>
 <body>
-    <div class="container"></div>
-        <div class="navbar">
-            <h1>Easy College</h1>
-        </div>
-        <div class="login-container">
-        <div class="attendance">
-            <h1>Attendance Summary</h1>
-    <table>
-        <tr>
-            <th>Course Code</th>
-            <th>Status</th>
-            <th>Can Bunk</th>
-        </tr>
-        {% for result in results %}
-        <tr>
-            <td>{{ result.course_code }}</td>
-            <td>{{ result.status }}</td>
-            <td>{{ result.value }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-            
-            
+    <div class="navbar">
+        <h1>Easy College</h1>
     </div>
-</div>
-    <!-- Footer -->
-<footer>
-    <p class="development-text">App in development!!</p>
-    <p class = "Copyright"> 2024 Copyright: Easy College</p>
-    <p class="developer">
-        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
-    </p>
-</footer>
+
+    <div class="content">
+        {% for result in results %} 
+        <div class="login-container">
+            <div class="attendance">
+                <div>Course Code: {{ result.course_code }}</div>
+                <div>Status: {{ result.status }}</div>
+                <div>Value: {{ result.value}}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p class="development-text">App in development!!</p>
+        <p class="Copyright">2024 Copyright: Easy College</p>
+        <p class="developer">
+            <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
+        </p>
+    </footer>
+
+    <script>
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', function() {
+            // Footer visibility
+            var footer = document.querySelector('footer');
+            var contentBottom = document.querySelector('.content').getBoundingClientRect().bottom;
+            var windowHeight = window.innerHeight;
+
+            if (contentBottom <= windowHeight) {
+                footer.style.display = 'block';
+            } else {
+                footer.style.display = 'none';
+            }
+
+            // Navbar visibility
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > lastScrollY) { // Scrolling down
+                navbar.classList.add('hidden');
+            } else { // Scrolling up
+                navbar.classList.remove('hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Trigger the scroll event on page load
+        window.dispatchEvent(new Event('scroll'));
+    </script>
 </body>
 </html>
