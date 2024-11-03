@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 from bunkr import return_data
 from Timetable import timetable
+import math
 
 app = Flask(__name__)
 
@@ -45,6 +46,8 @@ def attendance():
         else:
             exemption_bunk=0
             total_present=0
+            threshold = 0.75
+            exemption_threshold = 0.65
             
             course_code = row_data[0]
             total_hours = int(row_data[1])
@@ -64,45 +67,59 @@ def attendance():
             course_name = timetable[course_code]
             if exemption_hours == 0:
                 if percentage >= 75:
-                    bunk = total_can_bunk - absent_hours
-                    dummy = bunk//4
-                    bunk += dummy
+                    bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
                     print(course_name)
-                    print("bunk:",bunk)
-                    print("dummy:", dummy)
+                    print(course_code)
+                    print(bunk)
+                    print(exemption_bunk)
+                    print("\n")
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance" : percentage,
                         "Attendance_Exemption" : percentage_with_med_exemption,
                         "status": "Remaining bunks",
-                        "value": bunk
+                        "bunk": bunk,
+                        "exemption_bunks" : str(exemption_bunk)
                     })
                 else:
-                    attend = total_need_to_attend - present_hours
+                    attend = math.ceil((total_hours - present_hours)/(1-threshold))
+                    print(course_name)
+                    print(course_code)
+                    print(bunk)
+                    print(exemption_bunk)
+                    print("\n")
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance" : percentage,
                         "Attendance_Exemption" : percentage_with_med_exemption,
                         "status": "Attend",
-                        "value": attend
+                        "bunk": bunk,
+                        "exemption_bunks" : str(exemption_bunk)
                     })
             else:
                 if percentage_with_med_exemption >= 75 and percentage >= 65:
-                    
-                    medical_absent = absent_hours - exemption_hours
-                    medical_bunk = total_can_bunk - medical_absent
-                    bunk_using_exemption = abs(medical_bunk - (total_can_bunk_exemp - absent_hours))    
-                    print()
-                    
+
+                    exemption_present_hours = present_hours + exemption_hours
+                    exemption_absent_hours = absent_hours - exemption_hours
+
+                    bunk = math.floor((exemption_present_hours-(threshold * total_hours))/threshold)
+                    exemption_bunk = math.floor((present_hours-(exemption_threshold * total_hours))/exemption_threshold)
+                    print(course_name)
+                    print(course_code)
+                    print(bunk)
+                    print(exemption_bunk)
+                    print("\n")
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance" : percentage,
                         "Attendance_Exemption" : percentage_with_med_exemption,
-                        "status": "Remaining bunks",
-                        "value": bunk
+                        "status": "Normal bunks",
+                        "bunk": bunk,
+                        "exemption_bunks" :str(exemption_bunk)
+                        
                     })  
     sorted_results = sorted(results, key=lambda x: x['Attendance_Exemption'], reverse=False)
 
