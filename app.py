@@ -84,4 +84,4 @@ def attendance():
     return render_template('attendance.html', results=results)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 
