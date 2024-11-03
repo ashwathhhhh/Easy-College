@@ -46,65 +46,12 @@ with requests.session() as s:
         bunk = 0 
         attend = 0
 
-        for row in rows:
-            count= count+1
-            #print(count)
-            columns = row.find_all('td')
-            row_data = [column.get_text(strip=True) for column in columns]  # Extract text from each column
-            if count == 1:
-                pass
-            else:
-                html_course_code = ''
-                course_code = (row_data[0])
-                total_hours = int(row_data[1])
-                exemption_hours = int(row_data[2])
-                absent_hours = int(row_data[3])
-                present_hours = int(row_data[4])
-                percentage = int(row_data[5])
-                percentage_with_exemption = int(row_data[6])
-                percentage_with_med_exemption = int(row_data[7])
-               
-                # Do something with the data
-
-                total_can_bunk = int(0.25 * float(total_hours))
-                total_need_to_attend = int( 0.75 * float(total_hours))
-                total_need_to_attend_exemp = int(0.65*total_hours)
-                total_can_bunk_exemp = int(0.35 * total_hours)
-                if exemption_hours == 0:
-                    if percentage >= min_attendance:
-                        print('course code =',course_code)
-                        bunk = total_can_bunk - absent_hours
-                        print('remaining bunk for sem =',bunk)
-                    else:
-                        attend = total_need_to_attend - present_hours
-                        print('attend =',attend)
-                else:
-                    print("With exemption")
-                    if percentage_with_med_exemption >= min_attendance_exemp:
-                        print('course code =',course_code)
-                        bunk = total_can_bunk_exemp - absent_hours
-                        print('remaining bunk for sem =',bunk)
-
-                html_course_code = '23Z311'
-                if course_code == html_course_code:
-                    if_i_bunk = 4 #replace this 0 with input from HTML file
-                    attendance_after_bunk = round(present_hours/(total_hours+if_i_bunk) * 100,2)
-                    print('attendance after bunk =',attendance_after_bunk)
-
-
-                print("\n")
+        def return_data():
+            return rows
                 
     else:
         print("Attendance table not found.")
 
     
-def get_attendance_data():
-    # Collect all the data you want to pass to the HTML
-    attendance_data = {
-        'course_code': course_code,
-        'bunk': bunk,
-        'attend': attend,
-        'attendance_after_bunk': attendance_after_bunk
-    }
-    return attendance_data
+
 

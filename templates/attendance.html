@@ -5,11 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance</title>
 </head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    /* Navbar styles */
+    .navbar {
+            background-color: transparent; 
+            padding: 10px;
+            text-align: center;
+            width: 100%; /* Full width */
+            position: fixed; /* Fixed position */
+            top: 0; /* Stick to the top */
+            left: 0; /* Align to the left */
+            z-index: 1000; /* Ensure it is above other content */
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url('../static/images/background.jpeg') no-repeat center center/cover;
+        background-size: cover;
+    }
+    .login-container {
+        width: 500px;
+        height: 900;
+        padding: 3rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    
+    .login-container h2 {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+.attendance {
+        color: white; /* Set text color to white */
+    }
+     /* Footer styles */
+     footer { 
+            text-align: center;
+            padding: 10px 20px;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: transparent;
+            font-size: 14px;
+            flex-shrink: 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        footer p {
+        margin: 5px 0; /* Reduce the gap */
+        padding: 0;
+    }
+        footer .development-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        footer .developer a {
+            font-size: 17px;
+            color: white;
+            text-decoration: none;
+        }
+
+        footer .developer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .Copyright{
+            font-size: 17px;
+        }
+</style>
 <body>
-    <h1>Attendance Information</h1>
-    <p>Course Code: {{ course_code }}</p>
-    <p>Remaining Bunks: {{ bunk }}</p>
-    <p>Classes to Attend: {{ attend }}</p>
-    <p>Attendance After Bunk: {{ attendance_after_bunk }}%</p>
+    <div class="container"></div>
+        <div class="navbar">
+            <h1>Easy College</h1>
+        </div>
+        <div class="login-container">
+        <div class="attendance">
+            <h1>Attendance Summary</h1>
+    <table>
+        <tr>
+            <th>Course Code</th>
+            <th>Status</th>
+            <th>Can Bunk</th>
+        </tr>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.course_code }}</td>
+            <td>{{ result.status }}</td>
+            <td>{{ result.value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+            
+            
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+    <p class="development-text">App in development!!</p>
+    <p class = "Copyright"> 2024 Copyright: Easy College</p>
+    <p class="developer">
+        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
+    </p>
+</footer>
 </body>
 </html>
