@@ -1,222 +1,177 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Form</title>
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
-    /* Navbar styles */
-    .navbar {
-            background-color: transparent; 
-            padding: 10px;
-            text-align: center;
-            width: 100%; /* Full width */
-            position: fixed; /* Fixed position */
-            top: 0; /* Stick to the top */
-            left: 0; /* Align to the left */
-            z-index: 1000; /* Ensure it is above other content */
-        }
-
-        .navbar h1 {
-            color: white;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
             margin: 0;
-            font-size: 24px;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: url('../static/images/background.jpeg') center center/cover;
-        background-size: cover;
-    }
-    .login-container {
-        width: 500px;
-        height: 300px;
-        padding: 3rem;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        text-align: center;
-    }
-    
-    .login-container h2 {
-        color: #fff;
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    .input-field {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        margin: 0.5rem 0;
-        border-radius: 5px;
-        background: #fff;
-    }
-    .input-field i {
-        margin-right: 10px;
-        color: #888;
-    }
-    .input-field input {
-        border: none;
-        outline: none;
-        width: 100%;
-    }
-    .login-btn {
-        padding-top: 25px;
-    font-size: 18px;
-    color: #e1e1e1;
-    font-family: inherit;
-    font-weight: 800;
-    cursor: pointer;
-    position: relative;
-    border: none;
-    background: none;
-    text-transform: uppercase;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: color;
-    background-color: transparent;
-}
 
-.login-btn:focus,
-.login-btn:hover {
-    color: #fff;
-}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('../static/images/background.jpeg') center center/cover;
+            background-size: cover;
+            padding: 20px;
+        }
 
-.login-btn:focus:after,
-.login-btn:hover:after {
-    width: 100%;
-    left: 0%;
-}
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
 
-.login-btn:after {
-    content: "";
-    pointer-events: none;
-    bottom: -2px;
-    left: 50%;
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background-color: #fff;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: width, left;
-}
-     /* Footer styles */
-     footer { 
+        .navbar-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+
+        .easy {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin: 80px 20px 20px 20px;
+        }
+
+        .login-container h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .input-field input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .login-btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            color: #e1e1e1;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .login-btn:hover {
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        footer {
             text-align: center;
             padding: 10px 20px;
             color: white;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: transparent;
-            font-size: 14px;
-            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.5);
             position: fixed;
             bottom: 0;
             width: 100%;
         }
-        footer p {
-        margin: 5px 0; /* Reduce the gap */
-        padding: 0;
-    }
-        footer .development-text {
-            font-size: 16px;
-            font-weight: bold;
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navbar-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                margin: 100px 10px 20px 10px;
+            }
+
+            .login-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
         }
-
-        footer .developer a {
-            font-size: 17px;
-            color: white;
-            text-decoration: none;
-        }
-
-        footer .developer a:hover {
-            text-decoration: underline;
-        }
-
-        footer .Copyright{
-            font-size: 17px;
-        }
-        .navbar {
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-
-    .navbar h1 {
-        color: white;
-        margin: 0;
-        font-size: 24px;
-    }
-
-    .navbar-links {
-        display: flex;
-    }
-
-    .navbar-links a {
-        color: white;
-        text-decoration: none;
-        margin-left: 20px;
-        font-size: 16px;
-    }
-
-    .navbar-links a:hover {
-        text-decoration: underline;
-    }
-    .easy {
-        font-size: 24px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
-</style>
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <p class="easy">Easy College</p>
         <div class="navbar-links">
             <a href="#">Contact</a>
-            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
-            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
-    
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
     </nav>
-<div class="login-container">
-    <h2>Welcome</h2>
-    <form action="#" method="POST">
-        <div class="input-field"> 
-            <p><input  placeholder="Username" type="text" name = "nm"></p>
-        </div>
-        <div class="input-field">
-            <p><input placeholder="Password" type="password" name = "pw"></p>
-        </div>
-        <button class="login-btn">LOGIN</button>
-    </form>
-</div>
 
-<!-- Footer -->
-<footer>
-    <p class="development-text">App in development!!</p>
-    <p class = "Copyright"> 2024 Copyright: Easy College</p>
-    <p class="developer">
-        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
-    </p>
-</footer>
+    <div class="login-container">
+        <h2>Welcome</h2>
+        <form action="#" method="POST">
+            <div class="input-field">
+                <input placeholder="Username" type="text" name="nm">
+            </div>
+            <div class="input-field">
+                <input placeholder="Password" type="password" name="pw">
+            </div>
+            <button class="login-btn">LOGIN</button>
+        </form>
+    </div>
 
+    <footer>
+        <p class="development-text">App in development!!</p>
+        <p class="Copyright">2024 Copyright: Easy College</p>
+        <p class="developer">
+            <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
+        </p>
+    </footer>
 </body>
 </html>

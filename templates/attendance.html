@@ -11,18 +11,17 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-        /* Update the navbar CSS */
-
 
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background:rgba(0, 0, 0, 0.911);
+            background: rgba(0, 0, 0, 0.911);
             background-size: cover;
             padding-top: 80px;
         }
+
         .content {
             display: flex;
             flex-direction: column;
@@ -31,139 +30,160 @@
             padding: 20px;
             gap: 20px;
         }
+
         .login-container {
-    width: 500px;
-    padding: 2.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    margin-bottom: 20px;
-    transition: transform 0.2s ease-in-out;
-}
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease-in-out;
+        }
 
-.attendance {
-    color: #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    
-}
+        .attendance {
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-.attendance div {
-    text-align: center;
-    font-size: 20px;
-    margin-top: 0px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.5px;
-    color: white; /* Changed to white */
-}
+        .attendance div {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 0px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            color: white;
+        }
 
-/* Course name styling */
-.attendance div:nth-child(1) {
-    font-weight: 600;
-    font-size: 35px;
-    color: #93E9BE;/* Keeping the soft light blue */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 8px;
-    margin-bottom: 5px;
-    
-}
+        .attendance div:nth-child(1) {
+            font-weight: 600;
+            font-size: 28px;
+            color: #93E9BE;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 8px;
+            margin-bottom: 5px;
+        }
 
-/* Result Status styling */
-.attendance div:last-child {
-    font-size: 20px;
-    font-weight: 600;
-    color:  #ADD8E6; /* Keeping the light cyan blue */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-    padding: 10px 0;
-    margin-top: 5px;
-    
-    border-radius: 6px;
-}
+        .attendance div:last-child {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ADD8E6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            padding: 10px 0;
+            margin-top: 5px;
+            border-radius: 6px;
+        }
 
-.login-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-}
+        .login-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+        }
 
-/* Footer styling remains the same */
-footer { 
-    text-align: center;
-    padding: 10px 20px;
-    color: #f0f0f0;
-    font-family: 'Courier New', Courier, monospace;
-    background-color: rgba(0, 0, 0, 0.6);
-    font-size: 14px;
-    width: 100%;
-    display: none;
-}
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            color: #f0f0f0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+            width: 100%;
+            display: none;
+        }
 
-footer p {
-    margin: 5px 0;
-    padding: 0;
-}
+        footer p {
+            margin: 5px 0;
+            padding: 0;
+        }
 
-footer .development-text {
-    font-size: 16px;
-    font-weight: bold;
-}
+        footer .development-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-footer .developer a {
-    font-size: 17px;
-    color: #ffcc00;
-    text-decoration: none;
-}
+        footer .developer a {
+            font-size: 17px;
+            color: #ffcc00;
+            text-decoration: none;
+        }
 
-footer .developer a:hover {
-    text-decoration: underline;
-}
+        footer .developer a:hover {
+            text-decoration: underline;
+        }
 
-footer .Copyright {
-    font-size: 17px;
-}
-.navbar {
-        background-color: rgba(0, 0, 0, 0.233);
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
+        footer .Copyright {
+            font-size: 17px;
+        }
 
-    .navbar h1 {
-        color: white;
-        margin: 0;
-        font-size: 24px;
-    }
+        .navbar {
+            background-color: black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
 
-    .navbar-links {
-        display: flex;
-    }
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
 
-    .navbar-links a {
-        color: white;
-        text-decoration: none;
-        margin-left: 20px;
-        font-size: 16px;
-    }
+        .navbar-links {
+            display: flex;
+        }
 
-    .navbar-links a:hover {
-        text-decoration: underline;
-    }
-    .easy {
-        font-size: 24px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar-links a:hover {
+            text-decoration: underline;
+        }
+
+        .easy {
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navbar-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                margin: 100px 10px 20px 10px;
+            }
+
+            .login-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -173,7 +193,6 @@ footer .Copyright {
             <a href="#">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
             <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
-    
         </div>
     </nav>
     <div class="content">
@@ -187,7 +206,7 @@ footer .Copyright {
                 {% if 'exemption_hours' in result and result.exemption_bunk != 5000 and result.exemption_hours > 0 %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
                     <div>Number of Hours to Bunk Using Exemption: {{ result.bunking }}</div>
-                    <div style="font-size: px;">NOTE: It makes the physical come to 65%</div>
+                    <div style="font-size: 14px;">NOTE: It makes the physical come to 65%</div>
                 {% else %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
                 {% endif %}
@@ -204,31 +223,18 @@ footer .Copyright {
         </p>
     </footer>
 
-    // Replace the existing script with this
-<script>
-    window.addEventListener('scroll', function() {
-        // Footer visibility
-        var footer = document.querySelector('footer');
-        var contentBottom = document.querySelector('.content').getBoundingClientRect().bottom;
-        var windowHeight = window.innerHeight;
+    <script>
+        window.addEventListener('scroll', function() {
+            var footer = document.querySelector('footer');
+            var contentBottom = document.querySelector('.content').getBoundingClientRect().bottom;
+            var windowHeight = window.innerHeight;
 
-        if (contentBottom <= windowHeight) {
-            footer.style.display = 'block';
-        } else {
-            footer.style.display = 'none';
-        }
-
-        // Navbar visibility - only show when at top of page
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 10) { // Adding small threshold of 10px
-            navbar.classList.add('hidden');
-        } else {
-            navbar.classList.remove('hidden');
-        }
-    });
-
-    // Trigger the scroll event on page load
-    window.dispatchEvent(new Event('scroll'));
-</script>
+            if (contentBottom <= windowHeight) {
+                footer.style. display = 'block';
+            } else {
+                footer.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
