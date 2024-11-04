@@ -172,7 +172,7 @@ footer .Copyright {
         <div class="navbar-links">
             <a href="#">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
-            <a href="{{ url_for('login') }}" class="btn btn-secondary">Logout</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
     
         </div>
     </nav>
@@ -184,9 +184,9 @@ footer .Copyright {
                 <div>Course Code: {{ result.course_code }}</div>
                 <div>Physical Attendance: {{result.Physical_Attendance}}</div>
                 <div> Attendance With Exemption: {{result.Attendance_Exemption}}</div>
-                {% if result.exemption_bunk != 5000 %}
+                {% if 'exemption_hours' in result and result.exemption_bunk != 5000 and result.exemption_hours > 0 %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
-                    <div>Number of Hours to Bunk Using Exemption: {{ result.exemption_bunk }}</div>
+                    <div>Number of Hours to Bunk Using Exemption: {{ result.bunking }}</div>
                     <div style="font-size: px;">NOTE: It makes the physical come to 65%</div>
                 {% else %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
