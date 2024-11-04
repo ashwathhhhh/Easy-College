@@ -31,8 +31,6 @@ def logout():
 
 @app.route("/about")
 def about():
-    if not session.get('logged_in'):
-        return redirect(url_for("login"))
     return render_template("about.html")
 
 @app.route("/pages", methods=["POST", "GET"])

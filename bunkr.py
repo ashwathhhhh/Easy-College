@@ -11,7 +11,7 @@ def return_data(name=None, password=None):
         '__VIEWSTATEGENERATOR':'E64D2FFE',
         '__EVENTVALIDATION':'g5OBX22lxevnco1RsfI7lUiyxoHI+6VULprfgdME6INMMlo9Oe0BE9gsycWj2DoX8swZzfek9Gr8MUiNflq8lcySikpulwQQKUI94CndKh0SPQllSuWIBvtwz4v5zyv7t0nmgGBQbO/ig3RUhsl2m4c5NCz/SW5+pDQ586mCeUKc3/jmmcX+BqQ2XCyalh6g7zlwC2SDlptxBPOGGd5wIuc9wmXmLC9FwvRXYNRe3JHHjcSiZtJchiYIEhCnlcG4iOMjPH6I47HS9TRKX8co2Sy7KCa5s1Fdk3zVjSIZjL8=',
         'rdolst':'S',
-        #'txtusercheck': '23z362',
+        
         'txtusercheck': name if name else "",  # Use the username from app.py
         
         'txtpwdcheck': password if password else "",   # Use the password from app.py
