@@ -29,7 +29,7 @@
           /* Backgrounds - Social Media Hover */
           
           --bg-instagram: linear-gradient(to right, #8a2387, #e94057, #f27121);
-          --bg-twitter: rgb(25, 173, 206);
+          --bg-github: rgb(62, 63, 81);
           --bg-linkedin: rgb(30, 48, 131);
         }
 
@@ -145,7 +145,7 @@
         }
 
         .card__links svg:nth-child(2):hover {
-          background: var(--bg-twitter);
+          background: var(--bg-github);
         }
 
         .card__links svg:nth-child(3):hover {
@@ -279,7 +279,7 @@
     <div class="navbar-links">
         <a href="#">Contact</a>
         <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
-        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary">Logout</a>
 
     </div>
 </nav>
