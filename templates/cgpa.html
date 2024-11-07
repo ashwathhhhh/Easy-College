@@ -149,11 +149,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for course in courses %}
+                {% for course in table %}
                 <tr>
-                    <td>{{ course.semester }}</td>
-                    <td>{{ course.course_code }}</td>
-                    <td>{{ course.course_name }}</td>
+                    <td>{{ course.sem }}</td>
+                    <td>{{ course.course }}</td>
+                    <td>{{ course.course }}</td>
                     <td>{{ course.credits }}</td>
                     <td>{{ course.grade }}</td>
                 </tr>

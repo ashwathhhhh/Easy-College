@@ -50,8 +50,8 @@ def cgpa():
     #academic_data = get_academic_details(session.get('user'), session.get('password'))
     # Get credentials from session
     credentials = session.get('credentials', {})
-    table = return_data(credentials.get("name"), credentials.get("password"))
-    return render_template('cgpa.html')
+    table1 = return_data(credentials.get("name"), credentials.get("password"))
+    return render_template('cgpa.html',table = table1)
 
 @app.route('/attendance')
 def attendance():

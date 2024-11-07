@@ -12,10 +12,10 @@ def return_data(name=None, password=None):
         '__EVENTVALIDATION':'g5OBX22lxevnco1RsfI7lUiyxoHI+6VULprfgdME6INMMlo9Oe0BE9gsycWj2DoX8swZzfek9Gr8MUiNflq8lcySikpulwQQKUI94CndKh0SPQllSuWIBvtwz4v5zyv7t0nmgGBQbO/ig3RUhsl2m4c5NCz/SW5+pDQ586mCeUKc3/jmmcX+BqQ2XCyalh6g7zlwC2SDlptxBPOGGd5wIuc9wmXmLC9FwvRXYNRe3JHHjcSiZtJchiYIEhCnlcG4iOMjPH6I47HS9TRKX8co2Sy7KCa5s1Fdk3zVjSIZjL8=',
         'rdolst':'S',
         
-        #'txtusercheck': name if name else "",  # Use the username from app.py
-        'txtusercheck':"23z360",
-        'txtpwdcheck':"04JAN2006",
-        #'txtpwdcheck': password if password else "",   # Use the password from app.py
+        'txtusercheck': name if name else "",  # Use the username from app.py
+        #'txtusercheck':"23z360",
+        #'txtpwdcheck':"04JAN2006",
+        'txtpwdcheck': password if password else "",   # Use the password from app.py
         'abcd3':'Login'
     }
 
@@ -60,7 +60,12 @@ def return_data(name=None, password=None):
                     credits1 = int(row_data[3])
                     grade = row_data[4]
                     result = row_data[5]
-                    print(result)
+                    table["sem"] = sem
+                    table["course"] = course
+                    table["title"] = title
+                    table["credits"] = credits1
+                    table["grade"] = grade
+                    table["result"] = result
                     total_credits+=credits1
                     if credits1 ==0:
                         pass
@@ -69,9 +74,12 @@ def return_data(name=None, password=None):
                     else:
                         product= credits1 * int(grade[0:2])
                         summation += product
-            
+
             gpa = summation/total_credits
             print(gpa)
+            table["gpa"] = gpa
+            print(table)
+            return table
             
     except requests.exceptions.RequestException as e:
         print(f"Error occurred: {e}")
