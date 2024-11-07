@@ -1,6 +1,8 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 from bunkr import return_data
 from Timetable import get_timetable
+from calc import get_academic_details
+
 import math
 
 app = Flask(__name__)
@@ -40,6 +42,13 @@ def pages():
     if request.method == "POST":
         return redirect(url_for("attendance"))
     return render_template("pages.html")
+
+@app.route('/cgpa')
+def cgpa():
+    if not session.get('logged_in'):
+        return redirect(url_for("login"))
+    academic_data = get_academic_details(session.get('user'), session.get('password'))
+    return render_template('cgpa.html', academic_data=academic_data)
 
 @app.route('/attendance')
 def attendance():

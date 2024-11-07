@@ -48,9 +48,14 @@ with requests.session() as s:
             if count==1:
                 pass
             
-            else:           
+            else:
+                sem = (row_data[0])
+                course = row_data[1]         
+                title = row_data[2]  
                 credits1 = int(row_data[3])
                 grade = row_data[4]
+                result = row_data[5]
+                print(result)
                 total_credits+=credits1
                 if credits1 ==0:
                     pass
