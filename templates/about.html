@@ -256,7 +256,7 @@
             background-color: transparent;
             font-size: 14px;
             flex-shrink: 0;
-            position: fixed;
+            position: relative;
             bottom: 0;
             width: 100%;
         }
@@ -265,6 +265,19 @@
             margin: 5px 0;
             padding: 0;
         } 
+        footer .development-text {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    footer .developer a {
+        color: pink;
+        text-decoration: none;
+    }
+
+    footer .developer a:hover {
+        text-decoration: underline;
+    }
         .easy {
         font-size: 24px;
         color: white;
@@ -353,7 +366,11 @@
     </section>
 
     <footer>
-        <p>&copy; 2023 Easy College</p>
-    </footer>
+      <p class="development-text">App in development!!</p>
+      <p class="Copyright">2024 Copyright: Easy College</p>
+      <p class="developer">
+          <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
+      </p>
+  </footer>
 </body>
 </html>
