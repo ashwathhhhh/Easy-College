@@ -35,12 +35,10 @@ def logout():
 def about():
     return render_template("about.html")
 
-@app.route("/pages", methods=["POST", "GET"])
+@app.route("/pages")
 def pages():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
-    if request.method == "POST":
-        return redirect(url_for("attendance"))
     return render_template("pages.html")
 
 @app.route('/cgpa')
@@ -142,6 +140,10 @@ def attendance():
     
     sorted_results = sorted(results, key=lambda x: x['Attendance_Exemption'], reverse=False)
     return render_template('attendance.html', results=sorted_results)
+
+@app.route("/loading")
+def loading():
+    return render_template("loading.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

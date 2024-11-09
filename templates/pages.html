@@ -145,18 +145,28 @@
         </div>
     </nav>
     <div class="container">
-        <form action="#" method="POST">
         <div class="options">
+
+
             <button class="button">
-                <img src="../static/images/attendance.jpeg" alt="Bunkr Icon">
+                <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
+                    <img src="../static/images/attendance.jpeg" alt="Bunkr Icon">
+                </a>
                 <p>Attendance</p>
+                
+                
             </button>
+        
             <button class="button" >
-                <img src="../static/images/cgpa-icon.png" alt="CGPA Icon">
+                <a href="{{ url_for('loading') }}" class="btn btn-secondary">
+                    <img src="../static/images/cgpa-icon.png" alt="Bunkr Icon">
+                </a>
                 <p>CGPA</p>
+                
+                
             </button>
         </div>
-        </form>
+        
     </div>
 <!-- Footer -->
 <footer>
