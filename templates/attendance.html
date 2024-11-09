@@ -203,7 +203,7 @@
                 <div>Course Code: {{ result.course_code }}</div>
                 <div>Physical Attendance: {{result.Physical_Attendance}}</div>
                 <div> Attendance With Exemption: {{result.Attendance_Exemption}}</div>
-                {% if 'exemption_hours' in result and result.exemption_bunk != 5000 and result.exemption_hours > 0 %}
+                {% if 'exemption_hours' in result and result.exemption_bunk != 5000 %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
                     <div>Number of Hours to Bunk Using Exemption: {{ result.bunking }}</div>
                     <div style="font-size: 14px;">NOTE: It makes the physical come to 65%</div>

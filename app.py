@@ -94,10 +94,10 @@ def attendance():
             total_can_bunk_exemp = int(0.35 * total_hours)
             course_name = timetable[course_code]
             
-            if exemption_hours == 0:
+            if percentage == percentage_with_med_exemption:
                 if percentage >= 75:
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
-                    exemption_bunk = 5000
+                    
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
@@ -109,7 +109,7 @@ def attendance():
                     })
                 else:
                     attend = math.ceil((threshold * total_hours - present_hours)/(1-threshold))
-                    exemption_bunk = 5000
+                    #exemption_bunk = 5000
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
@@ -121,9 +121,8 @@ def attendance():
                     })
             else:
                 if percentage_with_med_exemption >= 75 and percentage >= 65:
-                    exemption_present_hours = present_hours + exemption_hours
-                    exemption_absent_hours = absent_hours - exemption_hours
 
+                    
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
                     exemption_bunk = math.floor((present_hours-(exemption_threshold * total_hours))/exemption_threshold)
                     results.append({
