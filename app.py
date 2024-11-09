@@ -110,7 +110,7 @@ def attendance():
                         "exemption_bunks": exemption_bunk
                     })
                 else:
-                    attend = math.ceil((total_hours - present_hours)/(1-threshold))
+                    attend = math.ceil((threshold * total_hours - present_hours)/(1-threshold))
                     exemption_bunk = 5000
                     results.append({
                         "course_name": course_name,
