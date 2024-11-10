@@ -162,7 +162,7 @@
         }
 
         body {
-            background: url('../static/images/background.jpeg') center center/cover;
+            background: url("{{ url_for('static', filename='images/background.jpeg') }}") center center/cover;
             background-size: cover;
             min-height: 100vh;
             color: white;
