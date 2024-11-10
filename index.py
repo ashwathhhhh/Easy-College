@@ -25,9 +25,14 @@ def login():
             return redirect(url_for("pages"))
         return render_template("login.html")
 
+@app.route('/static/<path:filename>')
+def assets(filename):
+    return send_from_directory('static', filename)
+
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('static', 'images/favicon.ico')
+    return send_from_directory('static', 'favicon.ico')
+
 
 
 @app.route("/logout")
