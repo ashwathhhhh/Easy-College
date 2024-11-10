@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, redirect, url_for, render_template, request, session,send_from_directory
 from bunkr import return_data
 from Timetable import get_timetable
 #from calc import get_academic_details
@@ -28,6 +28,7 @@ def login():
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory('static', 'favicon.ico')
+
 
 @app.route("/logout")
 def logout():
