@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pages</title>
-<link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+<link rel="icon" type="image/x-icon" href="static/favicon.ico">
 <style>
     /* Navbar styles */
     
@@ -15,7 +15,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: url("{{ url_for('static', filename='images/background.jpeg') }}") center center/cover;
+        background: url("{{ url_for('static', filename='background.jpeg') }}") center center/cover;
         background-size: cover;
         font-family: Arial, sans-serif;
         color: white;
@@ -151,7 +151,7 @@
 
             <button class="button">
                 <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
-                    <img src="../static/images/attendance.jpeg" alt="Bunkr Icon">
+                    <img src="../static/attendance.jpeg" alt="Bunkr Icon">
                 </a>
                 <p>Attendance</p>
                 
@@ -160,7 +160,7 @@
         
             <button class="button" >
                 <a href="{{ url_for('loading') }}" class="btn btn-secondary">
-                    <img src="../static/images/cgpa-icon.png" alt="Bunkr Icon">
+                    <img src="../static/cgpa-icon.png" alt="Bunkr Icon">
                 </a>
                 <p>CGPA</p>
                 
