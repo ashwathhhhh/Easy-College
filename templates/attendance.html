@@ -222,21 +222,18 @@
                     <div>{{ result.status }} : {{ result.bunk }}</div>
                 {% endif %}
             </div>
-        </div>
-        <div class="popup" id="popup">
-            <p>After all regular bunks have been used. Using exemption bunks will reduce your physical attendance to 65%.</p>
-            <button class="close-btn" onclick="closePopup()">×</button>
-        </div>
-          
-        {% endfor %}
+        </div>     
+        {% endfor %}    
+    </div>
+    <div class="popup" id="popup">
+        <p>After all regular bunks have been used. Using exemption bunks will reduce your physical attendance to 65%.</p>
+        <button class="close-btn" onclick="closePopup()">×</button>
     </div>
 <script>
     function closePopup() {
-        console.log("button is lcikcked afeter")
-        const popup = document.getElementById("popup");
-        popup.style.visibility = "hidden"; // Hide the popup
-        console.log("button is lcikcked afeter")
-    }
+    const popup = document.getElementById("popup");
+    popup.style.display = "none"; // Hide the popup
+}
     setTimeout(closePopup, 3000);
 
 </script>
