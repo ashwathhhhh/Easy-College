@@ -20,7 +20,6 @@
         font-family: Arial, sans-serif;
         color: white;
         
-
         
     }
     .container {
@@ -55,6 +54,9 @@
         cursor: pointer;
         transition: transform 0.2s;
     }
+    .button a {
+    text-decoration: none;
+}
     .button img {
         width: 110px;
         height: 110px;
@@ -105,6 +107,63 @@
         text-decoration: none;
         font-weight: bold;
     }
+    .cgpa-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  width: 100px;
+  height: 60px;
+}
+
+.text {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.line {
+  width: 60px;
+  height: 2px;
+  background-color: black;
+  margin: 5px auto;
+}
+
+.symbols {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 50px;
+  margin: 0 auto;
+  color: black;
+}
+
+.hehe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 120px;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+.hehe1 {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 120px;
+  background-color: #f9f9f9;
+  margin: 0;
+}
+.group-icon {
+  text-align: center;
+  padding-top: 25px;
+  color: black;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  
+}
     @media (max-width: 600px) {
             .navbar {
                 padding: 10px;
@@ -142,17 +201,37 @@
     </nav>
     <div class="container">
         <div class="options">
-            <button class="button">
+            <button class="button" >
                 <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
-                    <img src="../static/attendance.jpeg" alt="Bunkr Icon">
+                    <div class="hehe1">
+                        <div class="group-icon">
+                            <p>Attendance</p>
+                        </div>
+                    </div>
                 </a>
-                <p>Attendance</p> 
+                <br>
+                <br>
+                <p></p>
+                <p></p> 
             </button>        
             <button class="button" >
                 <a href="{{ url_for('loading') }}" class="btn btn-secondary">
-                    <img src="../static/cgpa-icon.png" alt="Bunkr Icon">
+                    <div class = "hehe">
+                        <div class="cgpa-container">
+                            <div class="text">CGPA</div>
+                            <div class="line"></div>
+                            <div class="symbols">
+                            <span>+</span>
+                            <span>|</span>
+                            <span>-</span>
+                            </div>
+                        </div>
+                    </div>
                 </a>
-                <p>CGPA</p>             
+                <br>
+                <br>
+                <p></p>
+                <p></p>             
             </button>
         </div>        
     </div>
