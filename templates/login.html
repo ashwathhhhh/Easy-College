@@ -1,4 +1,5 @@
 <!-- login.html -->
+import imgbackground from './static/background.jpeg'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +21,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.911);
+            background: src={imgbackground} center center/cover;
             background-size: cover;
             padding: 20px;
         }
@@ -111,42 +112,40 @@
             transform: translateY(-2px);
         }
 
-        footer { 
+        footer {
             text-align: center;
             padding: 10px 20px;
-            color: white;
+            color: #f0f0f0;
             font-family: 'Courier New', Courier, monospace;
-            background-color: transparent;
+            background-color: rgba(0, 0, 0, 0.6);
             font-size: 14px;
-            flex-shrink: 0;
-            position: relative;
-            bottom: 0;
             width: 100%;
+            display: none;
         }
 
         footer p {
             margin: 5px 0;
             padding: 0;
-        } 
+        }
+
         footer .development-text {
-        font-size: 16px;
-        font-weight: bold;
-    }
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-    footer .developer a {
-        color: pink;
-        text-decoration: none;
-    }
+        footer .developer a {
+            font-size: 17px;
+            color: pink;
+            text-decoration: none;
+        }
 
-    footer .developer a:hover {
-        text-decoration: underline;
-    }
-        .easy {
-        font-size: 24px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        footer .developer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .Copyright {
+            font-size: 17px;
+        }
 
         @media (max-width: 600px) {
             .navbar {
@@ -199,7 +198,7 @@
         <p class="development-text">App in development!!</p>
         <p class="Copyright">2024 Copyright: Easy College</p>
         <p class="developer">
-            <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
+            <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
         </p>
     </footer>
 </body>
