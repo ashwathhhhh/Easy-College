@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
 
     <style> 
-    
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -79,7 +79,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-            padding: 10px 0;
             margin-top: 5px;
             border-radius: 6px;
         }
@@ -155,6 +154,41 @@
                 padding: 10px 20px;
             }
         }
+        .popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  max-width: 90%;
+  z-index: 1000;
+}
+
+.popup p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.close-btn:hover {
+  color: #bbb;
+}
+
     </style>
 </head>
 <body>
@@ -175,15 +209,36 @@
                 <div>Physical Attendance: {{result.Physical_Attendance}}</div>
                 <div> Attendance With Exemption: {{result.Attendance_Exemption}}</div>
                 {% if 'exemption_hours' in result and result.exemption_bunk != 5000 %}
-                    <div>{{ result.status }} : {{ result.bunk }}</div>
-                    <div>Number of Hours to Bunk Using Exemption: {{ result.bunking }}</div>
-                    <div style="font-size: 14px;">NOTE: It makes the physical come to 65%</div>
+                    <div style="font-size: 18px;
+                    font-weight: 600;
+                    color: #ADD8E6;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+                    margin-top: 5px;
+                    border-radius: 6px;">{{ result.status }} : {{ result.bunk }}</div>
+                    <div>Exemption Bunks: {{ result.bunking }}</div>
                 {% else %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
                 {% endif %}
             </div>
         </div>
+        <div class="popup" id="popup">
+            <p>After all regular bunks have been used. Using exemption bunks will reduce your physical attendance to 65%.</p>
+            <button class="close-btn" onclick="closePopup()">×</button>
+        </div>
+          
         {% endfor %}
     </div>
+<script>
+    function closePopup() {
+        console.log("button is lcikcked afeter")
+        const popup = document.getElementById("popup");
+        popup.style.visibility = "hidden"; // Hide the popup
+        console.log("button is lcikcked afeter")
+    }
+    setTimeout(closePopup, 3000);
+
+</script>
 </body>
 </html>
