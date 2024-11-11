@@ -2,7 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request, session,se
 from bunkr import return_data
 from Timetable import get_timetable
 #from calc import get_academic_details
-
+#dummy change
 import math
 
 app = Flask(__name__)
