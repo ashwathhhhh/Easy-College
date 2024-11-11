@@ -135,6 +135,7 @@ def attendance():
                     
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
                     exemption_bunk = math.floor((present_hours-(exemption_threshold * total_hours))/exemption_threshold)
+                    exemption_bunk = exemption_bunk - bunk
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
