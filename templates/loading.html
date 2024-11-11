@@ -110,52 +110,26 @@
             transform: translateY(-2px);
         }
 
-        footer { 
+        footer {
             text-align: center;
             padding: 10px 20px;
             color: white;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: transparent;
-            font-size: 14px;
-            flex-shrink: 0;
-            position: relative;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: fixed;
             bottom: 0;
             width: 100%;
         }
 
-        footer p {
-            margin: 5px 0;
-            padding: 0;
-        } 
-        footer .development-text {
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    footer .developer a {
-        color: pink;
-        text-decoration: none;
-    }
-
-    footer .developer a:hover {
-        text-decoration: underline;
-    }
-        .easy {
-        font-size: 24px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
         @media (max-width: 600px) {
             .navbar {
                 padding: 10px;
-                flex-direction: column;
-                gap: 10px;
+                flex-direction: row;
+                gap: 15px;
+                
             }
 
             .navbar-links {
-                width: 100%;
+                width: 58%;
                 justify-content: center;
             }
 
