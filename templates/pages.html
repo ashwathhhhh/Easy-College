@@ -64,36 +64,6 @@
     .button:hover {
         transform: scale(1.1);
     }
-     /* Footer styles */
- footer {
-        text-align: center;
-        padding: 10px 20px;
-        color: white;
-        
-        background-color: transparent;
-        font-size: 14px;
-        flex-shrink: 0;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-    footer p {
-        margin: 5px 0; /* Reduce the gap */
-        padding: 0;
-    }
-    footer .development-text {
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    footer .developer a {
-        color: pink;
-        text-decoration: none;
-    }
-
-    footer .developer a:hover {
-        text-decoration: underline;
-    }
     .navbar {
         background-color: rgba(0, 0, 0, 0.5);
         padding: 15px 20px;
@@ -169,38 +139,19 @@
     </nav>
     <div class="container">
         <div class="options">
-
-
             <button class="button">
                 <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
                     <img src="../static/attendance.jpeg" alt="Bunkr Icon">
                 </a>
-                <p>Attendance</p>
-                
-                
-            </button>
-        
+                <p>Attendance</p> 
+            </button>        
             <button class="button" >
                 <a href="{{ url_for('loading') }}" class="btn btn-secondary">
                     <img src="../static/cgpa-icon.png" alt="Bunkr Icon">
                 </a>
-                <p>CGPA</p>
-                
-                
+                <p>CGPA</p>             
             </button>
-        </div>
-        
+        </div>        
     </div>
-<!-- Footer -->
-<footer>
-    <p class="development-text">App in development!!</p>
-    <p> 2024 Copyright: Easy College</p>
-    <p class="developer">
-        <a href="https://github.com/SShashwath/cgpa-calc" target="_blank">Developed by Sh-ashwath</a>
-    </p>
-</footer>
-
 </body>
 </html>
-
-

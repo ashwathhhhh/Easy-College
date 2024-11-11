@@ -88,40 +88,7 @@
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
         }
 
-        footer {
-            text-align: center;
-            padding: 10px 20px;
-            color: #f0f0f0;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: rgba(0, 0, 0, 0.6);
-            font-size: 14px;
-            width: 100%;
-            display: none;
-        }
-
-        footer p {
-            margin: 5px 0;
-            padding: 0;
-        }
-
-        footer .development-text {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        footer .developer a {
-            font-size: 17px;
-            color: pink;
-            text-decoration: none;
-        }
-
-        footer .developer a:hover {
-            text-decoration: underline;
-        }
-
-        footer .Copyright {
-            font-size: 17px;
-        }
+        
 
         .navbar {
             background-color: black;
@@ -216,27 +183,5 @@
         </div>
         {% endfor %}
     </div>
-
-    <footer>
-        <p class="development-text">App in development!!</p>
-        <p class="Copyright">2024 Copyright: Easy College</p>
-        <p class="developer">
-            <a href="https://github.com/SShashwath/cgpa-calc" target="_blank" class="dev">Developed by Sh-ashwath</a>
-        </p>
-    </footer>
-
-    <script>
-        window.addEventListener('scroll', function() {
-            var footer = document.querySelector('footer');
-            var contentBottom = document.querySelector('.content').getBoundingClientRect().bottom;
-            var windowHeight = window.innerHeight;
-
-            if (contentBottom <= windowHeight) {
-                footer.style. display = 'block';
-            } else {
-                footer.style.display = 'none';
-            }
-        });
-    </script>
 </body>
 </html>
