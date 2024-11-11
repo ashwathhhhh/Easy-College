@@ -1,4 +1,5 @@
 <!-- login.html -->
+import imgbackground from './static/background.jpeg'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +21,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: url("{{ url_for('static', filename='background.jpeg') }}") center center/cover;
+            background: src={imgbackground} center center/cover;
             background-size: cover;
             padding: 20px;
         }
