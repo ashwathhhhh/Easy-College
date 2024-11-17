@@ -169,9 +169,8 @@
             color: white;
         }
 
-        /* Navbar Styling */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: black;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -186,7 +185,7 @@
         .navbar h1 {
             color: white;
             margin: 0;
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .navbar-links {
@@ -196,12 +195,43 @@
         .navbar-links a {
             color: white;
             text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
+            margin-left: 15px;
+            font-size: 14px;
         }
 
         .navbar-links a:hover {
             text-decoration: underline;
+        }
+
+        .easy {
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-direction: row;
+                gap: 15px;
+                
+            }
+
+            .navbar-links {
+                width: 58%;
+                justify-content: center;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                margin: 100px 10px 20px 10px;
+            }
+
+            .login-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
         }
 
         /* About Us Section */
