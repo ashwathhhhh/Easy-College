@@ -184,32 +184,28 @@
 
     <script>
         // Define URLs for each button to match Flask routes
-        // Define URLs for each button to match Flask routes
-        // Define a mapping of box names to their corresponding URLs
-// Define a mapping of box names to their corresponding URLs
-        const boxUrlMap = {
-            "Attendance": "/attendance",
-            "CGPA": "/cgpa",
-            "Pass Marks": "/loading",
-            "PYQs": "/loading"
-        };
+        const boxUrls = [
+            "/attendance", // URL for Attendance
+            "/cgpa",       // URL for CGPA
+            "/loading",    // URL for Minimum Marks
+            "/loading"         // URL for PYQs
+        ];
 
         // Initial box order with button labels
-        let boxOrder = ["Attendance", "CGPA", "Pass Marks", "PYQs"];
+        let boxOrder = ["Attendance", "CGPA", "Pass Mark", "PYQs"];
 
         // Function to render boxes dynamically based on the visible order
         function renderBoxes() {
             const scroller = document.querySelector('.scroller');
             scroller.innerHTML = "";
             for (let i = 0; i < 3; i++) {
-                const boxName = boxOrder[i]; // Get the box name directly from the order
                 const box = document.createElement("a"); // Create an anchor element
                 box.classList.add("box");
-                box.href = boxUrlMap[boxName]; // Set the href based on box name from the mapping
+                box.href = boxUrls[i]; // Set the href to the corresponding URL
                 box.target = "_self"; // Open link in the same tab
 
                 if (i === 1) box.classList.add("active"); // Center box
-                box.textContent = boxName; // Display button label
+                box.textContent = boxOrder[i]; // Display button label
                 scroller.appendChild(box);
             }
         }

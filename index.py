@@ -63,6 +63,8 @@ def cgpa():
     total_credits=0
     gpa=0    
     table = []
+    global gpa_result
+    gpa_result = None
 
     credentials = session.get('credentials', {})
     rows2 = calc_return_data(credentials.get("name"), credentials.get("password"))
@@ -95,15 +97,19 @@ def cgpa():
             total_credits+=credits1
             if credits1 ==0:
                 pass
-            elif grade[0:2] == "RA":
-                print("Arrear. No gpa.")
+            elif grade[0:2] == "RA" or grade[0:2] == "0F":
+                gpa_result = "No CGPA"
             else:
                 product= credits1 * int(grade[0:2])
                 summation += product
-    gpa = summation/total_credits    
-    gpa = round(gpa, 2)
-    return render_template('cgpa.html',table = table,gpa = gpa,total_credits = total_credits)
+    if gpa_result != "No CGPA":
+        gpa = summation/total_credits    
+        gpa = round(gpa, 2)
+        return render_template('cgpa.html',table = table,gpa = gpa,total_credits = total_credits)
+    else:
+        return render_template('cgpa.html',table = table,gpa = gpa_result,total_credits = total_credits)
 
+    
 @app.route('/attendance')
 def attendance():
     if not session.get('logged_in'):
