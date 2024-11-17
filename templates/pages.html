@@ -81,32 +81,70 @@
         z-index: 1000;
     }
 
-    .navbar h1 {
-        color: white;
-        margin: 0;
-        font-size: 24px;
-    }
+    .navbar {
+            background-color: black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
 
-    .navbar-links {
-        display: flex;
-    }
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
 
-    .navbar-links a {
-        color: white;
-        text-decoration: none;
-        margin-left: 20px;
-        font-size: 16px;
-    }
+        .navbar-links {
+            display: flex;
+        }
 
-    .navbar-links a:hover {
-        text-decoration: underline;
-    }
-    .easy {
-        font-size: 24px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar-links a:hover {
+            text-decoration: underline;
+        }
+
+        .easy {
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-direction: row;
+                gap: 15px;
+                
+            }
+
+            .navbar-links {
+                width: 58%;
+                justify-content: center;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                margin: 100px 10px 20px 10px;
+            }
+
+            .login-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
     .cgpa-container {
   text-align: center;
   font-family: Arial, sans-serif;
@@ -164,29 +202,7 @@
   font-family: Arial, sans-serif;
   
 }
-    @media (max-width: 600px) {
-            .navbar {
-                padding: 10px;
-                flex-direction: row;
-                gap: 15px;
-                
-            }
-
-            .navbar-links {
-                width: 58%;
-                justify-content: center;
-            }
-
-            .login-container {
-                padding: 1.5rem;
-                margin: 100px 10px 20px 10px;
-            }
-
-            .login-btn {
-                font-size: 16px;
-                padding: 10px 20px;
-            }
-        }
+    
 </style>
 </head>
 <body>
