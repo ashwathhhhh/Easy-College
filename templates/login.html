@@ -26,8 +26,9 @@
             padding: 20px;
         }
 
+        
         .navbar {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: black;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -37,24 +38,31 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            flex-wrap: wrap;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
         }
 
         .navbar-links {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .navbar-links a {
             color: white;
             text-decoration: none;
-            font-size: 16px;
-            padding: 5px 10px;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar-links a:hover {
+            text-decoration: underline;
         }
 
         .easy {
-            font-size: 24px;
+            font-size: 20px;
             color: white;
             text-decoration: none;
             font-weight: bold;
