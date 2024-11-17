@@ -150,9 +150,10 @@
             <tbody>
                 {% for course in table %}
                 <tr>
+                    
                     <td>{{ course.sem }}</td>
                     <td>{{ course.course }}</td>
-                    <td>{{ course.course }}</td>
+                    <td>{{ course.credits }}</td>
                     <td>{{ course.credits }}</td>
                     <td>{{ course.grade }}</td>
                 </tr>
@@ -160,7 +161,7 @@
             </tbody>
         </table>
         <div id="cgpa-result">
-            <p>CGPA: {{ cgpa }}</p>
+            <p>CGPA: {{ gpa}}</p>
             <p>Total Credits: {{ total_credits }}</p>
         </div>
     </div>

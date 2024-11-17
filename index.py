@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session,send_from_directory
-from bunkr import return_data
+from bunkr import return_data as bunkr_return_data
+from calc import return_data as calc_return_data
 from Timetable import get_timetable
 #from calc import get_academic_details
 #dummy change
@@ -55,11 +56,52 @@ def pages():
 def cgpa():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
-    #academic_data = get_academic_details(session.get('user'), session.get('password'))
-    # Get credentials from session
+    
+    credits1=0
+    count=0
+    summation=0
+    total_credits=0
+    gpa=0    
+    table = []
+
     credentials = session.get('credentials', {})
-    table1 = return_data(credentials.get("name"), credentials.get("password"))
-    return render_template('cgpa.html',table = table1)
+    rows2 = calc_return_data(credentials.get("name"), credentials.get("password"))
+
+    if rows2 is None:
+        return "Unable to fetch attendance data. Please check your credentials."
+    
+    for row1 in rows2:
+        count+=1
+        columns = row1.find_all('td')
+        row_data1 = [column.get_text(strip=True) for column in columns]
+        if count==1:
+            pass
+        
+        else:
+            sem = (row_data1[0])
+            course = row_data1[1]         
+            title = row_data1[2]  
+            credits1 = int(row_data1[3])
+            grade = row_data1[4]
+            result = row_data1[5]
+
+            table.append({
+                "sem": sem,
+                "course": course,
+                "title": title,
+                "grade": grade,
+                "credits": credits1,
+            })
+            total_credits+=credits1
+            if credits1 ==0:
+                pass
+            elif grade[0:2] == "RA":
+                print("Arrear. No gpa.")
+            else:
+                product= credits1 * int(grade[0:2])
+                summation += product
+    gpa = summation/total_credits    
+    return render_template('cgpa.html',table = table,gpa = gpa,total_credits = total_credits)
 
 @app.route('/attendance')
 def attendance():
