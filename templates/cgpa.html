@@ -25,8 +25,9 @@
             padding: 20px;
         }
 
+        
         .navbar {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: black;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -36,24 +37,31 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            flex-wrap: wrap;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
         }
 
         .navbar-links {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .navbar-links a {
             color: white;
             text-decoration: none;
-            font-size: 16px;
-            padding: 5px 10px;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar-links a:hover {
+            text-decoration: underline;
         }
 
         .easy {
-            font-size: 24px;
+            font-size: 20px;
             color: white;
             text-decoration: none;
             font-weight: bold;
@@ -100,29 +108,36 @@
             color: #fff;
         }
 
-    @media (max-width: 600px) {
-            .navbar {
-                padding: 10px;
-                flex-direction: row;
-                gap: 15px;
-                
-            }
+        @media (max-width: 600px) {
+    .navbar {
+        padding: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
-            .navbar-links {
-                width: 58%;
-                justify-content: center;
-            }
+    .navbar-links {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 
-            .login-container {
-                padding: 1.5rem;
-                margin: 100px 10px 20px 10px;
-            }
+    .cgpa-container {
+        padding: 1rem;
+        margin: 5px 5px 5px 5px;
+    }
 
-            .login-btn {
-                font-size: 16px;
-                padding: 10px 20px;
-            }
-        }
+    .cgpa-table th, .cgpa-table td {
+        font-size: 11px;
+        padding: 1px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    #cgpa-result {
+        font-size: 14px;
+    }
+}
     </style>
 </head>
 <body>
@@ -153,7 +168,7 @@
                     
                     <td>{{ course.sem }}</td>
                     <td>{{ course.course }}</td>
-                    <td style="font-size: 15px;">{{ course.title }}</td>
+                    <td>{{ course.title }}</td>
                     <td>{{ course.credits }}</td>
                     <td>{{ course.grade }}</td>
                 </tr>
