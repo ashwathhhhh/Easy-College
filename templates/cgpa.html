@@ -127,13 +127,13 @@
 </head>
 <body>
     <nav class="navbar">
-        <p class="easy">Easy College</p>
+        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
-            <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
         </div>
-    </nav>
+    </nav>  
 
     <div class="cgpa-container">
         <h2>CGPA Calculator</h2>
@@ -153,7 +153,7 @@
                     
                     <td>{{ course.sem }}</td>
                     <td>{{ course.course }}</td>
-                    <td>{{ course.credits }}</td>
+                    <td style="font-size: 15px;">{{ course.title }}</td>
                     <td>{{ course.credits }}</td>
                     <td>{{ course.grade }}</td>
                 </tr>
@@ -161,8 +161,9 @@
             </tbody>
         </table>
         <div id="cgpa-result">
-            <p>CGPA: {{ gpa}}</p>
-            <p>Total Credits: {{ total_credits }}</p>
+            <p style="  font-size: 12px; margin-bottom: 20px; margin-top: 20px ;">Total Credits: {{ total_credits }}</p>
+            
+            <p style="font-family:Verdana, Geneva, Tahoma, sans-serif ; color: aqua;">CGPA: {{ gpa}}</p>
         </div>
     </div>
 </body>

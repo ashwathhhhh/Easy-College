@@ -101,6 +101,7 @@ def cgpa():
                 product= credits1 * int(grade[0:2])
                 summation += product
     gpa = summation/total_credits    
+    gpa = round(gpa, 2)
     return render_template('cgpa.html',table = table,gpa = gpa,total_credits = total_credits)
 
 @app.route('/attendance')
@@ -111,7 +112,7 @@ def attendance():
     results = []
     # Get credentials from session
     credentials = session.get('credentials', {})
-    rows = return_data(credentials.get("name"), credentials.get("password"))
+    rows = bunkr_return_data(credentials.get("name"), credentials.get("password"))
     timetable = get_timetable(credentials.get("name"), credentials.get("password"))
 
     if rows is None:
