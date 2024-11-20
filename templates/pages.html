@@ -1,99 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy College</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #121212; /* Dark black background */
-            color: #ffffff; /* White text for better contrast */
-        }
-
-        .scroller-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-            width: 600px; /* Increased width for a larger layout */
-        }
-
-        .scroller {
-            display: flex;
-            overflow: hidden;
-            width: 560px; /* Increased width for larger visible area */
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .box {
-            width: 180px; /* Fixed box width */
-            height: 180px; /* Fixed box height */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #1f1f1f; /* Slightly lighter black for box background */
-            color: #e0e0e0; /* Light gray text for contrast */
-            margin: 0 10px; /* Reduced margin between boxes */
-            border-radius: 12px; /* Slightly more rounded corners */
-            font-size: 24px; /* Uniform font size for box text */
-            font-weight: bold;
-            transition: transform 0.3s, opacity 0.3s, filter 0.3s;
-            opacity: 0.5;
-            filter: blur(3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Subtle shadow for depth */
-            text-decoration: none; /* Remove underline from links */
-        }
-
-        .box.active {
-            transform: scale(1.1);
-            opacity: 1;
-            filter: blur(0);
-            background-color: #292929; /* Lighter shade of black for the active box */
-            color: #ffffff; /* Bright white for the active text */
-        }
-
-        .nav-btn {
-            width: 80px; /* Larger button size */
-            height: 80px; /* Larger button size */
-            background-color: #333333; /* Medium dark gray for button background */
-            color: #e0e0e0; /* Light gray for button text */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 36px; /* Increased font size for buttons */
-            font-weight: bold;
-            border: none;
-            border-radius: 50%; /* Circular buttons */
-            cursor: pointer;
-            position: absolute;
-            transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Slightly larger shadow for buttons */
-        }
-
-        .nav-btn:hover {
-            background-color: #444444; /* Slightly lighter gray on hover */
-            transform: scale(1.2); /* Slightly larger on hover */
-            color: #ffffff; /* Bright white text on hover */
-        }
-
-        #left-btn {
-            left: -80px; /* Adjusted position to match larger layout */
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        #right-btn {
-            right: -50px; /* Adjusted position to match larger layout */
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .navbar {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy College</title>
+<link rel="icon" type="image/x-icon" href="static/favicon.ico">
+<style>
+    /* Navbar styles */
+    
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.911);
+        background-size: cover;
+        font-family: Arial, sans-serif;
+        color: white;
+        
+        
+    }
+    .container {
+        text-align: center;
+        
+    }
+    h1 {
+        font-size: 3em;
+        margin: 0;
+    }
+    p {
+        font-size: 1.2em;
+        margin: 0 0 30px;
+    }
+    .options {
+        padding: 30px;
+        display: flex;
+        justify-content: space-around;
+        width: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        height: 200px;
+        padding-top: 70px;
+    }
+    .button {
+        background: none;
+        border: none;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .button a {
+    text-decoration: none;
+}
+    .button img {
+        width: 110px;
+        height: 110px;
+        margin-bottom: 10px;
+    }
+    .button p {
+        font-size: 20px;
+    }
+    .button:hover {
+        transform: scale(1.1);
+    }
+    .navbar {
         background-color: rgba(0, 0, 0, 0.5);
         padding: 15px 20px;
         display: flex;
@@ -147,55 +122,88 @@
             font-weight: bold;
         }
 
-        /* Existing styles */
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-direction: row;
+                gap: 15px;
+                
+            }
 
-@media (max-width: 768px) {
-    .scroller-container {
-        width: 100%; /* Full width on smaller screens */
-        padding: 0 10px; /* Padding for a better look */
-    }
+            .navbar-links {
+                width: 58%;
+                justify-content: center;
+            }
 
-    .scroller {
-        width: 100%; /* Occupy full screen width */
-        overflow-x: scroll; /* Allow horizontal scrolling */
-        justify-content: flex-start;
-        scroll-snap-type: x mandatory; /* Snap boxes into place */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
-    }
+            .login-container {
+                padding: 1.5rem;
+                margin: 100px 10px 20px 10px;
+            }
 
-    .box {
-        width: 120px; /* Smaller box size */
-        height: 120px;
-        font-size: 16px; /* Reduced font size */
-        margin: 0 5px; /* Smaller gaps between boxes */
-        flex-shrink: 0; /* Prevent shrinking */
-        scroll-snap-align: center; /* Align center on snap */
-    }
-
-    .nav-btn {
-        width: 60px;
-        height: 60px;
-        font-size: 28px;
-    }
-
-    #left-btn {
-        left: 5px; /* Adjust button placement */
-    }
-
-    #right-btn {
-        right: 5px; /* Adjust button placement */
-    }
-
-    .navbar h1 {
-        font-size: 16px; /* Smaller title size */
-    }
-
-    .navbar-links a {
-        font-size: 12px;
-    }
+            .login-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    .cgpa-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  width: 100px;
+  height: 60px;
 }
-        
-    </style>
+
+.text {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.line {
+  width: 60px;
+  height: 2px;
+  background-color: black;
+  margin: 5px auto;
+}
+
+.symbols {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 50px;
+  margin: 0 auto;
+  color: black;
+}
+
+.hehe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 120px;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+.hehe1 {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 120px;
+  background-color: #f9f9f9;
+  margin: 0;
+}
+.group-icon {
+  text-align: center;
+  padding-top: 25px;
+  color: black;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  
+}
+    
+</style>
 </head>
 <body>
     <nav class="navbar">
@@ -205,19 +213,51 @@
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
             <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+    
         </div>
     </nav>
-    
-    <div class="scroller-container">
-        <!-- Navigation Buttons -->
-        <button id="left-btn" class="nav-btn">&lt;</button>
-        <div class="scroller">
-            
-        </div>
-        <button id="right-btn" class="nav-btn">&gt;</button>
+    <div class="container">
+        <div class="options">
+            <button class="button" >
+                <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
+                    <div class="hehe1">
+                        <div class="group-icon">
+                            <p>Attendance</p>
+                        </div>
+                    </div>
+                </a>
+                <br>
+                <br>
+                <p></p>
+                <p></p> 
+            </button>        
+            <button class="button" >
+                <a href="{{ url_for('cgpa') }}" class="btn btn-secondary">
+                    <div class = "hehe">
+                        <div class="cgpa-container">
+                            <div class="text">CGPA</div>
+                            <div class="line"></div>
+                            <div class="symbols">
+                            <span>+</span>
+                            <span>|</span>
+                            <span>-</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <br>
+                <br>
+                <p></p>
+                <p></p>             
+            </button>
+        </div>        
     </div>
 
     <script>
+        // Define URLs for each button to match Flask routes
+        // Define URLs for each button to match Flask routes
+        // Define a mapping of box names to their corresponding URLs
+// Define a mapping of box names to their corresponding URLs
         const boxUrlMap = {
             "Attendance": "/attendance",
             "CGPA": "/cgpa",
@@ -225,10 +265,10 @@
             "PYQs": "/loading"
         };
 
-        
+        // Initial box order with button labels
         let boxOrder = ["Attendance", "CGPA", "Pass Marks", "PYQs"];
 
-        
+        // Function to render boxes dynamically based on the visible order
         function renderBoxes() {
             const scroller = document.querySelector('.scroller');
             scroller.innerHTML = "";
