@@ -208,6 +208,7 @@
 <body>
     <nav class="navbar">
         <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <span style="margin-right: 15px; color: white;">{{ username }}</span>
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
@@ -251,5 +252,74 @@
             </button>
         </div>        
     </div>
+
+    <script>
+        // Define URLs for each button to match Flask routes
+        // Define URLs for each button to match Flask routes
+        // Define a mapping of box names to their corresponding URLs
+// Define a mapping of box names to their corresponding URLs
+        const boxUrlMap = {
+            "Attendance": "/attendance",
+            "CGPA": "/cgpa",
+            "Pass Marks": "/loading",
+            "PYQs": "/loading"
+        };
+
+        // Initial box order with button labels
+        let boxOrder = ["Attendance", "CGPA", "Pass Marks", "PYQs"];
+
+        // Function to render boxes dynamically based on the visible order
+        function renderBoxes() {
+            const scroller = document.querySelector('.scroller');
+            scroller.innerHTML = "";
+            for (let i = 0; i < 3; i++) {
+                const boxName = boxOrder[i]; // Get the box name directly from the order
+                const box = document.createElement("a"); // Create an anchor element
+                box.classList.add("box");
+                box.href = boxUrlMap[boxName]; // Set the href based on box name from the mapping
+                box.target = "_self"; // Open link in the same tab
+
+                if (i === 1) box.classList.add("active"); // Center box
+                box.textContent = boxName; // Display button label
+                scroller.appendChild(box);
+            }
+        }
+
+        // Function to move boxes to the right
+        function moveRight() {
+            const movedBox = boxOrder.shift(); // Remove the first box
+            boxOrder.push(movedBox); // Add it to the end
+            renderBoxes();
+        }
+
+        // Function to move boxes to the left
+        function moveLeft() {
+            const movedBox = boxOrder.pop(); // Remove the last box
+            boxOrder.unshift(movedBox); // Add it to the beginning
+            renderBoxes();
+        }
+
+        // Add event listeners to the buttons
+        document.getElementById("left-btn").addEventListener("click", moveLeft);
+        document.getElementById("right-btn").addEventListener("click", moveRight);
+
+        // Initial rendering of boxes
+        renderBoxes();
+
+        let startX;
+
+    document.querySelector('.scroller').addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    document.querySelector('.scroller').addEventListener('touchend', (e) => {
+        let endX = e.changedTouches[0].clientX;
+        if (startX > endX + 30) {
+            moveRight();
+        } else if (startX < endX - 30) {
+            moveLeft();
+        }
+    });
+    </script>
 </body>
 </html>

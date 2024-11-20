@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy College</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212; /* Dark black background */
+            color: #ffffff; /* White text for better contrast */
+        }
+
+        .scroller-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            width: 600px; /* Increased width for a larger layout */
+        }
+
+        .scroller {
+            display: flex;
+            overflow: hidden;
+            width: 560px; /* Increased width for larger visible area */
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .box {
+            width: 180px; /* Fixed box width */
+            height: 180px; /* Fixed box height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1f1f1f; /* Slightly lighter black for box background */
+            color: #e0e0e0; /* Light gray text for contrast */
+            margin: 0 10px; /* Reduced margin between boxes */
+            border-radius: 12px; /* Slightly more rounded corners */
+            font-size: 24px; /* Uniform font size for box text */
+            font-weight: bold;
+            transition: transform 0.3s, opacity 0.3s, filter 0.3s;
+            opacity: 0.5;
+            filter: blur(3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Subtle shadow for depth */
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        .box.active {
+            transform: scale(1.1);
+            opacity: 1;
+            filter: blur(0);
+            background-color: #292929; /* Lighter shade of black for the active box */
+            color: #ffffff; /* Bright white for the active text */
+        }
+
+        .nav-btn {
+            width: 80px; /* Larger button size */
+            height: 80px; /* Larger button size */
+            background-color: #333333; /* Medium dark gray for button background */
+            color: #e0e0e0; /* Light gray for button text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px; /* Increased font size for buttons */
+            font-weight: bold;
+            border: none;
+            border-radius: 50%; /* Circular buttons */
+            cursor: pointer;
+            position: absolute;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Slightly larger shadow for buttons */
+        }
+
+        .nav-btn:hover {
+            background-color: #444444; /* Slightly lighter gray on hover */
+            transform: scale(1.2); /* Slightly larger on hover */
+            color: #ffffff; /* Bright white text on hover */
+        }
+
+        #left-btn {
+            left: -80px; /* Adjusted position to match larger layout */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #right-btn {
+            right: -50px; /* Adjusted position to match larger layout */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .navbar {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar {
+            background-color: black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .navbar-links {
+            display: flex;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar-links a:hover {
+            text-decoration: underline;
+        }
+
+        .easy {
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Existing styles */
+
+@media (max-width: 768px) {
+    .scroller-container {
+        width: 100%; /* Full width on smaller screens */
+        padding: 0 10px; /* Padding for a better look */
+    }
+
+    .scroller {
+        width: 100%; /* Occupy full screen width */
+        overflow-x: scroll; /* Allow horizontal scrolling */
+        justify-content: flex-start;
+        scroll-snap-type: x mandatory; /* Snap boxes into place */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+    }
+
+    .box {
+        width: 120px; /* Smaller box size */
+        height: 120px;
+        font-size: 16px; /* Reduced font size */
+        margin: 0 5px; /* Smaller gaps between boxes */
+        flex-shrink: 0; /* Prevent shrinking */
+        scroll-snap-align: center; /* Align center on snap */
+    }
+
+    .nav-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    #left-btn {
+        left: 5px; /* Adjust button placement */
+    }
+
+    #right-btn {
+        right: 5px; /* Adjust button placement */
+    }
+
+    .navbar h1 {
+        font-size: 16px; /* Smaller title size */
+    }
+
+    .navbar-links a {
+        font-size: 12px;
+    }
+}
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <span style="margin-right: 15px; color: white;">{{ username }}</span>
+        <div class="navbar-links">
+            <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
+            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="scroller-container">
+        <!-- Navigation Buttons -->
+        <button id="left-btn" class="nav-btn">&lt;</button>
+        <div class="scroller">
+            
+        </div>
+        <button id="right-btn" class="nav-btn">&gt;</button>
+    </div>
+
+    <script>
+        const boxUrlMap = {
+            "Attendance": "/attendance",
+            "CGPA": "/cgpa",
+            "Pass Marks": "/loading",
+            "PYQs": "/loading"
+        };
+
+        
+        let boxOrder = ["Attendance", "CGPA", "Pass Marks", "PYQs"];
+
+        
+        function renderBoxes() {
+            const scroller = document.querySelector('.scroller');
+            scroller.innerHTML = "";
+            for (let i = 0; i < 3; i++) {
+                const boxName = boxOrder[i]; // Get the box name directly from the order
+                const box = document.createElement("a"); // Create an anchor element
+                box.classList.add("box");
+                box.href = boxUrlMap[boxName]; // Set the href based on box name from the mapping
+                box.target = "_self"; // Open link in the same tab
+
+                if (i === 1) box.classList.add("active"); // Center box
+                box.textContent = boxName; // Display button label
+                scroller.appendChild(box);
+            }
+        }
+
+        // Function to move boxes to the right
+        function moveRight() {
+            const movedBox = boxOrder.shift(); // Remove the first box
+            boxOrder.push(movedBox); // Add it to the end
+            renderBoxes();
+        }
+
+        // Function to move boxes to the left
+        function moveLeft() {
+            const movedBox = boxOrder.pop(); // Remove the last box
+            boxOrder.unshift(movedBox); // Add it to the beginning
+            renderBoxes();
+        }
+
+        // Add event listeners to the buttons
+        document.getElementById("left-btn").addEventListener("click", moveLeft);
+        document.getElementById("right-btn").addEventListener("click", moveRight);
+
+        // Initial rendering of boxes
+        renderBoxes();
+
+        let startX;
+
+    document.querySelector('.scroller').addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    document.querySelector('.scroller').addEventListener('touchend', (e) => {
+        let endX = e.changedTouches[0].clientX;
+        if (startX > endX + 30) {
+            moveRight();
+        } else if (startX < endX - 30) {
+            moveLeft();
+        }
+    });
+    </script>
+</body>
+</html>

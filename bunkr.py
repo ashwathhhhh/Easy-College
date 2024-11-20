@@ -35,6 +35,7 @@ def return_data(name=None, password=None):
             # Find the table by its ID
             attendance_table = soup.find('table', {'id': 'PDGcourpercView'})
             
+            
             if attendance_table:
                 # Get all rows from the table
                 rows = attendance_table.find_all('tr')

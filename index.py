@@ -1,9 +1,7 @@
-from flask import Flask, redirect, url_for, render_template, request, session,send_from_directory
+from flask import Flask, redirect, url_for, render_template, request, session, send_from_directory
 from bunkr import return_data as bunkr_return_data
 from calc import return_data as calc_return_data
 from Timetable import get_timetable
-#from calc import get_academic_details
-#dummy change
 import math
 
 app = Flask(__name__)
@@ -15,7 +13,7 @@ def login():
         name = request.form["nm"]
         password = request.form["pw"]
         # Store user info in session
-        session['user'] = name
+        session['username'] = name
         session['logged_in'] = True
         # Store credentials in session
         session['credentials'] = {"name": name, "password": password}
@@ -34,8 +32,6 @@ def assets(filename):
 def favicon():
     return send_from_directory('static', 'favicon.ico')
 
-
-
 @app.route("/logout")
 def logout():
     # Clear the session
@@ -44,24 +40,28 @@ def logout():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    username = session.get('username', 'User')
+    return render_template("about.html", username=username)
 
 @app.route("/pages")
 def pages():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
-    return render_template("pages.html")
+    
+    username = session.get('username', 'User')
+    return render_template("pages.html", username=username)
 
 @app.route('/cgpa')
 def cgpa():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
-    credits1=0
-    count=0
-    summation=0
-    total_credits=0
-    gpa=0    
+    username = session.get('username', 'User')
+    credits1 = 0
+    count = 0
+    summation = 0
+    total_credits = 0
+    gpa = 0    
     table = []
     global gpa_result
     gpa_result = None
@@ -73,10 +73,10 @@ def cgpa():
         return "Unable to fetch attendance data. Please check your credentials."
     
     for row1 in rows2:
-        count+=1
+        count += 1
         columns = row1.find_all('td')
         row_data1 = [column.get_text(strip=True) for column in columns]
-        if count==1:
+        if count == 1:
             pass
         
         else:
@@ -94,27 +94,27 @@ def cgpa():
                 "grade": grade,
                 "credits": credits1,
             })
-            total_credits+=credits1
-            if credits1 ==0:
+            total_credits += credits1
+            if credits1 == 0:
                 pass
             elif grade[0:2] == "RA" or grade[0:2] == "0F":
                 gpa_result = "No CGPA"
             else:
-                product= credits1 * int(grade[0:2])
+                product = credits1 * int(grade[0:2])
                 summation += product
     if gpa_result != "No CGPA":
         gpa = summation/total_credits    
         gpa = round(gpa, 2)
-        return render_template('cgpa.html',table = table,gpa = gpa,total_credits = total_credits)
+        return render_template('cgpa.html', table=table, gpa=gpa, total_credits=total_credits, username=username)
     else:
-        return render_template('cgpa.html',table = table,gpa = gpa_result,total_credits = total_credits)
+        return render_template('cgpa.html', table=table, gpa=gpa_result, total_credits=total_credits, username=username)
 
-    
 @app.route('/attendance')
 def attendance():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
+    username = session.get('username', 'User')
     results = []
     # Get credentials from session
     credentials = session.get('credentials', {})
@@ -168,7 +168,6 @@ def attendance():
                     })
                 else:
                     attend = math.ceil((threshold * total_hours - present_hours)/(1-threshold))
-                    #exemption_bunk = 5000
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
@@ -180,8 +179,6 @@ def attendance():
                     })
             else:
                 if percentage_with_med_exemption >= 75 and percentage >= 65:
-
-                    
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
                     exemption_bunk = math.floor((present_hours-(exemption_threshold * total_hours))/exemption_threshold)
                     exemption_bunk = exemption_bunk - bunk
@@ -198,8 +195,9 @@ def attendance():
                     })  
     
     sorted_results = sorted(results, key=lambda x: x['Attendance_Exemption'], reverse=False)
-    return render_template('attendance.html', results=sorted_results)
+    return render_template('attendance.html', results=sorted_results, username=username)
 
 @app.route("/loading")
 def loading():
-    return render_template("loading.html")
+    username = session.get('username', 'User')
+    return render_template("loading.html", username=username)
