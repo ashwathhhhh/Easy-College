@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy College</title>
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.911);
+            background-size: cover;
+            padding: 20px;
+        }
+
+        
+        .navbar {
+            background-color: black;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .navbar-links {
+            display: flex;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar-links a:hover {
+            text-decoration: underline;
+        }
+
+        .easy {
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin: 80px 20px 20px 20px;
+        }
+
+        .login-container h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .input-field input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .login-btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            color: #e1e1e1;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .login-btn:hover {
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        footer { 
+            text-align: center;
+            padding: 10px 20px;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: transparent;
+            font-size: 14px;
+            flex-shrink: 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 5px 0;
+            padding: 0;
+        } 
+        footer .development-text {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    footer .developer a {
+        color: pink;
+        text-decoration: none;
+    }
+
+    footer .developer a:hover {
+        text-decoration: underline;
+    }
+        .easy {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .minmark-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin: 80px 20px 20px 20px;
+        }
+
+        .minmark-container h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .minmark-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .minmark-table th, .minmark-table td {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .minmark-table th {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #minmark-result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .navbar-links {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .minmark-container {
+                padding: 1rem;
+                margin: 5px 5px 5px 5px;
+            }
+
+            .minmark-table th, .minmark-table td {
+                font-size: 11px;
+                padding: 1px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            #minmark-result {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <div class="navbar-links">
+            <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="minmark-container">
+        <h2>Minimum Marks Required to Pass</h2>
+        <table class="minmark-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Minimum Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mathematics</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td>Physics</td>
+                    <td>35</td>
+                </tr>
+                <tr>
+                    <td>Chemistry</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td>Biology</td>
+                    <td>35</td>
+                </tr>
+                <tr>
+                    <td>Computer Science</td>
+                    <td>45</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="minmark-result">You need to achieve the minimum marks listed above to pass each subject.</div>
+    </div>
+</body>
+</html>
