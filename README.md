@@ -1,2 +1,2 @@
-# cgpa-calculator
+# Easy college
 
