@@ -214,7 +214,16 @@
                     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
                     margin-top: 5px;
                     border-radius: 6px;">{{ result.status }} : {{ result.bunk }}</div>
-                    <div>Exemption Bunks: {{ result.bunking }}</div>
+                    <div>EXEMPTION BUNKS: {{ result.bunking }}</div>
+                {% elif 'result.bunk_or_attend' in result %}
+                <div style="font-size: 18px;
+                font-weight: 600;
+                color: #ADD8E6;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+                margin-top: 5px;
+                border-radius: 6px;">{{ result.status }} : {{ result.bunk }}</div>
                 {% else %}
                     <div>{{ result.status }} : {{ result.bunk }}</div>
                 {% endif %}

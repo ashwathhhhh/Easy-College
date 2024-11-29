@@ -111,7 +111,7 @@ def cgpa():
         return render_template('cgpa.html', table=table, gpa='NO CGPA', total_credits=total_credits, username=username)
 
 @app.route('/attendance')
-def attendance():
+def attendance():   
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
@@ -194,6 +194,18 @@ def attendance():
                         "exemption_hours": exemption_hours,
                         "bunking": exemption_bunk
                     })  
+                else:
+                    attend = math.ceil((threshold * total_hours - present_hours)/(1-threshold))
+                    results.append({
+                        "course_name": course_name,
+                        "course_code": course_code,
+                        "Physical_Attendance": percentage,
+                        "Attendance_Exemption": percentage_with_med_exemption,
+                        "status": "Attend",
+                        "bunk": attend,
+                        "result.bunk_or_attend" : "attend"
+                    })
+
     
     sorted_results = sorted(results, key=lambda x: x['Attendance_Exemption'], reverse=False)
     return render_template('attendance.html', results=sorted_results, username=username)
