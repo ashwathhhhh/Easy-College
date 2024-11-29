@@ -97,17 +97,18 @@ def cgpa():
             total_credits += credits1
             if credits1 == 0:
                 pass
-            elif grade[0:2] == "RA" or grade[0:2] == "0F":
-                gpa_result = "No CGPA"
+            elif grade[0:2] == "RA" or grade[0:2] == "0 ":
+                gpa_result = 0
             else:
                 product = credits1 * int(grade[0:2])
                 summation += product
-    if gpa_result != "No CGPA":
+
+    if gpa_result != 0:
         gpa = summation/total_credits    
         gpa = round(gpa, 2)
         return render_template('cgpa.html', table=table, gpa=gpa, total_credits=total_credits, username=username)
     else:
-        return render_template('cgpa.html', table=table, gpa=gpa_result, total_credits=total_credits, username=username)
+        return render_template('cgpa.html', table=table, gpa='NO CGPA', total_credits=total_credits, username=username)
 
 @app.route('/attendance')
 def attendance():
