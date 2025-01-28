@@ -65,43 +65,67 @@ def cgpa():
     table = []
     global gpa_result
     gpa_result = None
+    l = [0]
+    a = 0
+    
 
     credentials = session.get('credentials', {})
     rows2 = calc_return_data(credentials.get("name"), credentials.get("password"))
 
     if rows2 is None:
         return "Unable to fetch attendance data. Please check your credentials."
-    
+    abc = rows2
+
+    for row111 in abc:
+        count += 1
+        columns11 = row111.find_all('td')
+        row_data111 = [column.get_text(strip=True) for column in columns11]
+        #print(row_data1)
+        for i in row_data111:
+            if i.isnumeric():
+                l.append(int(i))
+                break
+            elif i == '':
+                break
+        print(l)
+        m = max(l)
+        print(m)
+    count = 0
     for row1 in rows2:
         count += 1
         columns = row1.find_all('td')
         row_data1 = [column.get_text(strip=True) for column in columns]
         if count == 1:
             pass
-        
-        else:
+        else:        
             sem = (row_data1[0])
             course = row_data1[1]         
             title = row_data1[2]  
             credits1 = int(row_data1[3])
             grade = row_data1[4]
-            result = row_data1[5]
+            result = row_data1[5]                        
+            print(row_data1)
+            if sem == str(m):
+                a = a +1
+            if sem == str(m) or sem == '':
+                if a != 0:
 
-            table.append({
-                "sem": sem,
-                "course": course,
-                "title": title,
-                "grade": grade,
-                "credits": credits1,
-            })
-            total_credits += credits1
-            if credits1 == 0:
-                pass
-            elif grade[0:2] == "RA" or grade[0:2] == "0 ":
-                gpa_result = 0
-            else:
-                product = credits1 * int(grade[0:2])
-                summation += product
+                    table.append({
+                        "sem": sem,
+                        "course": course,
+                        "title": title,
+                        "grade": grade,
+                        "credits": credits1,
+                    })
+                    total_credits += credits1
+                    if credits1 == 0:
+                        pass
+                    elif grade[0:2] == "RA" or grade[0:2] == "0 ":
+                        gpa_result = 0
+                    else:
+                        product = credits1 * int(grade[0:2])
+                        summation += product
+                
 
     if gpa_result != 0:
         gpa = summation/total_credits    
