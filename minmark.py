@@ -51,7 +51,7 @@ with requests.session() as s:
                 total_internal = row_data[6]
                 if total_internal:
 
-                    print("A Course code:",course_code,"Total:",total_internal)
+                    print("Course code:",course_code,"Total:",total_internal)
                 else:
                     print("Course code:",course_code,"Total: Not Updated Yet")
     
@@ -76,7 +76,7 @@ with requests.session() as s:
                 total_internal1 = row_data1[2]
                 if total_internal1 != "*":
 
-                    print("M Course code:",course_code1,"Total:",total_internal1)
+                    print("Course code:",course_code1,"Total:",total_internal1)
                 else:
                     print("Course code:",course_code1,"Total: Not Updated Yet")
     
@@ -101,7 +101,7 @@ with requests.session() as s:
                 total_internal3 = row_data3[9]
                 if total_internal3:
 
-                    print("M2 Course code:",course_code3,"Total:",total_internal3)
+                    print("Course code:",course_code3,"Total:",total_internal3)
                 else:
                     print("Course code:",course_code3,"Total: Not Updated Yet")
     
@@ -126,7 +126,7 @@ with requests.session() as s:
                 total_internal4 = row_data4[9]  
                 if total_internal4 != "*":
 
-                    print("M3 Course code:",course_code4,"Total:",total_internal4)
+                    print("Course code:",course_code4,"Total:",total_internal4)
                 else:
                     print("Course code:",course_code4,"Total: Not Updated Yet")
     
@@ -152,7 +152,7 @@ with requests.session() as s:
                 total_internal5 = row_data5[6]  
                 if total_internal5 != "*":
 
-                    print("M4 Course code:",course_code5,"Total:",total_internal5)
+                    print("Course code:",course_code5,"Total:",total_internal5)
                 else:
                     print("Course code:",course_code5,"Total: Not Updated Yet")
     
