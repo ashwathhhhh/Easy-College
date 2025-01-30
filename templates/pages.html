@@ -219,7 +219,8 @@
 <body>
     <nav class="navbar">
         <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
-        <span style="margin-right: 15px; color: white;">{{ username }}</span>
+        <span style="margin-right: 15px; color: white;">{{ name }}</span>
+
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
