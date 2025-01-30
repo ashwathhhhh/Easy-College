@@ -10,8 +10,8 @@ payload = {
     '__VIEWSTATEGENERATOR':'E64D2FFE',
     '__EVENTVALIDATION':'g5OBX22lxevnco1RsfI7lUiyxoHI+6VULprfgdME6INMMlo9Oe0BE9gsycWj2DoX8swZzfek9Gr8MUiNflq8lcySikpulwQQKUI94CndKh0SPQllSuWIBvtwz4v5zyv7t0nmgGBQbO/ig3RUhsl2m4c5NCz/SW5+pDQ586mCeUKc3/jmmcX+BqQ2XCyalh6g7zlwC2SDlptxBPOGGd5wIuc9wmXmLC9FwvRXYNRe3JHHjcSiZtJchiYIEhCnlcG4iOMjPH6I47HS9TRKX8co2Sy7KCa5s1Fdk3zVjSIZjL8=',
     'rdolst':'S',
-    'txtusercheck':'23z309',
-    'txtpwdcheck':'ashwath',
+    'txtusercheck':'24z246',
+    'txtpwdcheck':'25aug06',
     'abcd3':'Login'
 }
 
@@ -28,7 +28,8 @@ with requests.session() as s:
     marks_table = soup.find('table', {'id': '8^1740'})
     marks2_table = soup.find('table', {'id': '8^2210'})
     marks3_table = soup.find('table', {'id': '8^2220'})
-    
+    marks4_table = soup.find('table', {'id': '8^1601'})
+    marks5_table = soup.find('table', {'id': '8^1602'})    
     if attendance_table:
         # Iterate through all rows in the table
 
@@ -50,7 +51,7 @@ with requests.session() as s:
                 total_internal = row_data[6]
                 if total_internal:
 
-                    print("Course code:",course_code,"Total:",total_internal)
+                    print("A Course code:",course_code,"Total:",total_internal)
                 else:
                     print("Course code:",course_code,"Total: Not Updated Yet")
     
@@ -75,7 +76,7 @@ with requests.session() as s:
                 total_internal1 = row_data1[2]
                 if total_internal1 != "*":
 
-                    print("Course code:",course_code1,"Total:",total_internal1)
+                    print("M Course code:",course_code1,"Total:",total_internal1)
                 else:
                     print("Course code:",course_code1,"Total: Not Updated Yet")
     
@@ -100,11 +101,11 @@ with requests.session() as s:
                 total_internal3 = row_data3[9]
                 if total_internal3:
 
-                    print("Course code:",course_code3,"Total:",total_internal3)
+                    print("M2 Course code:",course_code3,"Total:",total_internal3)
                 else:
                     print("Course code:",course_code3,"Total: Not Updated Yet")
     
-if marks3_table:
+    if marks3_table:        
         # Iterate through all rows in the table
 
         rows4 = marks3_table.find_all('tr')
@@ -125,9 +126,63 @@ if marks3_table:
                 total_internal4 = row_data4[9]  
                 if total_internal4 != "*":
 
-                    print("Course code:",course_code4,"Total:",total_internal4)
+                    print("M3 Course code:",course_code4,"Total:",total_internal4)
                 else:
                     print("Course code:",course_code4,"Total: Not Updated Yet")
+    
+    if marks4_table:        
+        # Iterate through all rows in the table
+
+        rows4 = marks4_table.find_all('tr')
+        
+        # Loop through each row and get cell data
+
+        count5 = 0
+
+        for row5 in rows4:
+            count5= count5 + 1
+            columns5 = row5.find_all('td')
+            row_data5 = [column5.get_text(strip=True) for column5 in columns5] 
+            
+            if count5 == 1 or count5 == 2:
+                pass
+            else:
+                #sprint(row_data5) # Extract text from each columns
+                course_code5= row_data5[0]
+                total_internal5 = row_data5[6]  
+                if total_internal5 != "*":
+
+                    print("M4 Course code:",course_code5,"Total:",total_internal5)
+                else:
+                    print("Course code:",course_code5,"Total: Not Updated Yet")
+    
+
+    if marks5_table:        
+        # Iterate through all rows in the table
+
+        rows6 = marks5_table.find_all('tr')
+        
+        # Loop through each row and get cell data
+
+        count6 = 0
+
+        for row6 in rows6:
+            count6 = count6 + 1
+            columns6 = row6.find_all('td')
+            row_data6 = [column6.get_text(strip=True) for column6 in columns6] 
+            
+            if count6 == 1 or count6 == 2:
+                pass
+            else:
+                #sprint(row_data6) # Extract text from each columns
+                course_code6 = row_data6[0]
+                total_internal6 = row_data6[6]  
+                if total_internal6 != "*":
+
+                    print("M4 Course code:", course_code6, "Total:", total_internal6)
+                else:
+                    print("Course code:", course_code6, "Total: Not Updated Yet")
+
 
         
             
