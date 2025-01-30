@@ -214,10 +214,6 @@
             padding-left: 8px;
         }
 
-        .checkbox-wrapper-46 .cbx:hover span:first-child {
-            border-color: #000000;
-        }
-
         .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child {
             background: #000000;
             border-color: #000000;
@@ -275,6 +271,9 @@
             
             <button class="login-btn">LOGIN</button>
         </form>
+        {% if error %}
+            <p style="color: #e1e1e1; font-size: 14px; margin-top: 10px;">{{ error }}</p>
+        {% endif %}
     </div>
     <script>
         function togglePassword() {

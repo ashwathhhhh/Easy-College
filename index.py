@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request, session, s
 from bunkr import return_data as bunkr_return_data
 from calc import return_data as calc_return_data
 from Timetable import get_timetable
+from name import return_data as name_return_data
 import math
 
 app = Flask(__name__)
@@ -14,10 +15,17 @@ def login():
         password = request.form["pw"]
         # Store user info in session
         session['username'] = name
-        session['logged_in'] = True
         # Store credentials in session
         session['credentials'] = {"name": name, "password": password}
-        return redirect(url_for("pages"))
+        
+        # Check if user is authenticated
+        authenticated = name_return_data(session.get('credentials', {}).get("name"), session.get('credentials', {}).get("password"))
+        if authenticated is None:
+            session['logged_in'] = False
+            return render_template("login.html", error="Incorrect Password")
+        else:
+            session['logged_in'] = True
+            return redirect(url_for("pages"))
     else:
         # Check if user is already logged in
         if session.get('logged_in'):
@@ -40,7 +48,7 @@ def logout():
 
 @app.route("/about")
 def about():
-    username = session.get('username', 'User')
+    username = session.get('username', 'User  ')
     return render_template("about.html", username=username)
 
 @app.route("/pages")
@@ -48,15 +56,16 @@ def pages():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
-    username = session.get('username', 'User')
-    return render_template("pages.html", username=username)
+    username = session.get('username', 'User  ')
+    name = name_return_data(session.get('credentials', {}).get("name"), session.get('credentials', {}).get("password"))
+    return render_template("pages.html", name=name, username=username)
 
 @app.route('/cgpa')
 def cgpa():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
-    username = session.get('username', 'User')
+    username = session.get('username', 'User  ')
     credits1 = 0
     count = 0
     summation = 0
@@ -139,7 +148,7 @@ def attendance():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
-    username = session.get('username', 'User')
+    username = session.get('username', 'User  ')
     results = []
     # Get credentials from session
     credentials = session.get('credentials', {})
@@ -236,5 +245,5 @@ def attendance():
 
 @app.route("/loading")
 def loading():
-    username = session.get('username', 'User')
+    username = session.get('username', 'User  ')
     return render_template("loading.html", username=username)
