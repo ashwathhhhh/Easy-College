@@ -178,6 +178,7 @@ with requests.session() as s:
                 course_code6 = row_data6[0]
                 total_internal6 = row_data6[6]  
                 if total_internal6 != "*":
+                    
 
                     print("M4 Course code:", course_code6, "Total:", total_internal6)
                 else:
