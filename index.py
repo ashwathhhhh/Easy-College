@@ -82,7 +82,7 @@ def cgpa():
     rows2 = calc_return_data(credentials.get("name"), credentials.get("password"))
 
     if rows2 is None:
-        return "Unable to fetch attendance data. Please check your credentials."
+        return render_template("cgpa_notavail.html")
     abc = rows2
 
     for row111 in abc:
@@ -156,7 +156,7 @@ def attendance():
     timetable = get_timetable(credentials.get("name"), credentials.get("password"))
 
     if rows is None:
-        return "Unable to fetch attendance data. Please check your credentials."
+        return render_template("attendance_update.html")
         
     count = 0
     for row in rows:

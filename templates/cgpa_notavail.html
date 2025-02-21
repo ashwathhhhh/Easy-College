@@ -7,13 +7,15 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica Neue', sans-serif; /* Simple and clean font */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #121212; /* Dark black background */
             color: #ffffff; /* White text for better contrast */
+            padding: 20px; /* Padding for better mobile view */
+            box-sizing: border-box; /* Include padding in element's total width and height */
         }
 
         .scroller-container {
@@ -94,19 +96,6 @@
             transform: translateY(-50%);
         }
         .navbar {
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-
-    .navbar {
             background-color: black;
             padding: 15px 20px;
             display: flex;
@@ -145,6 +134,29 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 10px;
+                flex-direction: row;
+                gap: 15px;
+            }
+
+            .navbar-links {
+                width: 58%;
+                justify-content: center;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                margin: 100px 10px 20px 10px;
+            }
+
+            .login-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
         }
 
         /* Existing styles */
@@ -194,92 +206,52 @@
         font-size: 12px;
     }
 }
+
+.message-container {
+    text-align: center;
+    background-color: #1f1f1f; /* Slightly lighter black for container background */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Subtle shadow for depth */
+    max-width: 100%; /* Ensure container fits within mobile screen */
+}
+
+.message-container h1 {
+    font-size: 28px; /* Adjusted font size for mobile view */
+    color: #81c784; /* Light green color for the message */
+    margin: 0;
+}
+
+.message-container p {
+    font-size: 16px; /* Adjusted font size for mobile view */
+    color: #cfd8dc; /* Light blue-gray text for contrast */
+    margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+    .message-container h1 {
+        font-size: 36px; /* Larger font size for desktop view */
+    }
+
+    .message-container p {
+        font-size: 20px; /* Larger font size for desktop view */
+    }
+}
         
     </style>
 </head>
 <body>
     <nav class="navbar">
         <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
-        <span style="margin-right: 15px; color: white;">{{ username }}</span>
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=yohtachy@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
             <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
             <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
         </div>
     </nav>
-    
-    <div class="scroller-container">
-        <!-- Navigation Buttons -->
-        <button id="left-btn" class="nav-btn">&lt;</button>
-        <div class="scroller">
-            
-        </div>
-        <button id="right-btn" class="nav-btn">&gt;</button>
+    <div class="message-container">
+        <h1>Result is not out yet.</h1>
+        <p>Please try again later.</p>
     </div>
-
-    <script>
-        const boxUrlMap = {
-            "Attendance": "/attendance",
-            "CGPA": "/cgpa",
-            "Pass Marks": "/loading",
-            "PYQs": "/loading"
-        };
-
-        
-        let boxOrder = ["Attendance", "CGPA", "Pass Marks", "PYQs"];
-
-        
-        function renderBoxes() {
-            const scroller = document.querySelector('.scroller');
-            scroller.innerHTML = "";
-            for (let i = 0; i < 3; i++) {
-                const boxName = boxOrder[i]; // Get the box name directly from the order
-                const box = document.createElement("a"); // Create an anchor element
-                box.classList.add("box");
-                box.href = boxUrlMap[boxName]; // Set the href based on box name from the mapping
-                box.target = "_self"; // Open link in the same tab
-
-                if (i === 1) box.classList.add("active"); // Center box
-                box.textContent = boxName; // Display button label
-                scroller.appendChild(box);
-            }
-        }
-
-        // Function to move boxes to the right
-        function moveRight() {
-            const movedBox = boxOrder.shift(); // Remove the first box
-            boxOrder.push(movedBox); // Add it to the end
-            renderBoxes();
-        }
-
-        // Function to move boxes to the left
-        function moveLeft() {
-            const movedBox = boxOrder.pop(); // Remove the last box
-            boxOrder.unshift(movedBox); // Add it to the beginning
-            renderBoxes();
-        }
-
-        // Add event listeners to the buttons
-        document.getElementById("left-btn").addEventListener("click", moveLeft);
-        document.getElementById("right-btn").addEventListener("click", moveRight);
-
-        // Initial rendering of boxes
-        renderBoxes();
-
-        let startX;
-
-    document.querySelector('.scroller').addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-    });
-
-    document.querySelector('.scroller').addEventListener('touchend', (e) => {
-        let endX = e.changedTouches[0].clientX;
-        if (startX > endX + 30) {
-            moveRight();
-        } else if (startX < endX - 30) {
-            moveLeft();
-        }
-    });
-    </script>
 </body>
 </html>
