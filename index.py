@@ -96,9 +96,7 @@ def cgpa():
                 break
             elif i == '':
                 break
-        print(l)
         m = max(l)
-        print(m)
     count = 0
     for row1 in rows2:
         count += 1
@@ -113,7 +111,7 @@ def cgpa():
             credits1 = int(row_data1[3])
             grade = row_data1[4]
             result = row_data1[5]                        
-            print(row_data1)
+            
             if sem == str(m):
                 a = a +1
             if sem == str(m) or sem == '':
