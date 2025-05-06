@@ -15,6 +15,19 @@ def get_timetable(username, password):
         'txtpwdcheck': password,
         'abcd3':'Login'
     }
+    
+    if username == '23z310':
+        payload={
+            '__VIEWSTATE':'8c8AqwAmVym81aUrDp8RFx3oXfdhTNN7A05rnCq6xS5fwT2FdRp+23oMR6LtkYGCAbYEfG6wFoCqQo8zJhQeM4lMF/Yg0hQMx6+BFT/wWKU43FjwpnkWLl7vUjo1QI4pI2lrxWYaUvaOvSl66rmMuLrj1qiA176KZsGyOo3s6LJSUzXUmbeZDGwZtUqrwYAscgJspFTztwl/DhImaF2dZVMomivkXcMtA61T4nmkyZmMKsYXMi65di+JV6TCU1ELVEoEG+q/cNT55xftLgb5OCGgVtdzgOgpp/A61D3PZpaOzhPbNrtG5YZszuG2gyum',
+        '__VIEWSTATEGENERATOR':'E64D2FFE',
+        '__EVENTVALIDATION':'9ag7nfwJsCEQ4vbAZGdxIxZys5DdYSChp6dQx4EVAH5800CHJ3WajMxLFiugVucqMgA17RnWMPhm6N/pNH2mY9Z/HwnHJ0MMZVZzpNv7B0j0b49+X8+OzzjJAX+4QawP4DQcMFA7DG5JY00giYG2O6+crNIQc1JYld1TB8wrGZspkW6ZBvucgZrXAMzASm0aO3qUNveJZCOPwB7n6OoKKIwx1UyfepRa0JZwNG9Yen5nHW+Pnqcoyki7N+ZgS7NTpf7mSiJFLzwbPy9yU3Zjq2L2VU4/UGrrdFYm4ACn0Ns=',
+        'rdolst':'P',
+        'txtusercheck': username if username else "",  # Use the username from app.py
+        
+        'txtpwdcheck': password if password else "",   # Use the password from app.py
+        'abcd3':'Login'
+        }
+
 
     with requests.session() as s:
         # Post the login data to the login URL
