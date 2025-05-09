@@ -218,10 +218,14 @@ def attendance():
                     exemption_hours = medical_exemptions + exemption_hours
                     percentage1 = percentage
                     percentage2 = percentage_with_med_exemption
+                    dexemption_bunk = exemption_bunk
                     while percentage1 > 65 and percentage2 > 75:
-                        exemption_bunk+=1
-                        percentage1 = math.ceil(present_hours/(total_hours + exemption_bunk)*100)
-                        percentage2 = math.ceil((present_hours + exemption_hours)/(total_hours + exemption_bunk)*100)
+                        dexemption_bunk+=1
+                        percentage1 = math.ceil(present_hours/(total_hours + dexemption_bunk)*100)
+                        percentage2 = math.ceil((present_hours + exemption_hours)/(total_hours + dexemption_bunk)*100)
+                        if percentage1 > 65 and percentage2 > 75:
+                            exemption_bunk += 1
+                            
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
