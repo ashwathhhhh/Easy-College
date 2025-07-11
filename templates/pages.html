@@ -1,356 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Easy College</title>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6MDXJ0EXKZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-6MDXJ0EXKZ');
-</script>
-
-<link rel="icon" type="image/x-icon" href="static/favicon.ico">
 <style>
-    /* Navbar styles */
-    
-    body {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.911);
-        background-size: cover;
-        font-family: Arial, sans-serif;
-        color: white;
-        
-        
-    }
-    .container {
-        text-align: center;
-        
-    }
-    h1 {
-        font-size: 3em;
-        margin: 0;
-    }
-    p {
-        font-size: 1.2em;
-        margin: 0 0 30px;
-    }
-    .options {
-        padding: 30px;
-        display: flex;
-        justify-content: space-around;
-        width: 400px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        height: 200px;
-        padding-top: 70px;
-    }
-    .button {
-        background: none;
-        border: none;
-        color: white;
-        text-align: center;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-    .button a {
-    text-decoration: none;
-}
-    .button img {
-        width: 110px;
-        height: 110px;
-        margin-bottom: 10px;
-    }
-    .button p {
-        font-size: 20px;
-    }
-    .button:hover {
-        transform: scale(1.1);
-    }
-    .navbar {
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    .navbar {
-            background-color: black;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .navbar h1 {
-            color: white;
-            margin: 0;
-            font-size: 20px;
-        }
-
-        .navbar-links {
-            display: flex;
-        }
-
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
-            font-size: 14px;
-        }
-
-        .navbar-links a:hover {
-            text-decoration: underline;
-        }
-
-        .easy {
-            font-size: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        @media (max-width: 600px) {
-            .navbar {
-                padding: 10px;
-                flex-direction: row;
-                gap: 15px;
-                
-            }
-
-            .navbar-links {
-                width: 58%;
-                justify-content: center;
-            }
-
-            .login-container {
-                padding: 1.5rem;
-                margin: 100px 10px 20px 10px;
-            }
-
-            .login-btn {
-                font-size: 16px;
-                padding: 10px 20px;
-            }
-        }
-    .cgpa-container {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  width: 100px;
-  height: 60px;
+:root {
+    --primary-gradient: linear-gradient(135deg, #333333 0%, #555555 100%);
+    --secondary-gradient: linear-gradient(135deg, #444444 0%, #666666 100%);
+    --accent-gradient: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.7);
 }
 
-.text {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: black;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #111111 25%, #1a1a1a 50%, #0d0d0d 75%, #151515 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    min-height: 100vh;
+    position: relative;
+    color: var(--text-primary);
+    padding-top: 80px;
+}
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-.line {
-  width: 60px;
-  height: 2px;
-  background-color: black;
-  margin: 5px auto;
-}
-
-.symbols {
-  font-size: 20px;
-  display: flex;
-  justify-content: space-around;
-  width: 50px;
-  margin: 0 auto;
-  color: black;
-}
-
-.hehe {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
-  width: 120px;
-  background-color: #f0f0f0;
-  margin: 0;
-}
-
-.hehe1 {
+.navbar {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 20px 30px;
     display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
-  width: 120px;
-  background-color: #f9f9f9;
-  margin: 0;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
 }
-.group-icon {
-  text-align: center;
-  padding-top: 25px;
-  color: black;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  
+.navbar:hover {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(25px);
 }
-    
+.navbar .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.navbar .logo:hover {
+    transform: scale(1.05);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+}
+.navbar-links {
+    display: flex;
+    gap: 25px;
+}
+.navbar-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.navbar-links a::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--accent-gradient);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+.navbar-links a:hover {
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+.navbar-links a:hover::before {
+    left: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+.welcome-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.welcome-section h1 {
+    font-size: 3.5em;
+    background: var(--primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+.welcome-section p {
+    font-size: 1.3em;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+}
+.option-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow-primary);
+    transition: all 0.4s ease;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+.option-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: var(--shadow-hover);
+}
+.option-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+}
+.option-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.option-description {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Background orbs */
+.bg-orbs {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    backdrop-filter: blur(20px);
+    animation: float 6s ease-in-out infinite;
+}
+.orb:nth-child(1) {
+    width: 300px; height:300px;
+    top: -150px; left: -150px;
+}
+.orb:nth-child(2) {
+    width: 200px; height:200px;
+    top: 70%; right: -100px;
+    animation-delay: 2s;
+}
+.orb:nth-child(3) {
+    width: 150px; height:150px;
+    bottom: -75px; left: 30%;
+    animation-delay: 4s;
+}
+@keyframes float {
+    0%,100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
 </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
-        <span style="margin-right: 15px; color: white; padding-top: 10px;">{{ name }}</span>
 
-        <div class="navbar-links">
-            <a href="https://mail.google.com/mail/u/0/?view=cm&to=campuslyapi@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
-            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
-            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
-    
-        </div>
-    </nav>
-    <div class="container">
-        <div class="options">
-            <button class="button" >
-                <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
-                    <div class="hehe1">
-                        <div class="group-icon">
-                            <p>Attendance</p>
-                        </div>
-                    </div>
-                </a>
-                <br>
-                <br>
-                <p></p>
-                <p></p> 
-            </button>        
-            <button class="button" >
-                <a href="{{ url_for('cgpa') }}" class="btn btn-secondary">
-                    <div class = "hehe">
-                        <div class="cgpa-container">
-                            <div class="text">GPA</div>
-                            <div class="line"></div>
-                            <div class="symbols">
-                            <span>+</span>
-                            <span>|</span>
-                            <span>-</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <br>
-                <br>
-                <p></p>
-                <p></p>             
-            </button>
-            <button class="button" >
-                <a href="{{ url_for('cgpa_calculator') }}" class="btn btn-secondary">
-                    <div class = "hehe">
-                        <div class="cgpa-container">
-                            <div class="text">CGPA</div>
-                            <div class="line"></div>
-                            <div class="symbols">
-                            <span>+</span>
-                            <span>|</span>
-                            <span>-</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <br>
-                <br>
-                <p></p>
-                <p></p>             
-            </button>
-        </div>        
+<div class="bg-orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+</div>
+
+<nav class="navbar">
+    <a href="{{ url_for('pages') }}" class="logo">Easy College</a>
+    <div class="navbar-links">
+        <a href="https://mail.google.com/mail/u/0/?view=cm&to=campuslyapi@gmail.com&su=Contact%20from%20Easy%20College" target="_blank">Contact</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
     </div>
+</nav>
 
-    <script>
-        // Define URLs for each button to match Flask routes
-        // Define URLs for each button to match Flask routes
-        // Define a mapping of box names to their corresponding URLs
-// Define a mapping of box names to their corresponding URLs
-        const boxUrlMap = {
-            "Attendance": "/attendance",
-            "CGPA": "/cgpa",
-            "Pass Marks": "/loading",
-            "PYQs": "/loading"
-        };
+<div class="container">
+    <div>
+        <div class="welcome-section">
+            
+            <br>
+            <br>
+            <br><br><br><br><br>
+        </div>
+        <div class="options">
+            <a href="{{ url_for('attendance') }}" class="option-card">
+                <div class="option-icon">📊</div>
+                <div class="option-title">Attendance</div>
+                <div class="option-description">Track your class attendance and stay on top of your academic requirements.</div>
+            </a>
+            <a href="{{ url_for('cgpa') }}" class="option-card">
+                <div class="option-icon">📈</div>
+                <div class="option-title">GPA Calculator</div>
+                <div class="option-description">Calculate your semester GPA with ease and precision.</div>
+            </a>
+            <a href="{{ url_for('cgpa_calculator') }}" class="option-card">
+                <div class="option-icon">🎯</div>
+                <div class="option-title">CGPA Calculator</div>
+                <div class="option-description">Monitor your cumulative grade point average across all semesters.</div>
+            </a>
+            <a href="{{ url_for('loading') }}" class="option-card">
+                <div class="option-icon">💬</div>
+                <div class="option-title">Feedback</div>
+                <div class="option-description">Automate the feedback form process done in our college.</div>
+            </a>
+        </div>
+    </div>
+</div>
 
-        // Initial box order with button labels
-        let boxOrder = ["Attendance", "CGPA", "Pass Marks", "PYQs"];
-
-        // Function to render boxes dynamically based on the visible order
-        function renderBoxes() {
-            const scroller = document.querySelector('.scroller');
-            scroller.innerHTML = "";
-            for (let i = 0; i < 3; i++) {
-                const boxName = boxOrder[i]; // Get the box name directly from the order
-                const box = document.createElement("a"); // Create an anchor element
-                box.classList.add("box");
-                box.href = boxUrlMap[boxName]; // Set the href based on box name from the mapping
-                box.target = "_self"; // Open link in the same tab
-
-                if (i === 1) box.classList.add("active"); // Center box
-                box.textContent = boxName; // Display button label
-                scroller.appendChild(box);
-            }
-        }
-
-        // Function to move boxes to the right
-        function moveRight() {
-            const movedBox = boxOrder.shift(); // Remove the first box
-            boxOrder.push(movedBox); // Add it to the end
-            renderBoxes();
-        }
-
-        // Function to move boxes to the left
-        function moveLeft() {
-            const movedBox = boxOrder.pop(); // Remove the last box
-            boxOrder.unshift(movedBox); // Add it to the beginning
-            renderBoxes();
-        }
-
-        // Add event listeners to the buttons
-        document.getElementById("left-btn").addEventListener("click", moveLeft);
-        document.getElementById("right-btn").addEventListener("click", moveRight);
-
-        // Initial rendering of boxes
-        renderBoxes();
-
-        let startX;
-
-    document.querySelector('.scroller').addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-    });
-
-    document.querySelector('.scroller').addEventListener('touchend', (e) => {
-        let endX = e.changedTouches[0].clientX;
-        if (startX > endX + 30) {
-            moveRight();
-        } else if (startX < endX - 30) {
-            moveLeft();
-        }
-    });
-    </script>
 </body>
 </html>

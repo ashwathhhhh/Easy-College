@@ -1,5 +1,3 @@
-<!-- login.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,36 +11,100 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-6MDXJ0EXKZ');
     </script>
 
     <meta name="description" content="Welcome to Easy College. Life made easier for PSG students." />
 
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #333333 0%, #555555 100%);
+            --secondary-gradient: linear-gradient(135deg, #444444 0%, #666666 100%);
+            --accent-gradient: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.7);
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.911);
-            background-size: cover;
-            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111111 25%, #1a1a1a 50%, #0d0d0d 75%, #151515 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+            overflow: hidden;
+            position: relative;
         }
 
-        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated background elements */
+        .bg-orbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(20px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .orb:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 70%;
+            right: -100px;
+            animation-delay: 2s;
+        }
+
+        .orb:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Navbar */
         .navbar {
-            background-color: black;
-            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -51,239 +113,373 @@
             left: 0;
             right: 0;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        .navbar h1 {
-            color: white;
-            margin: 0;
-            font-size: 20px;
+        .navbar:hover {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(25px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
         }
 
         .navbar-links {
             display: flex;
+            gap: 25px;
         }
 
         .navbar-links a {
-            color: white;
+            color: var(--text-secondary);
             text-decoration: none;
-            margin-left: 15px;
+            font-weight: 500;
             font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gradient);
+            transition: left 0.3s ease;
+            z-index: -1;
         }
 
         .navbar-links a:hover {
-            text-decoration: underline;
+            color: var(--text-primary);
+            transform: translateY(-2px);
         }
 
-        .easy {
-            font-size: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .navbar-links a:hover::before {
+            left: 0;
         }
 
+        /* Main container */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Login container */
         .login-container {
             width: 100%;
-            max-width: 500px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 420px;
+            padding: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-primary);
             text-align: center;
-            margin: 80px 20px 20px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .login-container h2 {
-            color: #fff;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--primary-gradient);
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .welcome-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 8px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .input-container {
+            position: relative;
+            overflow: hidden;
         }
 
         .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: rgba(102, 126, 234, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+
+        .input-field:focus::placeholder {
+            color: transparent;
+        }
+
+        /* Show password toggle */
+        .password-toggle {
             display: flex;
             align-items: center;
-            padding: 10px;
-            margin: 0.5rem 0;
-            border-radius: 5px;
-            background: #fff;
+            gap: 12px;
+            margin-top: 16px;
+            margin-bottom: 8px;
         }
 
-        .input-field input {
-            border: none;
-            outline: none;
-            width: 100%;
-            padding: 8px;
-        }
-
-        .login-btn {
-            padding: 12px 25px;
-            font-size: 18px;
-            color: #e1e1e1;
-            font-weight: 800;
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             cursor: pointer;
-            border: none;
-            background: none;
-            text-transform: uppercase;
             transition: all 0.3s ease;
-            margin-top: 20px;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-checkbox {
+            display: none;
+        }
+
+        .toggle-checkbox:checked + .toggle-switch {
+            background: var(--primary-gradient);
+        }
+
+        .toggle-checkbox:checked + .toggle-switch::before {
+            transform: translateX(24px);
+        }
+
+        .toggle-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Login button */
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px;
         }
 
         .login-btn:hover {
-            color: #fff;
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-        @media (max-width: 600px) {
+
+        /* Error message */
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
             .navbar {
-                padding: 10px;
-                flex-direction: row;
-                gap: 15px;
-                
+                padding: 15px 20px;
             }
 
             .navbar-links {
-                width: 58%;
-                justify-content: center;
+                gap: 15px;
+            }
+
+            .navbar-links a {
+                font-size: 13px;
+                padding: 6px 12px;
             }
 
             .login-container {
-                padding: 1.5rem;
-                margin: 100px 10px 20px 10px;
+                padding: 30px 25px;
+                margin: 20px 10px;
             }
 
-            .login-btn {
-                font-size: 16px;
-                padding: 10px 20px;
+            .welcome-text {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .orb {
+                opacity: 0.3;
             }
         }
-        /* Custom Checkbox Styles */
-        .checkbox-wrapper-46 input[type="checkbox"] {
-            display: none;
-            visibility: hidden;
-        }
 
-        .checkbox-wrapper-46 .cbx {
-            margin: auto;
-            -webkit-user-select: none;
-            user-select: none;
-            cursor: pointer;
-        }
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 12px 15px;
+            }
 
-        .checkbox-wrapper-46 .cbx span {
-            display: inline-block;
-            vertical-align: middle;
-            transform: translate3d(0, 0, 0);
-        }
+            .logo {
+                font-size: 20px;
+            }
 
-        .checkbox-wrapper-46 .cbx span:first-child {
-            position: relative;
-            width: 18px;
-            height: 18px;
-            border-radius: 3px;
-            transform: scale(1);
-            vertical-align: middle;
-            border: 1px solid #9098a9;
-            transition: all 0.2s ease;
-        }
+            .navbar-links {
+                gap: 10px;
+            }
 
-        .checkbox-wrapper-46 .cbx span:first-child svg {
-            position: absolute;
-            top: 3px;
-            left: 2px;
-            fill: none;
-            stroke: #ffffff;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 16px;
-            stroke-dashoffset: 16px;
-            transition: all 0.3s ease;
-            transition-delay: 0.1s;
-            transform: translate3d(0, 0, 0);
-        }
+            .navbar-links a {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
 
-        .checkbox-wrapper-46 .cbx span:first-child:before {
-            content: "";
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: block;
-            transform: scale(0);
-            opacity: 1;
-            border-radius: 50%;
-        }
+            .login-container {
+                padding: 25px 20px;
+                margin: 15px 5px;
+            }
 
-        .checkbox-wrapper-46 .cbx span:last-child {
-            padding-left: 8px;
-        }
-
-        .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child {
-            background: #000000;
-            border-color: #000000;
-            animation: wave-46 0.4s ease;
-        }
-
-        .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child svg {
-            stroke-dashoffset: 0;
-        }
-
-        .checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child:before {
-            transform: scale(3.5);
-            opacity: 0;
-            transition: all 0.6s ease;
-        }
-
-        @keyframes wave-46 {
-            50% {
-                transform: scale(0.9);
+            .welcome-text {
+                font-size: 24px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
     <nav class="navbar">
-        <p class="easy">Easy College</p>
+        <a href="#" class="logo">Easy College</a>
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=campuslyapi@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
             <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
     </nav>
 
-    <div class="login-container">
-        <h2>Welcome</h2>
-        <form action="#" method="POST">
-            <div class="input-field">
-                <input placeholder="Username" type="text" name="nm">
-            </div>
-         
-            <div class="input-field">
-                <input placeholder="Password" type="password" name="pw" id="password">
-            </div>
-            <div class="checkbox-wrapper-46" style="text-align: left; padding-left: 2px; padding-top: 7px;">
-                <input type="checkbox" id="show-password" class="inp-cbx" onclick="togglePassword()" />
-                <label for="show-password" class="cbx">
-                    <span>
-                        <svg viewBox="0 0 12 10" height="10px" width="12px">
-                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                        </svg>
-                    </span>
-                    <span style="color: white;">Show Password</span>
-                </label>
-            </div>
+    <div class="main-container">
+        <div class="login-container">
+            <h1 class="welcome-text">Welcome</h1>
+            <p class="subtitle">Sign in to your account</p>
             
-            <button class="login-btn">LOGIN</button>
-        </form>
-        {% if error %}
-            <p style="color: #e1e1e1; font-size: 14px; margin-top: 10px;">{{ error }}</p>
-        {% endif %}
+            <form action="{{ url_for('login') }}" method="POST" id="loginForm">
+                <div class="form-group">
+                    <div class="input-container">
+                        <input type="text" name="nm" class="input-field" placeholder="Username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-container">
+                        <input type="password" name="pw" id="password" class="input-field" placeholder="Password" required>
+                    </div>
+                    
+                    <div class="password-toggle">
+                        <input type="checkbox" id="showPassword" class="toggle-checkbox" onchange="togglePassword()">
+                        <label for="showPassword" class="toggle-switch"></label>
+                        <label for="showPassword" class="toggle-label">Show Password</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <span>Sign In</span>
+                </button>
+            </form>
+            
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+        </div>
     </div>
+
     <script>
         function togglePassword() {
-            var passwordInput = document.getElementById("password");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
+            const passwordInput = document.getElementById('password');
+            const checkbox = document.getElementById('showPassword');
+            
+            if (checkbox.checked) {
+                passwordInput.type = 'text';
             } else {
-                passwordInput.type = "password";
+                passwordInput.type = 'password';
             }
         }
     </script>
