@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <title>Easy College</title>
 
 <style>
@@ -25,6 +25,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: 'Inter', system-ui, sans-serif;
     background: linear-gradient(135deg, #0a0a0a 0%, #111111 25%, #1a1a1a 50%, #0d0d0d 75%, #151515 100%);
@@ -33,8 +34,12 @@ body {
     min-height: 100vh;
     position: relative;
     color: var(--text-primary);
-    padding-top: 80px;
+    padding-top: 70px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -45,7 +50,7 @@ body {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255,255,255,0.05);
-    padding: 20px 30px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,38 +58,51 @@ body {
     top: 0; left: 0; right: 0;
     z-index: 1000;
     transition: all 0.3s ease;
+    height: 70px;
 }
+
 .navbar:hover {
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(25px);
 }
+
 .navbar .logo {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-primary);
     text-decoration: none;
     transition: all 0.3s ease;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 .navbar .logo:hover {
     transform: scale(1.05);
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
 }
+
 .navbar-links {
     display: flex;
-    gap: 25px;
+    gap: 15px;
+    align-items: center;
 }
+
 .navbar-links a {
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
-    font-size: 14px;
-    padding: 8px 16px;
-    border-radius: 20px;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 15px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .navbar-links a::before {
     content: '';
     position: absolute;
@@ -94,125 +112,354 @@ body {
     transition: left 0.3s ease;
     z-index: -1;
 }
-.navbar-links a:hover {
-    color: var(--text-primary);
-    transform: translateY(-2px);
-}
-.navbar-links a:hover::before {
+
+.navbar-links a:hover::before,
+.navbar-links a:active::before {
     left: 0;
+}
+
+.navbar-links a:hover,
+.navbar-links a:active {
+    color: var(--text-primary);
+    transform: translateY(-1px);
 }
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
+    padding: 20px 15px;
+    min-height: calc(100vh - 70px);
 }
+
 .welcome-section {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
+
 .welcome-section h1 {
-    font-size: 3.5em;
+    font-size: 2.5em;
     background: var(--primary-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    line-height: 1.2;
 }
+
 .welcome-section p {
-    font-size: 1.3em;
+    font-size: 1.1em;
     color: var(--text-secondary);
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 500px;
     width: 100%;
 }
+
 .option-card {
     background: var(--glass-bg);
     backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 30px;
+    padding: 25px 20px;
     text-align: center;
     box-shadow: var(--shadow-primary);
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
     color: var(--text-primary);
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
+.option-card:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
 .option-card:hover {
-    transform: translateY(-8px) scale(1.03);
+    transform: translateY(-4px) scale(1.02);
     box-shadow: var(--shadow-hover);
 }
+
 .option-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
     border-radius: 50%;
     background: var(--accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2em;
-}
-.option-title {
-    font-size: 1.4em;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-.option-description {
-    font-size: 0.9em;
-    color: var(--text-secondary);
-    line-height: 1.4;
+    font-size: 1.5em;
+    flex-shrink: 0;
 }
 
-/* Background orbs */
-.bg-orbs {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 1;
-    pointer-events: none;
+.option-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.3;
 }
-.orb {
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    backdrop-filter: blur(20px);
-    animation: float 6s ease-in-out infinite;
+
+.option-description {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    text-align: center;
 }
-.orb:nth-child(1) {
-    width: 300px; height:300px;
-    top: -150px; left: -150px;
+
+
+
+/* Tablet responsive */
+@media (min-width: 768px) {
+    .navbar {
+        padding: 20px 30px;
+        height: 80px;
+    }
+    
+    .navbar .logo {
+        font-size: 24px;
+    }
+    
+    .navbar-links {
+        gap: 25px;
+    }
+    
+    .navbar-links a {
+        font-size: 14px;
+        padding: 8px 16px;
+        border-radius: 20px;
+    }
+    
+    body {
+        padding-top: 80px;
+    }
+    
+    .container {
+        padding: 40px 30px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 3em;
+    }
+    
+    .welcome-section p {
+        font-size: 1.25em;
+    }
+    
+    .options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        max-width: 800px;
+    }
+    
+    .option-card {
+        padding: 30px 25px;
+        min-height: 180px;
+    }
+    
+    .option-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8em;
+    }
+    
+    .option-title {
+        font-size: 1.3em;
+    }
+    
+    .option-description {
+        font-size: 0.9em;
+    }
 }
-.orb:nth-child(2) {
-    width: 200px; height:200px;
-    top: 70%; right: -100px;
-    animation-delay: 2s;
+
+/* Desktop responsive */
+@media (min-width: 1024px) {
+    .welcome-section h1 {
+        font-size: 3.5em;
+    }
+    
+    .welcome-section p {
+        font-size: 1.3em;
+    }
+    
+    .options {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+    }
+    
+    .option-card {
+        padding: 30px;
+        min-height: 200px;
+    }
+    
+    .option-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2em;
+    }
+    
+    .option-title {
+        font-size: 1.4em;
+    }
+    
+    .option-description {
+        font-size: 0.9em;
+    }
+    
+
 }
-.orb:nth-child(3) {
-    width: 150px; height:150px;
-    bottom: -75px; left: 30%;
-    animation-delay: 4s;
+
+/* Mobile specific optimizations */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 12px 15px;
+        height: 65px;
+    }
+    
+    .navbar .logo {
+        font-size: 18px;
+    }
+    
+    .navbar-links {
+        gap: 10px;
+    }
+    
+    .navbar-links a {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    body {
+        padding-top: 65px;
+    }
+    
+    .container {
+        padding: 15px 12px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 2.2em;
+    }
+    
+    .welcome-section p {
+        font-size: 1em;
+        margin-bottom: 25px;
+    }
+    
+    .options {
+        gap: 15px;
+        max-width: 100%;
+    }
+    
+    .option-card {
+        padding: 20px 15px;
+        min-height: 120px;
+    }
+    
+    .option-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3em;
+        margin-bottom: 12px;
+    }
+    
+    .option-title {
+        font-size: 1.1em;
+        margin-bottom: 6px;
+    }
+    
+    .option-description {
+        font-size: 0.8em;
+    }
 }
-@keyframes float {
-    0%,100% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        padding: 10px 15px;
+    }
+    
+    .welcome-section {
+        margin-bottom: 20px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    
+    .welcome-section p {
+        font-size: 0.9em;
+        margin-bottom: 20px;
+    }
+    
+    .options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .option-card {
+        padding: 15px;
+        min-height: 100px;
+    }
+    
+    .option-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+        margin-bottom: 8px;
+    }
+    
+    .option-title {
+        font-size: 1em;
+        margin-bottom: 4px;
+    }
+    
+    .option-description {
+        font-size: 0.75em;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .navbar .logo,
+    .option-title {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+
 }
 </style>
 </head>
 <body>
-
-<div class="bg-orbs">
-    <div class="orb"></div>
-    <div class="orb"></div>
-    <div class="orb"></div>
-</div>
 
 <nav class="navbar">
     <a href="{{ url_for('pages') }}" class="logo">Easy College</a>
@@ -226,10 +473,8 @@ body {
 <div class="container">
     <div>
         <div class="welcome-section">
-            
-            <br>
-            <br>
-            <br><br><br><br><br>
+            <h1>Welcome to Easy College</h1>
+            <p>Your comprehensive academic companion for tracking attendance, calculating grades, and managing college life efficiently.</p>
         </div>
         <div class="options">
             <a href="{{ url_for('attendance') }}" class="option-card">
