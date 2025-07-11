@@ -3,6 +3,7 @@ from bunkr import return_data as bunkr_return_data
 from calc import return_data as calc_return_data
 from Timetable import get_timetable
 from name import return_data as name_return_data
+from cgpa_calculator import return_data as cgpa_calculator_return_data
 import math
 
 app = Flask(__name__)
@@ -247,3 +248,59 @@ def attendance():
 def loading():
     username = session.get('username', 'User  ')
     return render_template("loading.html", username=username)
+
+@app.route('/cgpa_calculator')
+def cgpa_calculator():   
+    if not session.get('logged_in'):
+        return redirect(url_for("login"))
+    
+    username = session.get('username', 'User')
+    results = []
+    # Get credentials from session
+    credentials = session.get('credentials', {})
+    rows = cgpa_calculator_return_data(credentials.get("name"), credentials.get("password"))
+    timetable = get_timetable(credentials.get("name"), credentials.get("password"))
+
+    if rows is None:
+        print("No data to process")
+    
+    grades = {
+        'O': 10,
+        'A+': 9,
+        'A': 8,
+        'B+': 7,
+        'B': 6,
+        'C': 5,
+    }
+        
+    count = 0
+    credit_points_total = 0
+    total_credits = 0
+    for row in rows:
+        
+        count += 1
+        columns = row.find_all('td')
+        row_data = [column.get_text(strip=True) for column in columns]
+        
+        if count == 1 or count ==2 or count == len(rows)-1  or count == len(rows):
+            pass  
+        else:
+            if row_data[7] == "RA":
+                return render_template('cgpa_not_avail.html',username=username)
+
+            if int(row_data[7]) != 0 and row_data[3] != "OEL":
+                grade = row_data[6]
+                credits = int(row_data[7])
+                grade_points = grades.get(grade, 0)
+                total_credits += int(row_data[7])
+                credit_points_total += grade_points * credits
+    
+    result = {
+        'total_credits': total_credits,
+        'credit_points_total': credit_points_total,
+        'cgpa': round(credit_points_total / total_credits, 2) if total_credits > 0 else 0}
+    if cgpa:
+        return render_template('real_cgpa.html', result=result,username=username)
+    
+
+    
