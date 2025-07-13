@@ -1,181 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Easy College</title>
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
-
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
         }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: rgba(0, 0, 0, 0.911);
-            background-size: cover;
-            padding: 20px;
-        }
-
         
-        .navbar {
-            background-color: black;
-            padding: 15px 20px;
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            background: rgba(0, 0, 0, 0.911); 
+            padding: 20px; 
+        }
+        
+        .navbar { 
+            background-color: black; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            z-index: 1000; 
+        }
+        
+        .navbar h1, .easy { 
+            color: white; 
+            font-size: 20px; 
+            font-weight: bold; 
+            text-decoration: none; 
+        }
+        
+        .navbar-links { 
+            display: flex; 
+        }
+        
+        .navbar-links a { 
+            color: white; 
+            text-decoration: none; 
+            margin-left: 15px; 
+            font-size: 14px; 
+        }
+        
+        .navbar-links a:hover { 
+            text-decoration: underline; 
+        }
+        
+        .login-container { 
+            width: 100%; 
+            max-width: 800px; 
+            padding: 2rem; 
+            background: rgba(255,255,255,0.1); 
+            backdrop-filter: blur(10px); 
+            border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            text-align: center; 
+            margin: 80px 20px 20px 20px; 
+        }
+        
+        .login-container h2 { 
+            color: #fff; 
+            font-size: 1.5rem; 
+            margin-bottom: 1rem; 
+        }
+        
+        table { 
+            width: 100%; 
+            margin-top: 20px; 
+            border-collapse: collapse; 
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td { 
+            padding: 12px; 
+            text-align: center; 
+            color: white; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        
+        th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Enhanced chart container */
+        .chart-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        #sgpaChart {
+            max-width: 100%;
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Performance indicators */
+        .performance-indicators {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .navbar h1 {
-            color: white;
-            margin: 0;
-            font-size: 20px;
+        .indicator {
+            text-align: center;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            min-width: 120px;
         }
 
-        .navbar-links {
-            display: flex;
+        .indicator.improvement {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.4);
         }
 
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
+        .indicator.decline {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .indicator.stable {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .indicator h4 {
             font-size: 14px;
+            margin-bottom: 5px;
+            opacity: 0.8;
         }
 
-        .navbar-links a:hover {
-            text-decoration: underline;
-        }
-
-        .easy {
-            font-size: 20px;
-            color: white;
-            text-decoration: none;
+        .indicator span {
+            font-size: 18px;
             font-weight: bold;
         }
-
-        .login-container {
-            width: 100%;
-            max-width: 500px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            margin: 80px 20px 20px 20px;
-        }
-
-        .login-container h2 {
-            color: #fff;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-field {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin: 0.5rem 0;
-            border-radius: 5px;
-            background: #fff;
-        }
-
-        .input-field input {
-            border: none;
-            outline: none;
-            width: 100%;
-            padding: 8px;
-        }
-
-        .login-btn {
-            padding: 12px 25px;
-            font-size: 18px;
-            color: #e1e1e1;
-            font-weight: 800;
-            cursor: pointer;
-            border: none;
-            background: none;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-
-        .login-btn:hover {
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
+        
         footer { 
-            text-align: center;
-            padding: 10px 20px;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: transparent;
-            font-size: 14px;
-            flex-shrink: 0;
-            position: relative;
-            bottom: 0;
-            width: 100%;
+            text-align: center; 
+            padding: 10px 20px; 
+            color: white; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 14px; 
+            width: 100%; 
         }
-
-        footer p {
-            margin: 5px 0;
-            padding: 0;
-        } 
-        footer .development-text {
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    footer .developer a {
-        color: pink;
-        text-decoration: none;
-    }
-
-    footer .developer a:hover {
-        text-decoration: underline;
-    }
-        .easy {
-        font-size: 24px;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    @media (max-width: 600px) {
-            .navbar {
-                padding: 10px;
-                flex-direction: row;
-                gap: 15px;
-                
+        
+        footer .development-text { 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+        
+        footer .developer a { 
+            color: pink; 
+            text-decoration: none; 
+        }
+        
+        footer .developer a:hover { 
+            text-decoration: underline; 
+        }
+        
+        @media (max-width: 600px) {
+            .navbar { 
+                padding: 10px; 
+                flex-direction: row; 
+                gap: 15px; 
             }
-
-            .navbar-links {
-                width: 58%;
-                justify-content: center;
+            
+            .navbar-links { 
+                width: 58%; 
+                justify-content: center; 
             }
-
-            .login-container {
-                padding: 1.5rem;
-                margin: 100px 10px 20px 10px;
+            
+            .login-container { 
+                padding: 1.5rem; 
+                margin: 100px 10px 20px 10px; 
             }
-
-            .login-btn {
-                font-size: 16px;
-                padding: 10px 20px;
+            
+            .chart-container {
+                margin-top: 20px;
+                padding: 15px;
+            }
+            
+            #sgpaChart {
+                height: 300px;
+            }
+            
+            .performance-indicators {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .indicator {
+                width: 100%;
+                max-width: 200px;
             }
         }
     </style>
@@ -191,9 +238,222 @@
     </nav>
 
     <div class="login-container">
-        <h2>Total Credits: {{result['total_credits']}}</h2>
-        <h2>Total Credit Points: {{result['credit_points_total']}}</h2>
-        <h2>CGPA: {{result['cgpa']}}</h2>
+        <h2>Total Credits: {{ result['total_credits'] }}</h2>
+        <h2>Total Credit Points: {{ result['credit_points_total'] }}</h2>
+        <h2>Overall CGPA: {{ result['cgpa'] }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Semester</th>
+                    <th>SGPA</th>
+                    <th>CGPA (up to this sem)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sem in semwise_data %}
+                <tr>
+                    <td>{{ sem.sem }}</td>
+                    <td>{{ sem.sgpa }}</td>
+                    <td>{{ sem.cgpa }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="chart-container">
+            <canvas id="sgpaChart"></canvas>
+        </div>
+
+        <div class="performance-indicators">
+            <div class="indicator improvement">
+                <h4>Best SGPA</h4>
+                <span>{{ semwise_data | map(attribute='sgpa') | max }}</span>
+            </div>
+            <div class="indicator decline">
+                <h4>Lowest SGPA</h4>
+                <span>{{ semwise_data | map(attribute='sgpa') | min }}</span>
+            </div>
+            <div class="indicator stable">
+                <h4>Average SGPA</h4>
+                <span>{{ "%.2f" | format((semwise_data | map(attribute='sgpa') | sum) / (semwise_data | length)) }}</span>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const ctx = document.getElementById('sgpaChart').getContext('2d');
+        const sgpaChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ semwise_data | map(attribute='sem') | list | tojson }},
+                datasets: [
+                    {
+                        label: 'SGPA',
+                        data: {{ semwise_data | map(attribute='sgpa') | list | tojson }},
+                        fill: false,
+                        borderColor: '#ff69b4',
+                        backgroundColor: '#ff69b4',
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 10,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ff69b4',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: '#ff1493',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 3
+                    },
+                    {
+                        label: 'CGPA',
+                        data: {{ semwise_data | map(attribute='cgpa') | list | tojson }},
+                        fill: false,
+                        borderColor: '#00bfff',
+                        backgroundColor: '#00bfff',
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 10,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#00bfff',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: '#0080ff',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Academic Performance Trends',
+                        color: '#fff',
+                        font: {
+                            size: 18,
+                            weight: 'bold'
+                        },
+                        padding: 20
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                size: 14
+                            },
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        displayColors: true,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                return 'Semester ' + tooltipItems[0].label;
+                            },
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y.toFixed(2);
+                            },
+                            afterBody: function(tooltipItems) {
+                                const sgpa = tooltipItems.find(item => item.dataset.label === 'SGPA');
+                                const cgpa = tooltipItems.find(item => item.dataset.label === 'CGPA');
+                                
+                                if (sgpa && cgpa) {
+                                    const diff = (sgpa.parsed.y - cgpa.parsed.y).toFixed(2);
+                                    return ['', `Difference: ${diff > 0 ? '+' : ''}${diff}`];
+                                }
+                                return [];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Semester',
+                            color: '#fff',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 12
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255,255,255,0.1)',
+                            borderColor: 'rgba(255,255,255,0.3)'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Grade Points',
+                            color: '#fff',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        beginAtZero: false,
+                        min: function(context) {
+                            const allData = context.chart.data.datasets.flatMap(dataset => dataset.data);
+                            const minValue = Math.min(...allData);
+                            return Math.max(0, minValue - 0.5);
+                        },
+                        max: function(context) {
+                            const allData = context.chart.data.datasets.flatMap(dataset => dataset.data);
+                            const maxValue = Math.max(...allData);
+                            return Math.min(10, maxValue + 0.5);
+                        },
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 12
+                            },
+                            stepSize: 0.5,
+                            callback: function(value) {
+                                return value.toFixed(1);
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255,255,255,0.1)',
+                            borderColor: 'rgba(255,255,255,0.3)'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
+                hover: {
+                    animationDuration: 300
+                }
+            }
+        });
+    </script>
 </body>
 </html>

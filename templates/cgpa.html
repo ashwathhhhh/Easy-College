@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy College</title>
+    <title>Easy College - GPA Calculator</title>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6MDXJ0EXKZ"></script>
@@ -18,178 +18,454 @@
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #333333 0%, #555555 100%);
+            --secondary-gradient: linear-gradient(135deg, #444444 0%, #666666 100%);
+            --accent-gradient: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+            --success-gradient: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            --info-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-accent: #60A5FA;
+            --text-success: #22c55e;
+            --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.7);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
-            
             padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111111 25%, #1a1a1a 50%, #0d0d0d 75%, #151515 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.911);
-            background-size: cover;
-            padding: 20px;
+            color: var(--text-primary);
+            padding-top: 80px;
+            position: relative;
         }
 
-        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background orbs */
+        .bg-orbs {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            backdrop-filter: blur(20px);
+            animation: float 6s ease-in-out infinite;
+        }
+        .orb:nth-child(1) {
+            width: 300px; height:300px;
+            top: -150px; left: -150px;
+        }
+        .orb:nth-child(2) {
+            width: 200px; height:200px;
+            top: 70%; right: -100px;
+            animation-delay: 2s;
+        }
+        .orb:nth-child(3) {
+            width: 150px; height:150px;
+            bottom: -75px; left: 30%;
+            animation-delay: 4s;
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
         .navbar {
-            background-color: black;
-            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        .navbar h1 {
-            color: white;
-            margin: 0;
-            font-size: 20px;
+        .navbar:hover {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(25px);
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
         }
 
         .navbar-links {
             display: flex;
+            gap: 25px;
         }
 
         .navbar-links a {
-            color: white;
+            color: var(--text-secondary);
             text-decoration: none;
-            margin-left: 15px;
+            font-weight: 500;
             font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar-links a::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--accent-gradient);
+            transition: left 0.3s ease;
+            z-index: -1;
         }
 
         .navbar-links a:hover {
-            text-decoration: underline;
+            color: var(--text-primary);
+            transform: translateY(-2px);
         }
 
-        .easy {
-            font-size: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .navbar-links a:hover::before {
+            left: 0;
         }
 
-        .cgpa-container {
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gpa-container {
             width: 100%;
-            max-width: 800px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 1000px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gpa-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--info-gradient);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .page-header {
             text-align: center;
-            margin: 80px 20px 20px 20px;
+            margin-bottom: 30px;
         }
 
-        .cgpa-container h2 {
-            color: #fff;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+        .page-header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
-        .cgpa-table {
+        .page-header p {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .summary-label {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-accent);
+        }
+
+        .gpa-value {
+            color: var(--text-success);
+            font-size: 2.2em;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        .gpa-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            color: #fff;
+            margin: 0;
         }
 
-        .cgpa-table th, .cgpa-table td {
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .gpa-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .cgpa-table th {
-            background-color: rgba(255, 255, 255, 0.1);
+        .gpa-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            transition: all 0.3s ease;
         }
 
-        #cgpa-result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
+        .gpa-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        @media (max-width: 600px) {
-    .navbar {
-        padding: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+        .gpa-table tr:hover td {
+            color: var(--text-primary);
+        }
 
-    .navbar-links {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+        .semester-badge {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: var(--text-primary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
 
-    .cgpa-container {
-        padding: 1rem;
-        margin: 5px 5px 5px 5px;
-    }
+        .grade-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-align: center;
+            min-width: 35px;
+        }
 
-    .cgpa-table th, .cgpa-table td {
-        font-size: 11px;
-        padding: 1px;
-    }
+        .grade-A, .grade-A+ {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
 
-    h2 {
-        font-size: 1.2rem;
-    }
+        .grade-B, .grade-B+ {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
 
-    #cgpa-result {
-        font-size: 14px;
-    }
-}
+        .grade-C, .grade-C+ {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .grade-D, .grade-F {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .credits-badge {
+            background: rgba(96, 165, 250, 0.2);
+            color: var(--text-accent);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .navbar-links {
+                gap: 15px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .gpa-container {
+                padding: 25px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 2em;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .gpa-table {
+                font-size: 0.85em;
+            }
+
+            .gpa-table th,
+            .gpa-table td {
+                padding: 8px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-container {
+                padding: 15px;
+            }
+
+            .gpa-table th,
+            .gpa-table td {
+                padding: 6px 4px;
+                font-size: 0.8em;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
     <nav class="navbar">
-        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <a href="{{ url_for('pages') }}" class="logo">Easy College</a>
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=campuslyapi@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
-            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
-            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
-    </nav>  
+    </nav>
 
-    <div class="cgpa-container">
-        <h2>GPA Calculator</h2>
-        <table class="cgpa-table">
-            <thead>
-                <tr>
-                    <th>Semester</th>
-                    <th>Course Code</th>
-                    <th>Course Name</th>
-                    <th>Credits</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for course in table %}
-                <tr>
-                    
-                    <td>{{ course.sem }}</td>
-                    <td>{{ course.course }}</td>
-                    <td>{{ course.title }}</td>
-                    <td>{{ course.credits }}</td>
-                    <td>{{ course.grade }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div id="cgpa-result">
-            <p style="  font-size: 12px; margin-bottom: 20px; margin-top: 20px ;">Total Credits: {{ total_credits }}</p>
-            
-            <p style="font-family:Verdana, Geneva, Tahoma, sans-serif ; color: aqua;">~GPA: {{ gpa}}</p>
+    <div class="container">
+        <div class="gpa-container">
+            <div class="page-header">
+                <h1> GPA Calculator</h1>
+                <p>Track your academic performance across all courses</p>
+            </div>
+
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-label">Total Credits</div>
+                    <div class="summary-value">{{ total_credits }}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Current GPA</div>
+                    <div class="summary-value gpa-value">{{ gpa }}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Courses</div>
+                    <div class="summary-value">{{ table|length }}</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="gpa-table">
+                    <thead>
+                        <tr>
+                            <th>Semester</th>
+                            <th>Course Code</th>
+                            <th>Course Name</th>
+                            <th>Credits</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for course in table %}
+                        <tr>
+                            <td>
+                                <span class="semester-badge">{{ course.sem }}</span>
+                            </td>
+                            <td>{{ course.course }}</td>
+                            <td>{{ course.title }}</td>
+                            <td>
+                                <span class="credits-badge">{{ course.credits }}</span>
+                            </td>
+                            <td>
+                                <span class="grade-badge grade-{{ course.grade }}">{{ course.grade }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

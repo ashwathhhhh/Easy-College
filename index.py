@@ -265,52 +265,62 @@ def cgpa_calculator():
         return redirect(url_for("login"))
     
     username = session.get('username', 'User')
-    results = []
-    # Get credentials from session
     credentials = session.get('credentials', {})
     rows = cgpa_calculator_return_data(credentials.get("name"), credentials.get("password"))
-    timetable = get_timetable(credentials.get("name"), credentials.get("password"))
 
-    if rows is None:
-        print("No data to process")
+    grades = {'O': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5}
     
-    grades = {
-        'O': 10,
-        'A+': 9,
-        'A': 8,
-        'B+': 7,
-        'B': 6,
-        'C': 5,
-    }
-        
-    count = 0
-    credit_points_total = 0
+    total_credit_points = 0
     total_credits = 0
+    sem_data = {}  # { sem: [ (grade_points, credits), ...] }
+
+    count = 0
     for row in rows:
-        
         count += 1
         columns = row.find_all('td')
         row_data = [column.get_text(strip=True) for column in columns]
         
-        if count == 1 or count ==2 or count == len(rows)-1  or count == len(rows):
-            pass  
-        else:
-            if row_data[7] == "RA":
-                return render_template('cgpa_not_avail.html',username=username)
+        if count in (1,2,len(rows)-1,len(rows)):
+            continue
+        
+        if row_data[7] == "RA":
+            return render_template('cgpa_not_avail.html', username=username)
 
-            if int(row_data[7]) != 0 and row_data[3] != "OEL":
-                grade = row_data[6]
-                credits = int(row_data[7])
-                grade_points = grades.get(grade, 0)
-                total_credits += int(row_data[7])
-                credit_points_total += grade_points * credits
-    
+        if int(row_data[7]) != 0 and row_data[3] != "OEL":
+            grade = row_data[6]
+            credits = int(row_data[7])
+            grade_points = grades.get(grade, 0)
+            sem = int(row_data[4])
+
+            total_credits += credits
+            total_credit_points += grade_points * credits
+
+            sem_data.setdefault(sem, []).append((grade_points, credits))
+
+    # compute sem wise sgpa + cumulative cgpa
+    sgpa_cgpa_semwise = []
+    cumulative_credits = 0
+    cumulative_cp = 0
+    for sem in sorted(sem_data.keys()):
+        sem_grades = sem_data[sem]
+        sem_cp_total = sum(gp * cr for gp, cr in sem_grades)
+        sem_credits = sum(cr for _, cr in sem_grades)
+        sgpa = round(sem_cp_total / sem_credits, 2) if sem_credits else 0
+
+        cumulative_cp += sem_cp_total
+        cumulative_credits += sem_credits
+        cgpa_till_now = round(cumulative_cp / cumulative_credits, 2) if cumulative_credits else 0
+
+        sgpa_cgpa_semwise.append({
+            'sem': sem,
+            'sgpa': sgpa,
+            'cgpa': cgpa_till_now
+        })
+
     result = {
         'total_credits': total_credits,
-        'credit_points_total': credit_points_total,
-        'cgpa': round(credit_points_total / total_credits, 2) if total_credits > 0 else 0}
-    if cgpa:
-        return render_template('real_cgpa.html', result=result,username=username)
-    
+        'credit_points_total': total_credit_points,
+        'cgpa': round(total_credit_points / total_credits, 2) if total_credits > 0 else 0
+    }
 
-    
+    return render_template('real_cgpa.html', result=result, semwise_data=sgpa_cgpa_semwise, username=username)

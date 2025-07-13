@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy College</title>
+    <title>Easy College - Attendance</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6MDXJ0EXKZ"></script>
     <script>
@@ -16,23 +16,150 @@
 
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
 
-    <style> 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #333333 0%, #555555 100%);
+            --secondary-gradient: linear-gradient(135deg, #444444 0%, #666666 100%);
+            --accent-gradient: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+            --success-gradient: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-accent: #93E9BE;
+            --text-info: #60A5FA;
+            --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.7);
+        }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111111 25%, #1a1a1a 50%, #0d0d0d 75%, #151515 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.911);
-            background-size: cover;
+            color: var(--text-primary);
             padding-top: 80px;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background orbs */
+        .bg-orbs {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            backdrop-filter: blur(20px);
+            animation: float 6s ease-in-out infinite;
+        }
+        .orb:nth-child(1) {
+            width: 300px; height:300px;
+            top: -150px; left: -150px;
+        }
+        .orb:nth-child(2) {
+            width: 200px; height:200px;
+            top: 70%; right: -100px;
+            animation-delay: 2s;
+        }
+        .orb:nth-child(3) {
+            width: 150px; height:150px;
+            bottom: -75px; left: 30%;
+            animation-delay: 4s;
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(25px);
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar-links a::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--accent-gradient);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .navbar-links a:hover::before {
+            left: 0;
         }
 
         .content {
@@ -40,218 +167,358 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding: 20px;
-            gap: 20px;
+            padding: 40px 20px;
+            gap: 25px;
+            position: relative;
+            z-index: 2;
         }
 
-        .login-container {
-            width: 90%;
-            max-width: 500px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        .page-header {
             text-align: center;
             margin-bottom: 20px;
-            transition: transform 0.2s ease-in-out;
         }
 
-        .attendance {
-            color: #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .page-header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
 
-        .attendance div {
+        .page-header p {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+        }
+
+        .attendance-card {
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-primary);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .attendance-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--success-gradient);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .attendance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .course-header {
             text-align: center;
-            font-size: 18px;
-            margin-top: 0px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            letter-spacing: 0.5px;
-            color: white;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
         }
 
-        .attendance div:nth-child(1) {
+        .course-name {
+            font-size: 1.8em;
             font-weight: 600;
-            font-size: 28px;
-            color: #93E9BE;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 8px;
+            color: var(--text-accent);
             margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .attendance div:last-child {
-            font-size: 18px;
-            font-weight: 600;
-            color: #ADD8E6;
+        .course-code {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .attendance-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-            margin-top: 5px;
-            border-radius: 6px;
         }
 
-        .login-container:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--text-info);
         }
 
-        
-        
-        .navbar {
-            background-color: black;
-            padding: 15px 20px;
+        .status-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .status-label {
+            font-size: 1em;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .status-value {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-info);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .exemption-info {
+            background: rgba(147, 233, 190, 0.1);
+            border: 1px solid rgba(147, 233, 190, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .exemption-label {
+            font-size: 0.9em;
+            color: var(--text-accent);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .exemption-value {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-accent);
+        }
+
+        .popup {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+            bottom: 30px;
+            right: 30px;
+            max-width: 350px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow-primary);
+            z-index: 1001;
+            animation: slideIn 0.5s ease-out;
         }
 
-        .navbar h1 {
-            color: white;
-            margin: 0;
-            font-size: 20px;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        .navbar-links {
+        .popup::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--danger-gradient);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .popup-content {
             display: flex;
+            align-items: flex-start;
+            gap: 15px;
         }
 
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
-            font-size: 14px;
+        .popup-icon {
+            font-size: 1.5em;
+            color: #ef4444;
+            margin-top: 2px;
         }
 
-        .navbar-links a:hover {
-            text-decoration: underline;
+        .popup-text {
+            flex: 1;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
-        .easy {
-            font-size: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin-left: 10px;
         }
 
-        @media (max-width: 600px) {
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
             .navbar {
-                padding: 10px;
-                flex-direction: row;
-                gap: 15px;
-                
+                padding: 15px 20px;
             }
 
             .navbar-links {
-                width: 58%;
-                justify-content: center;
+                gap: 15px;
             }
 
-            .login-container {
-                padding: 1.5rem;
-                margin: 100px 10px 20px 10px;
+            .content {
+                padding: 20px 15px;
             }
 
-            .login-btn {
-                font-size: 16px;
-                padding: 10px 20px;
+            .attendance-card {
+                padding: 25px 20px;
+            }
+
+            .attendance-stats {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .page-header h1 {
+                font-size: 2em;
+            }
+
+            .popup {
+                bottom: 20px;
+                right: 20px;
+                max-width: 280px;
             }
         }
-        .popup {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 300px;
-        max-width: 90%;
-        z-index: 1000;
-    }
-
-.popup p {
-  margin: 0;
-  font-size: 18px;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.close-btn:hover {
-  color: #bbb;
-}
-
     </style>
 </head>
 <body>
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
     <nav class="navbar">
-        <a href="{{ url_for('pages') }}" class="easy">Easy College</a>
+        <a href="{{ url_for('pages') }}" class="logo">Easy College</a>
         <div class="navbar-links">
             <a href="https://mail.google.com/mail/u/0/?view=cm&to=campuslyapi@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]" target="_blank">Contact</a>
-            <a href="{{ url_for('about') }}" class="btn btn-secondary">About</a>
-            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
     </nav>
+
     <div class="content">
+        <div class="page-header">
+            <h1>Attendance Tracker</h1>
+            <p>Monitor your class attendance and academic progress</p>
+        </div>
+
         {% for result in results %} 
-        <div class="login-container">
-            <div class="attendance">
-                <div>{{result.course_name}}</div>
-                <div>Course Code: {{ result.course_code }}</div>
-                <div>Physical Attendance: {{result.Physical_Attendance}}</div>
-                <div> Attendance With Exemption: {{result.Attendance_Exemption}}</div>
+        <div class="attendance-card">
+            <div class="course-header">
+                <div class="course-name">{{ result.course_name }}</div>
+                <div class="course-code">{{ result.course_code }}</div>
+            </div>
+
+            <div class="attendance-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Physical Attendance</div>
+                    <div class="stat-value">{{ result.Physical_Attendance }}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">With Exemption</div>
+                    <div class="stat-value">{{ result.Attendance_Exemption }}</div>
+                </div>
+            </div>
+
+            <div class="status-section">
+                
+                    <div class="status-label">{{ result.status }}</div>
+                    <div class="status-value">{{ result.bunk }}</div>
+                
+                
                 {% if 'exemption_hours' in result and result.exemption_bunk != 5000 %}
-                    <div style="font-size: 18px;
-                    font-weight: 600;
-                    color: #ADD8E6;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-                    margin-top: 5px;
-                    border-radius: 6px;">{{ result.status }} : {{ result.bunk }}</div>
-                    <div>EXEMPTION BUNKS: {{ result.bunking }}</div>
-                {% elif 'result.bunk_or_attend' in result %}
-                <div style="font-size: 18px;
-                font-weight: 600;
-                color: #ADD8E6;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-                margin-top: 5px;
-                border-radius: 6px;">{{ result.status }} : {{ result.bunk }}</div>
-                {% else %}
-                    <div>{{ result.status }} : {{ result.bunk }}</div>
+                    <div class="exemption-info">
+                        <div class="exemption-label">Exemption Bunks Available</div>
+                        <div class="exemption-value">{{ result.bunking }}</div>
+                    </div>
                 {% endif %}
             </div>
         </div>     
         {% endfor %}    
     </div>
-    <div class="popup" id="popup" style="background-color: rgb(212, 9, 9); color: rgb(255, 255, 255);">
-        <p>Normal bunks ensures that your physical attendance stays above 75% while exemption bunks ensures that exemption attendance stays above 75% and physical above 65%</p>
-        <button class="close-btn" onclick="closePopup()">×</button>
-    </div>
-<script>
-    function closePopup() {
-    const popup = document.getElementById("popup");
-    popup.style.display = "none"; // Hide the popup
-}
-    setTimeout(closePopup, 10000);
 
-</script>
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <div class="popup-icon">ℹ️</div>
+            <div class="popup-text">
+                Normal bunks ensure your physical attendance stays above 75%, while exemption bunks ensure exemption attendance stays above 75% and physical above 65%.
+            </div>
+            <button class="close-btn" onclick="closePopup()">×</button>
+        </div>
+    </div>
+
+    <script>
+        function closePopup() {
+            const popup = document.getElementById("popup");
+            popup.style.display = "none";
+        }
+        
+        setTimeout(closePopup, 12000);
+    </script>
 </body>
 </html>
