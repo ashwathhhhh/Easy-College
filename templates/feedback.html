@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy College - Feedback Automation</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3a3a3a 0%, #5a5a5a 100%);
+            --accent-gradient: linear-gradient(135deg, #4f4f4f 0%, #6f6f6f 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-accent: #60a5fa;
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111111 25%, #1a1a1a 50%, #0d0d0d 75%, #151515 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            padding-top: 90px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 24px; font-weight: 700; color: var(--text-primary); text-decoration: none; }
+        .navbar-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 14px; padding: 8px 16px; border-radius: 20px; transition: all 0.3s ease; }
+        .navbar-links a:hover { color: var(--text-primary); }
+
+        .feedback-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-primary);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h1 { font-size: 2em; color: var(--text-accent); margin-bottom: 15px; }
+        .feedback-container p { color: var(--text-secondary); margin-bottom: 30px; }
+        .feedback-options { margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; }
+        .feedback-options label { display: block; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.3s ease; color: var(--text-secondary); }
+        .feedback-options input[type="radio"] { display: none; }
+        .feedback-options input[type="radio"]:checked + label { background: var(--accent-gradient); color: var(--text-primary); border-color: var(--text-accent); transform: translateY(-2px); }
+
+        .start-btn { width: 100%; padding: 16px; background: var(--primary-gradient); border: none; border-radius: 12px; color: var(--text-primary); font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
+        .start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(96, 165, 250, 0.3); }
+        .start-btn:disabled { background: #444; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .status-container { margin-top: 30px; text-align: left; display: none; }
+        .progress-bar-container { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+        .progress-bar { width: 0%; height: 100%; background: var(--text-accent); border-radius: 4px; transition: width 0.5s ease; }
+        #status-message { color: var(--text-secondary); font-size: 14px; min-height: 20px; }
+        
+        .result-message { padding: 15px; border-radius: 12px; margin-top: 20px; font-weight: 500; }
+        .result-message.success { background-color: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: var(--success-color); }
+        .result-message.error { background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--error-color); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('pages') }}" class="logo">Easy College</a>
+        <div class="navbar-links">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+    <div class="feedback-container">
+        <h1>Feedback Automation</h1>
+        <p>Select the type of feedback you want to automate.</p>
+        
+        <form id="feedbackForm">
+            <div class="feedback-options">
+                <div>
+                    <input type="radio" id="endsem" name="feedback_type" value="0" checked>
+                    <label for="endsem">End-Sem</label>
+                </div>
+                <div>
+                    <input type="radio" id="intermediate" name="feedback_type" value="1">
+                    <label for="intermediate">Intermediate</label>
+                </div>
+            </div>
+            <button type="submit" class="start-btn" id="startButton">Start Automation</button>
+        </form>
+
+        <div class="status-container" id="statusContainer">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p id="status-message">Initializing...</p>
+        </div>
+        <div id="resultContainer"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "https://feedback-auto-pgtg.onrender.com"; 
+
+        const form = document.getElementById('feedbackForm');
+        const startButton = document.getElementById('startButton');
+        const statusContainer = document.getElementById('statusContainer');
+        const progressBar = document.getElementById('progressBar');
+        const statusMessage = document.getElementById('status-message');
+        const resultContainer = document.getElementById('resultContainer');
+        let statusInterval;
+
+        const rollno = "{{ credentials.name }}";
+        const password = "{{ credentials.password }}";
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            startButton.disabled = true;
+            startButton.textContent = 'Processing...';
+            statusContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            statusMessage.textContent = 'Starting automation...';
+            resultContainer.innerHTML = '';
+
+            const formData = new FormData(form);
+            const feedbackType = formData.get('feedback_type');
+
+            try {
+                const startResponse = await fetch(`${API_BASE_URL}/api/run-feedback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        rollno: rollno,
+                        password: password,
+                        feedback_type: feedbackType 
+                    })
+                });
+
+                if (!startResponse.ok) {
+                    const errorData = await startResponse.json();
+                    throw new Error(errorData.error || 'Failed to start the feedback process.');
+                }
+                
+                const startData = await startResponse.json();
+                const taskId = startData.task_id;
+
+                statusInterval = setInterval(() => checkStatus(taskId), 2000);
+
+            } catch (error) {
+                displayResult(error.message, 'error');
+                resetUI();
+            }
+        });
+
+        async function checkStatus(taskId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/status/${taskId}`);
+                if (!response.ok) {
+                     throw new Error('Could not get status.');
+                }
+                const data = await response.json();
+
+                if (data.status === 'running' || data.status === 'starting') {
+                    progressBar.style.width = `${data.progress}%`;
+                    statusMessage.textContent = data.message;
+                } else if (data.status === 'done') {
+                    progressBar.style.width = '100%';
+                    statusMessage.textContent = 'Completed!';
+                    displayResult(data.message, 'success');
+                    clearInterval(statusInterval);
+                    resetUI();
+                } else if (data.status === 'error') {
+                    displayResult(data.message, 'error');
+                    clearInterval(statusInterval);
+                    resetUI();
+                }
+
+            } catch (error) {
+                displayResult('Lost connection to the backend server.', 'error');
+                clearInterval(statusInterval);
+                resetUI();
+            }
+        }
+
+        function displayResult(message, type) {
+            resultContainer.innerHTML = `<div class="result-message ${type}">${message}</div>`;
+        }
+
+        function resetUI() {
+            startButton.disabled = false;
+            startButton.textContent = 'Start Automation';
+        }
+    </script>
+</body>
+</html>

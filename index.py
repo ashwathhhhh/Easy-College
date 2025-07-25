@@ -61,6 +61,15 @@ def pages():
     name = name_return_data(session.get('credentials', {}).get("name"), session.get('credentials', {}).get("password"))
     return render_template("pages.html", name=name, username=username)
 
+@app.route("/feedback")
+def feedback():
+    if not session.get('logged_in'):
+        return redirect(url_for("login"))
+    
+    # Pass the credentials to the template
+    credentials = session.get('credentials', {})
+    return render_template("feedback.html", credentials=credentials)
+
 @app.route('/cgpa')
 def cgpa():
     if not session.get('logged_in'):
