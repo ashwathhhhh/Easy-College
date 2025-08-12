@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session, send_from_directory
+from flask import Flask, redirect, url_for, render_template, request, session, send_from_directory, jsonify
 from bunkr import return_data as bunkr_return_data
 from calc import return_data as calc_return_data
 from Timetable import get_timetable
@@ -12,23 +12,32 @@ app.secret_key = "sh_ashwath_secret_key"  # Replace with a secure secret key
 @app.route("/", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
-        name = request.form["nm"]
-        password = request.form["pw"]
-        # Store user info in session
+        if request.is_json:
+            data = request.get_json()
+            name = data.get("nm")
+            password = data.get("pw")
+        else:
+            name = request.form["nm"]
+            password = request.form["pw"]
+
         session['username'] = name
-        # Store credentials in session
         session['credentials'] = {"name": name, "password": password}
         
-        # Check if user is authenticated
         authenticated = name_return_data(session.get('credentials', {}).get("name"), session.get('credentials', {}).get("password"))
+        
         if authenticated is None:
             session['logged_in'] = False
-            return render_template("login.html", error="Incorrect Password")
+            if request.is_json:
+                return jsonify({"success": False, "error": "Incorrect Password or Username"})
+            else:
+                return render_template("login.html", error="Incorrect Password")
         else:
             session['logged_in'] = True
-            return redirect(url_for("pages"))
-    else:
-        # Check if user is already logged in
+            if request.is_json:
+                return jsonify({"success": True, "redirect_url": url_for("pages")})
+            else:
+                return redirect(url_for("pages"))
+    else: # GET
         if session.get('logged_in'):
             return redirect(url_for("pages"))
         return render_template("login.html")

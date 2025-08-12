@@ -477,22 +477,22 @@ body {
             
         </div>
         <div class="options">
-            <a href="{{ url_for('attendance') }}" class="option-card">
+            <a href="{{ url_for('loading') }}?next={{ url_for('attendance') }}" class="option-card">
                 <div class="option-icon">📊</div>
                 <div class="option-title">Attendance</div>
                 <div class="option-description">Track your class attendance and stay on top of your academic requirements.</div>
             </a>
-            <a href="{{ url_for('cgpa') }}" class="option-card">
+            <a href="{{ url_for('loading') }}?next={{ url_for('cgpa') }}" class="option-card">
                 <div class="option-icon">📈</div>
                 <div class="option-title">GPA Calculator</div>
                 <div class="option-description">Calculate your semester GPA with ease and precision.</div>
             </a>
-            <a href="{{ url_for('cgpa_calculator') }}" class="option-card">
+            <a href="{{ url_for('loading') }}?next={{ url_for('cgpa_calculator') }}" class="option-card">
                 <div class="option-icon">🎯</div>
                 <div class="option-title">CGPA Calculator</div>
                 <div class="option-description">Monitor your cumulative grade point average across all semesters.</div>
             </a>
-            <a href="{{ url_for('feedback') }}" class="option-card">
+            <a href="{{ url_for('loading') }}?next={{ url_for('feedback') }}" class="option-card">
                 <div class="option-icon">💬</div>
                 <div class="option-title">Feedback</div>
                 <div class="option-description">Automate the feedback form process done in our college.</div>
