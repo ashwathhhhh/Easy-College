@@ -177,8 +177,8 @@ def attendance():
         else:
             exemption_bunk = 0
             total_present = 0
-            threshold = 0.75
-            exemption_threshold = 0.65
+            threshold = 0.85
+            exemption_threshold = 0.75
             
             course_code = row_data[0]
             total_hours = int(row_data[1])
@@ -190,13 +190,13 @@ def attendance():
             percentage_with_med_exemption = int(row_data[7])
 
             total_can_bunk = int(0.25 * float(total_hours))
-            total_need_to_attend = int(0.75 * float(total_hours))
-            total_need_to_attend_exemp = int(0.65 * total_hours)
+            total_need_to_attend = int(0.85 * float(total_hours))
+            total_need_to_attend_exemp = int(0.75 * total_hours)
             total_can_bunk_exemp = int(0.35 * total_hours)
             course_name = timetable[course_code]
             
             if percentage == percentage_with_med_exemption:
-                if percentage >= 75:
+                if percentage >= 85:
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
                     
                     results.append({
@@ -220,7 +220,7 @@ def attendance():
                         "exemption_bunks": exemption_bunk
                     })
             else:
-                if percentage_with_med_exemption >= 75 and percentage >= 65:
+                if percentage_with_med_exemption >= 85 and percentage >= 75:
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
                     exemption_bunk = 0
                     medical_exemptions = math.floor((percentage_with_med_exemption*total_hours)/100 - exemption_hours)
@@ -229,11 +229,11 @@ def attendance():
                     percentage1 = percentage
                     percentage2 = percentage_with_med_exemption
                     dexemption_bunk = exemption_bunk
-                    while percentage1 > 65 and percentage2 > 75:
+                    while percentage1 > 75 and percentage2 > 85:
                         dexemption_bunk+=1
                         percentage1 = math.ceil(present_hours/(total_hours + dexemption_bunk)*100)
                         percentage2 = math.ceil((present_hours + exemption_hours)/(total_hours + dexemption_bunk)*100)
-                        if percentage1 > 65 and percentage2 > 75:
+                        if percentage1 > 75 and percentage2 > 85:
                             exemption_bunk += 1
                             
                     results.append({
