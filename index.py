@@ -230,7 +230,7 @@ def attendance():
                     })
             else:
                 if percentage_with_med_exemption >= 85 and percentage >= 75:
-                    bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
+                    bunk = max(0, math.floor((present_hours - (threshold * total_hours)) / threshold))
                     exemption_bunk = 0
                     medical_exemptions = math.floor((percentage_with_med_exemption*total_hours)/100 - exemption_hours)
                     medical_exemptions = medical_exemptions - present_hours
