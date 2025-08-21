@@ -257,8 +257,11 @@ def attendance():
                         "bunking": exemption_bunk
                     })  
                 else:
-                    attend = math.ceil((threshold * total_hours - present_hours)/(1-threshold))
-                    results.append({
+                    medical_exemptions = math.floor((percentage_with_med_exemption*total_hours)/100 - exemption_hours)
+                    medical_exemptions = medical_exemptions - present_hours
+                    exemption_hours = medical_exemptions + exemption_hours
+                    attend = math.ceil(((threshold * total_hours) - (present_hours+exemption_hours))/(1-threshold))
+                    results.append({    
                         "course_name": course_name,
                         "course_code": course_code,
                         "Physical_Attendance": percentage,
@@ -342,3 +345,6 @@ def cgpa_calculator():
     }
 
     return render_template('real_cgpa.html', result=result, semwise_data=sgpa_cgpa_semwise, username=username)
+
+if __name__ == '__main__':
+    app.run(debug=True)
