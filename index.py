@@ -260,16 +260,29 @@ def attendance():
                     medical_exemptions = math.floor((percentage_with_med_exemption*total_hours)/100 - exemption_hours)
                     medical_exemptions = medical_exemptions - present_hours
                     exemption_hours = medical_exemptions + exemption_hours
-                    attend = math.ceil(((threshold * total_hours) - (present_hours+exemption_hours))/(1-threshold))
-                    results.append({    
-                        "course_name": course_name,
-                        "course_code": course_code,
-                        "Physical_Attendance": percentage,
-                        "Attendance_Exemption": percentage_with_med_exemption,
-                        "status": "Attend",
-                        "bunk": attend,
-                        "result.bunk_or_attend" : "attend"
-                    })
+                    if percentage_with_med_exemption<75 and percentage > 65:
+                        attend = math.ceil(((threshold * total_hours) - (present_hours+exemption_hours))/(1-threshold))
+                        results.append({    
+                            "course_name": course_name,
+                            "course_code": course_code,
+                            "Physical_Attendance": percentage,
+                            "Attendance_Exemption": percentage_with_med_exemption,
+                            "status": "Attend",
+                            "bunk": attend,
+                            "result.bunk_or_attend" : "attend"
+                        })
+                    else:
+                        attend=math.ceil(((exemption_threshold * total_hours) - present_hours)/(exemption_threshold))
+                        results.append({    
+                            "course_name": course_name,
+                            "course_code": course_code,
+                            "Physical_Attendance": percentage,
+                            "Attendance_Exemption": percentage_with_med_exemption,
+                            "status": "Attend",
+                            "bunk": attend,
+                            "result.bunk_or_attend" : "attend"
+                        })
+
 
     
     sorted_results = sorted(results, key=lambda x: x['Attendance_Exemption'], reverse=False)
