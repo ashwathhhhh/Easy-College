@@ -207,6 +207,8 @@ def attendance():
             if percentage == percentage_with_med_exemption:
                 if percentage >= 75:
                     bunk = math.floor((present_hours-(threshold * total_hours))/threshold)
+                    if bunk < 0:
+                        bunk = 0
                     
                     results.append({
                         "course_name": course_name,
