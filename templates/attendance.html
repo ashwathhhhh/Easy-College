@@ -394,10 +394,15 @@
         }
 
         .total-hours-cell,
-        .present-hours-cell {
+        .present-hours-cell,
+        .absent-hours-cell {
             text-align: center;
             font-weight: 500;
             color: var(--text-primary);
+        }
+
+        .absent-hours-cell {
+            color: #ff6b6b;
         }
 
         .percentage-cell,
@@ -523,7 +528,7 @@
             }
 
             .attendance-table {
-                min-width: 800px;
+                min-width: 850px;
                 font-size: 0.8em;
             }
 
@@ -563,7 +568,8 @@
             }
 
             .total-hours-cell,
-            .present-hours-cell {
+            .present-hours-cell,
+            .absent-hours-cell {
                 min-width: 40px;
                 max-width: 50px;
                 text-align: center;
@@ -645,6 +651,7 @@
 
             .total-hours-cell,
             .present-hours-cell,
+            .absent-hours-cell,
             .percentage-cell,
             .exemption-percentage-cell,
             .bunks-cell,
@@ -698,10 +705,11 @@
                         <th>Course</th>
                         <th>Total</th>
                         <th>Present</th>
+                        <th>Absent</th>
                         <th>%</th>
                         <th>% (Med)</th>
                         <th>Bunks</th>
-                        <th>Med Bunks</th>
+                        <th>EXEMP Bunks</th>
                         <th>Updated</th>
                     </tr>
                 </thead>
@@ -712,6 +720,7 @@
                         <td class="course-name-cell">{{ result.course_name }}</td>
                         <td class="total-hours-cell">{{ result.total_hours }}</td>
                         <td class="present-hours-cell">{{ result.present_hours }}</td>
+                        <td class="absent-hours-cell">{{ result.total_hours - result.present_hours }}</td>
                         <td class="percentage-cell">{{ result.Physical_Attendance }}%</td>
                         <td class="exemption-percentage-cell">{{ result.Attendance_Exemption }}%</td>
                         <td class="bunks-cell">
@@ -722,9 +731,11 @@
                             {% endif %}
                         </td>
                         <td class="exemption-cell">
-                            {% if 'exemption_bunks' in result and result.exemption_bunks is defined and result.exemption_bunks != 5000 %}
+                            {% if result.Physical_Attendance == result.Attendance_Exemption %}
+                                NA
+                            {% elif 'exemption_bunks' in result and result.exemption_bunks is defined and result.exemption_bunks != 5000 %}
                                 {% if result.exemption_bunks == 0 %}
-                                    NA
+                                    0
                                 {% else %}
                                     {{ result.exemption_bunks }}
                                 {% endif %}
