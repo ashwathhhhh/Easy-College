@@ -573,7 +573,7 @@
             }
 
             .attendance-table {
-                min-width: 850px;
+                min-width: 750px;
                 font-size: 0.8em;
             }
 
@@ -852,8 +852,6 @@
                         <th>Absent</th>
                         <th>%</th>
                         <th>% (Med)</th>
-                        <th>Bunks</th>
-                        <th>EXEMP Bunks</th>
                         <th>Updated</th>
                     </tr>
                 </thead>
@@ -867,26 +865,6 @@
                         <td class="absent-hours-cell">{{ result.total_hours - result.present_hours }}</td>
                         <td class="percentage-cell">{{ result.Physical_Attendance }}%</td>
                         <td class="exemption-percentage-cell">{{ result.Attendance_Exemption }}%</td>
-                        <td class="bunks-cell">
-                            {% if result.status == "Remaining bunks" or result.status == "Normal bunks" %}
-                                {{ result.bunk }}
-                            {% else %}
-                                Attend {{ result.bunk }}
-                            {% endif %}
-                        </td>
-                        <td class="exemption-cell">
-                            {% if result.Physical_Attendance == result.Attendance_Exemption %}
-                                NA
-                            {% elif 'exemption_bunks' in result and result.exemption_bunks is defined and result.exemption_bunks != 5000 %}
-                                {% if result.exemption_bunks == 0 %}
-                                    0
-                                {% else %}
-                                    {{ result.exemption_bunks }}
-                                {% endif %}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
                         <td class="updated-cell">{{ result.updated_till }}</td>
                     </tr>
                     {% endfor %}
