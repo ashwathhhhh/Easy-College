@@ -197,6 +197,7 @@ def attendance():
             percentage = int(row_data[5])
             percentage_with_exemption = int(row_data[6])
             percentage_with_med_exemption = int(row_data[7])
+            updated_till = row_data[9]
 
             total_can_bunk = int(0.25 * float(total_hours))
             total_need_to_attend = int(0.75 * float(total_hours))
@@ -213,8 +214,11 @@ def attendance():
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
+                        "total_hours": total_hours,
+                        "present_hours": present_hours,
                         "Physical_Attendance": percentage,
                         "Attendance_Exemption": percentage_with_med_exemption,
+                        "updated_till": updated_till,
                         "status": "Remaining bunks",
                         "bunk": bunk,
                         "exemption_bunks": exemption_bunk
@@ -224,8 +228,11 @@ def attendance():
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
+                        "total_hours": total_hours,
+                        "present_hours": present_hours,
                         "Physical_Attendance": percentage,
                         "Attendance_Exemption": percentage_with_med_exemption,
+                        "updated_till": updated_till,
                         "status": "Attend",
                         "bunk": attend,
                         "exemption_bunks": exemption_bunk
@@ -250,8 +257,11 @@ def attendance():
                     results.append({
                         "course_name": course_name,
                         "course_code": course_code,
+                        "total_hours": total_hours,
+                        "present_hours": present_hours,
                         "Physical_Attendance": percentage,
                         "Attendance_Exemption": percentage_with_med_exemption,
+                        "updated_till": updated_till,
                         "status": "Normal bunks",
                         "bunk": bunk,
                         "exemption_bunks": exemption_bunk,
@@ -267,8 +277,11 @@ def attendance():
                         results.append({    
                             "course_name": course_name,
                             "course_code": course_code,
+                            "total_hours": total_hours,
+                            "present_hours": present_hours,
                             "Physical_Attendance": percentage,
                             "Attendance_Exemption": percentage_with_med_exemption,
+                            "updated_till": updated_till,
                             "status": "Attend",
                             "bunk": attend,
                             "result.bunk_or_attend" : "attend"
@@ -278,8 +291,11 @@ def attendance():
                         results.append({    
                             "course_name": course_name,
                             "course_code": course_code,
+                            "total_hours": total_hours,
+                            "present_hours": present_hours,
                             "Physical_Attendance": percentage,
                             "Attendance_Exemption": percentage_with_med_exemption,
+                            "updated_till": updated_till,
                             "status": "Attend",
                             "bunk": attend,
                             "result.bunk_or_attend" : "attend"
