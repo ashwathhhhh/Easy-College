@@ -308,7 +308,7 @@
 
         .table-container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
@@ -323,6 +323,7 @@
             width: 100%;
             border-collapse: collapse;
             font-family: 'Inter', sans-serif;
+            margin: 0 auto;
         }
 
         .attendance-table thead {
@@ -331,13 +332,14 @@
         }
 
         .attendance-table th {
-            padding: 12px 15px;
-            text-align: left;
+            padding: 12px 8px;
+            text-align: center;
             font-weight: 600;
-            font-size: 0.95em;
+            font-size: 0.9em;
             color: var(--text-primary);
             border-bottom: 2px solid var(--glass-border);
             position: relative;
+            white-space: nowrap;
         }
 
         .attendance-table th:first-child {
@@ -362,23 +364,33 @@
         }
 
         .attendance-table td {
-            padding: 10px 15px;
+            padding: 8px 6px;
             color: var(--text-primary);
-            font-size: 0.9em;
+            font-size: 0.85em;
             vertical-align: middle;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .attendance-table td:last-child {
+            border-right: none;
         }
 
         .course-code-cell {
             font-weight: 600;
             color: var(--text-accent);
             font-family: 'Courier New', monospace;
+            text-align: center;
+            min-width: 60px;
         }
 
         .course-name-cell {
             font-weight: 500;
             color: var(--text-primary);
-            max-width: 250px;
+            max-width: 200px;
             word-wrap: break-word;
+            text-align: center;
+            padding-left: 12px;
         }
 
         .bunks-cell {
@@ -399,6 +411,7 @@
             text-align: center;
             font-weight: 500;
             color: var(--text-primary);
+            min-width: 50px;
         }
 
         .absent-hours-cell {
@@ -409,6 +422,7 @@
         .exemption-percentage-cell {
             text-align: center;
             font-weight: 600;
+            min-width: 60px;
         }
 
         .percentage-cell {
@@ -421,10 +435,11 @@
 
         .updated-cell {
             text-align: center;
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: var(--text-secondary);
             white-space: nowrap;
             min-width: 80px;
+            font-weight: 400;
         }
 
         /* Cards Section */
@@ -564,24 +579,38 @@
                 padding: 25px 20px;
             }
 
+            /* Mobile table scroll indicator */
+            .table-container::after {
+                content: "← Swipe to see more →";
+                display: block;
+                text-align: center;
+                font-size: 0.7em;
+                color: var(--text-secondary);
+                margin-top: 8px;
+                opacity: 0.8;
+            }
+
             .table-container {
-                padding: 8px;
-                margin: 8px auto;
+                padding: 12px 8px;
+                margin: 15px auto;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 border-radius: 12px;
+                background: var(--glass-bg);
             }
 
             .attendance-table {
                 min-width: 750px;
-                font-size: 0.8em;
+                font-size: 0.75em;
+                border-spacing: 0;
             }
 
             .attendance-table th,
             .attendance-table td {
                 padding: 6px 4px;
-                font-size: 0.75em;
-                vertical-align: top;
+                font-size: 0.7em;
+                vertical-align: middle;
+                text-align: center;
                 border-right: 1px solid rgba(255, 255, 255, 0.1);
             }
 
@@ -590,61 +619,79 @@
                 border-right: none;
             }
 
-            .course-code-cell {
-                min-width: 55px;
-                max-width: 55px;
-                font-size: 0.7em;
-                text-align: center;
+            .attendance-table th {
+                background: var(--accent-gradient);
+                font-weight: 600;
+                color: var(--text-primary);
                 white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
 
-            .course-name-cell {
-                min-width: 80px;
-                max-width: 120px;
-                font-size: 0.7em;
-                white-space: normal;
-                word-wrap: break-word;
-                text-align: left;
-                line-height: 1.1;
-                overflow: hidden;
-                padding-right: 8px;
-            }
-
-            .total-hours-cell,
-            .present-hours-cell,
-            .absent-hours-cell {
-                min-width: 40px;
-                max-width: 50px;
-                text-align: center;
-                font-size: 0.7em;
-            }
-
-            .percentage-cell,
-            .exemption-percentage-cell {
-                min-width: 45px;
-                max-width: 55px;
-                font-size: 0.7em;
-                text-align: center;
-            }
-
-            .bunks-cell,
-            .exemption-cell {
+            .course-code-cell {
                 min-width: 50px;
-                max-width: 70px;
-                text-align: center;
-                font-size: 0.7em;
-            }
-
-            .updated-cell {
-                min-width: 60px;
-                max-width: 80px;
+                max-width: 60px;
                 font-size: 0.65em;
                 text-align: center;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                font-family: 'Courier New', monospace;
+                font-weight: 600;
+            }
+
+            .course-name-cell {
+                min-width: 100px;
+                max-width: 140px;
+                font-size: 0.65em;
+                white-space: normal;
+                word-wrap: break-word;
+                text-align: center !important;
+                line-height: 1.2;
+                overflow: hidden;
+                padding-left: 8px;
+                padding-right: 6px;
+                vertical-align: top;
+            }
+
+            .total-hours-cell,
+            .present-hours-cell,
+            .absent-hours-cell {
+                min-width: 45px;
+                max-width: 50px;
+                text-align: center;
+                font-size: 0.65em;
+                font-weight: 500;
+            }
+
+            .percentage-cell,
+            .exemption-percentage-cell {
+                min-width: 50px;
+                max-width: 60px;
+                font-size: 0.65em;
+                text-align: center;
+                font-weight: 600;
+            }
+
+            .percentage-cell {
+                color: #4CAF50;
+            }
+
+            .exemption-percentage-cell {
+                color: #2196F3;
+            }
+
+            .absent-hours-cell {
+                color: #ff6b6b;
+            }
+
+            .updated-cell {
+                min-width: 80px;
+                max-width: 100px;
+                font-size: 0.6em;
+                text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: var(--text-secondary);
             }
 
             .attendance-stats {
@@ -704,54 +751,76 @@
         /* Extra small mobile devices */
         @media (max-width: 480px) {
             .table-container {
-                padding: 5px;
-                margin: 5px auto;
+                padding: 8px 4px;
+                margin: 10px auto;
+                border-radius: 8px;
             }
 
             .attendance-table {
-                min-width: 100%;
+                min-width: 650px;
                 font-size: 0.7em;
             }
 
             .attendance-table th,
             .attendance-table td {
                 padding: 4px 2px;
-                font-size: 0.65em;
+                font-size: 0.6em;
+                text-align: center;
+            }
+
+            .attendance-table th {
+                font-weight: 600;
+                white-space: nowrap;
+                background: var(--accent-gradient);
             }
 
             .course-code-cell {
-                min-width: 45px;
+                min-width: 40px;
                 max-width: 45px;
-                font-size: 0.6em;
+                font-size: 0.55em;
+                font-family: 'Courier New', monospace;
             }
 
             .course-name-cell {
-                min-width: 70px;
-                max-width: 90px;
-                font-size: 0.6em;
-                line-height: 1.0;
+                min-width: 90px;
+                max-width: 110px;
+                font-size: 0.55em;
+                line-height: 1.1;
+                text-align: center !important;
+                padding-left: 6px;
+                padding-right: 4px;
+                white-space: normal;
+                word-wrap: break-word;
+                vertical-align: top;
             }
 
             .total-hours-cell,
             .present-hours-cell,
             .absent-hours-cell,
             .percentage-cell,
-            .exemption-percentage-cell,
-            .bunks-cell,
-            .exemption-cell {
+            .exemption-percentage-cell {
                 min-width: 35px;
-                max-width: 45px;
-                font-size: 0.6em;
+                max-width: 40px;
+                font-size: 0.55em;
+                text-align: center;
             }
 
             .updated-cell {
-                min-width: 50px;
-                max-width: 65px;
-                font-size: 0.55em;
+                min-width: 70px;
+                max-width: 85px;
+                font-size: 0.5em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .content {
+                padding: 15px 10px;
             }
 
             .page-header {
                 padding: 15px 10px;
+                margin-bottom: 15px;
             }
 
             .page-header h1 {
@@ -845,14 +914,14 @@
             <table class="attendance-table">
                 <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Course</th>
-                        <th>Total</th>
-                        <th>Present</th>
-                        <th>Absent</th>
-                        <th>%</th>
-                        <th>% (Med)</th>
-                        <th>Updated</th>
+                        <th style="width: 8%;">Code</th>
+                        <th style="width: 30%;">Course</th>
+                        <th style="width: 8%;">Total</th>
+                        <th style="width: 8%;">Present</th>
+                        <th style="width: 8%;">Absent</th>
+                        <th style="width: 10%;">%</th>
+                        <th style="width: 12%;">% (Med)</th>
+                        <th style="width: 16%;">Updated</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -877,7 +946,6 @@
     <div class="cards-section">
         <div class="cards-header">
             <h2>Detailed View</h2>
-            <p>Card-based attendance overview with comprehensive details</p>
         </div>
         
         <div class="cards-grid">
