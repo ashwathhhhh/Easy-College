@@ -427,6 +427,51 @@
             min-width: 80px;
         }
 
+        /* Cards Section */
+        .cards-section {
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .cards-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cards-header h2 {
+            font-size: 2em;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .cards-header p {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+
+        .cards-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding: 10px;
+            align-items: center;
+        }
+
+        .attendance-card {
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-primary);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
         .attendance-table tbody tr:last-child td {
             border-bottom: none;
         }
@@ -528,7 +573,7 @@
             }
 
             .attendance-table {
-                min-width: 800px;
+                min-width: 750px;
                 font-size: 0.8em;
             }
 
@@ -568,6 +613,7 @@
             }
 
             .total-hours-cell,
+            .present-hours-cell,
             .absent-hours-cell {
                 min-width: 40px;
                 max-width: 50px;
@@ -610,6 +656,44 @@
                 font-size: 2em;
             }
 
+            .cards-section {
+                padding: 0 15px;
+                margin: 30px auto;
+            }
+
+            .cards-header h2 {
+                font-size: 1.8em;
+            }
+
+            .cards-grid {
+                gap: 20px;
+                padding: 5px;
+            }
+
+            .attendance-card {
+                padding: 20px;
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .attendance-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 15px;
+            }
+
+            .status-section {
+                padding: 15px;
+            }
+
+            .status-item {
+                padding: 10px 12px;
+                margin-bottom: 10px;
+            }
+
             .popup {
                 bottom: 20px;
                 right: 20px;
@@ -649,6 +733,7 @@
             }
 
             .total-hours-cell,
+            .present-hours-cell,
             .absent-hours-cell,
             .percentage-cell,
             .exemption-percentage-cell,
@@ -676,6 +761,67 @@
             .page-header p {
                 font-size: 0.9em;
             }
+
+            .cards-section {
+                padding: 0 10px;
+                margin: 20px auto;
+            }
+
+            .cards-header h2 {
+                font-size: 1.5em;
+            }
+
+            .cards-grid {
+                gap: 15px;
+                padding: 5px;
+            }
+
+            .attendance-card {
+                padding: 15px;
+                border-radius: 15px;
+            }
+
+            .course-name {
+                font-size: 1.4em;
+            }
+
+            .attendance-stats {
+                gap: 10px;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-item {
+                padding: 12px;
+            }
+
+            .stat-label {
+                font-size: 0.8em;
+            }
+
+            .stat-value {
+                font-size: 1.2em;
+            }
+
+            .status-section {
+                padding: 12px;
+            }
+
+            .status-item {
+                padding: 8px 10px;
+                margin-bottom: 8px;
+            }
+
+            .status-label {
+                font-size: 0.9em;
+            }
+
+            .status-value {
+                font-size: 1em;
+            }
+
+            .exemption-info {
+                padding: 12px;
+            }
         }
     </style>
 </head>
@@ -702,11 +848,10 @@
                         <th>Code</th>
                         <th>Course</th>
                         <th>Total</th>
+                        <th>Present</th>
                         <th>Absent</th>
                         <th>%</th>
                         <th>% (Med)</th>
-                        <th>Bunks</th>
-                        <th>EXEMP Bunks</th>
                         <th>Updated</th>
                     </tr>
                 </thead>
@@ -716,35 +861,66 @@
                         <td class="course-code-cell">{{ result.course_code }}</td>
                         <td class="course-name-cell">{{ result.course_name }}</td>
                         <td class="total-hours-cell">{{ result.total_hours }}</td>
+                        <td class="present-hours-cell">{{ result.present_hours }}</td>
                         <td class="absent-hours-cell">{{ result.total_hours - result.present_hours }}</td>
                         <td class="percentage-cell">{{ result.Physical_Attendance }}%</td>
                         <td class="exemption-percentage-cell">{{ result.Attendance_Exemption }}%</td>
-                        <td class="bunks-cell">
-                            {% if result.status == "Remaining bunks" or result.status == "Normal bunks" %}
-                                {{ result.bunk }}
-                            {% else %}
-                                Attend {{ result.bunk }}
-                            {% endif %}
-                        </td>
-                        <td class="exemption-cell">
-                            {% if result.Physical_Attendance == result.Attendance_Exemption %}
-                                NA
-                            {% elif 'exemption_bunks' in result and result.exemption_bunks is defined and result.exemption_bunks != 5000 %}
-                                {% if result.exemption_bunks == 0 %}
-                                    0
-                                {% else %}
-                                    {{ result.exemption_bunks }}
-                                {% endif %}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
                         <td class="updated-cell">{{ result.updated_till }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>    
+    </div>
+
+    <!-- Cards Section (Old UI) -->
+    <div class="cards-section">
+        <div class="cards-header">
+            <h2>Detailed View</h2>
+            <p>Card-based attendance overview with comprehensive details</p>
+        </div>
+        
+        <div class="cards-grid">
+            {% for result in results %}
+            <div class="attendance-card">
+                <div class="course-header">
+                    <div class="course-name">{{ result.course_name }}</div>
+                    <div class="course-code">{{ result.course_code }}</div>
+                </div>
+
+                <div class="attendance-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Physical Attendance</div>
+                        <div class="stat-value">{{ result.Physical_Attendance }}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">With Exemption</div>
+                        <div class="stat-value">{{ result.Attendance_Exemption }}</div>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <div class="status-item">
+                        <div class="status-label">
+                            {% if result.status == "Remaining bunks" or result.status == "Normal bunks" %}
+                                Bunk
+                            {% else %}
+                                Attend
+                            {% endif %}
+                        </div>
+                        <div class="status-value">{{ result.bunk }}</div>
+                    </div>
+                </div>
+
+                {% if result.Physical_Attendance != result.Attendance_Exemption and 'exemption_bunks' in result and result.exemption_bunks is defined and result.exemption_bunks != 5000 %}
+                <div class="exemption-info">
+                    <div class="exemption-label">Exemption Bunks</div>
+                    <div class="exemption-value">{{ result.exemption_bunks }}</div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="popup" id="popup">
