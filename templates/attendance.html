@@ -159,6 +159,99 @@
             color: var(--text-secondary);
         }
 
+        /* View Toggle Styles */
+        .view-toggle-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 30px 0;
+        }
+
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .toggle-label {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transition: 0.4s;
+            border-radius: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Classic Table Styles */
+        .classic-bunks, .classic-med-bunks {
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .classic-updated {
+            font-size: 0.75em;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .danger-text {
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .no-data {
+            color: var(--text-secondary);
+            font-style: italic;
+            opacity: 0.7;
+        }
+
         .attendance-card {
             width: 100%;
             max-width: 600px;
@@ -675,6 +768,42 @@
                 color: var(--text-secondary);
             }
 
+            /* Classic Table Mobile Styles */
+            #classicViewTable .course-name-cell {
+                width: 22%;
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .course-code-cell {
+                width: 8%;
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .total-hours-cell,
+            #classicViewTable .present-hours-cell,
+            #classicViewTable .absent-hours-cell {
+                width: 8%;
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .percentage-cell,
+            #classicViewTable .exemption-percentage-cell {
+                width: 10%;
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .classic-bunks,
+            #classicViewTable .classic-med-bunks {
+                width: 8%;
+                font-size: 0.6em;
+                padding: 4px 2px;
+            }
+
+            #classicViewTable .classic-updated {
+                width: 8%;
+                font-size: 0.55em;
+            }
+
             .attendance-stats {
                 grid-template-columns: 1fr;
                 gap: 15px;
@@ -794,6 +923,43 @@
                 white-space: nowrap;
             }
 
+            /* Classic Table Extra Small Mobile Styles */
+            #classicViewTable .course-name-cell {
+                width: 22%;
+                font-size: 0.5em;
+                line-height: 1.1;
+            }
+
+            #classicViewTable .course-code-cell {
+                width: 8%;
+                font-size: 0.5em;
+            }
+
+            #classicViewTable .total-hours-cell,
+            #classicViewTable .present-hours-cell,
+            #classicViewTable .absent-hours-cell {
+                width: 8%;
+                font-size: 0.5em;
+            }
+
+            #classicViewTable .percentage-cell,
+            #classicViewTable .exemption-percentage-cell {
+                width: 10%;
+                font-size: 0.5em;
+            }
+
+            #classicViewTable .classic-bunks,
+            #classicViewTable .classic-med-bunks {
+                width: 8%;
+                font-size: 0.5em;
+                padding: 2px 1px;
+            }
+
+            #classicViewTable .classic-updated {
+                width: 8%;
+                font-size: 0.45em;
+            }
+
             .content {
                 padding: 15px 10px;
             }
@@ -890,7 +1056,19 @@
             <p>Monitor your class attendance and academic progress</p>
         </div>
 
-        <div class="table-container">
+        <!-- View Toggle -->
+        <div class="view-toggle-container">
+            <div class="toggle-wrapper">
+                <span class="toggle-label">Card View</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="viewToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label">Table View</span>
+            </div>
+        </div>
+
+        <div class="table-container" id="newViewTable">
             <table class="attendance-table">
                 <thead>
                     <tr>
@@ -919,11 +1097,63 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+
+        <!-- Classic Table with Bunks -->
+        <div class="table-container" id="classicViewTable" style="display: none;">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">Code</th>
+                        <th style="width: 22%;">Course</th>
+                        <th style="width: 8%;">Total</th>
+                        <th style="width: 8%;">Present</th>
+                        <th style="width: 8%;">Absent</th>
+                        <th style="width: 10%;">%</th>
+                        <th style="width: 10%;">% (Med)</th>
+                        <th style="width: 8%;">Bunks</th>
+                        <th style="width: 8%;">Med Bunks</th>
+                        <th style="width: 10%;">Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td class="course-code-cell">{{ result.course_code }}</td>
+                        <td class="course-name-cell">{{ result.course_name }}</td>
+                        <td class="total-hours-cell">{{ result.total_hours }}</td>
+                        <td class="present-hours-cell">{{ result.present_hours }}</td>
+                        <td class="absent-hours-cell">{{ result.total_hours - result.present_hours }}</td>
+                        <td class="percentage-cell">{{ result.Physical_Attendance }}%</td>
+                        <td class="exemption-percentage-cell">{{ result.Attendance_Exemption }}%</td>
+                        <td class="bunks-cell classic-bunks">
+                            {% if result.bunk is defined and result.bunk != '' %}
+                                {% if result.status == "Remaining bunks" or result.status == "Normal bunks" %}
+                                    {{ result.bunk }}
+                                {% else %}
+                                    <span class="danger-text">{{ result.bunk }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="no-data">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="bunks-cell classic-med-bunks">
+                            {% if result.Physical_Attendance != result.Attendance_Exemption and 'exemption_bunks' in result and result.exemption_bunks is defined and result.exemption_bunks != 5000 and result.exemption_bunks != '' %}
+                                {{ result.exemption_bunks }}
+                            {% else %}
+                                <span class="no-data">-</span>
+                            {% endif %}
+                        </td>
+                        <td class="updated-cell classic-updated">{{ result.updated_till }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>    
     </div>
 
     <!-- Cards Section (Old UI) -->
-    <div class="cards-section">
+    <div class="cards-section" id="cardsSection">
         <div class="cards-header">
             <h2>Detailed View</h2>
         </div>
@@ -997,9 +1227,47 @@
                 cell.textContent = dateText;
             });
         }
+
+        // Toggle between views
+        function toggleView() {
+            const toggle = document.getElementById('viewToggle');
+            const cardViewTable = document.getElementById('newViewTable');
+            const tableView = document.getElementById('classicViewTable');
+            const cardsSection = document.getElementById('cardsSection');
+            
+            if (toggle.checked) {
+                // Table view - show table with bunks, hide cards
+                cardViewTable.style.display = 'none';
+                tableView.style.display = 'block';
+                cardsSection.style.display = 'none';
+                // Format dates in table view too
+                formatTableViewDates();
+            } else {
+                // Card view - show new table and cards
+                cardViewTable.style.display = 'block';
+                tableView.style.display = 'none';
+                cardsSection.style.display = 'block';
+            }
+        }
+
+        // Format dates in table view
+        function formatTableViewDates() {
+            const tableViewUpdatedCells = document.querySelectorAll('.classic-updated');
+            tableViewUpdatedCells.forEach(cell => {
+                let dateText = cell.textContent.trim();
+                dateText = dateText.replace(/\b20(\d{2})\b/g, '$1');
+                cell.textContent = dateText;
+            });
+        }
         
-        // Run the formatting when page loads
-        document.addEventListener('DOMContentLoaded', formatUpdatedDates);
+        // Run when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            formatUpdatedDates();
+            
+            // Add toggle event listener
+            const toggle = document.getElementById('viewToggle');
+            toggle.addEventListener('change', toggleView);
+        });
         
         setTimeout(closePopup, 12000);
     </script>
