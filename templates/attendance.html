@@ -689,19 +689,34 @@
                 border-spacing: 0;
             }
 
-            /* Table View specific styling for mobile - allow wrapping */
-            #classicViewTable .attendance-table th,
-            #classicViewTable .attendance-table td {
-                white-space: normal;
-                word-wrap: break-word;
-                padding: 8px 3px;
-                line-height: 1.2;
-                vertical-align: middle;
+            /* Table View specific horizontal scrolling for mobile */
+            #classicViewTable {
+                overflow-x: auto;
+            }
+
+            #classicViewTable .attendance-table {
+                min-width: 420px;
+                width: 100%;
             }
 
             #classicViewTable .attendance-table th {
+                white-space: nowrap;
                 font-size: 0.65em;
                 font-weight: 600;
+                padding: 8px 3px;
+            }
+
+            #classicViewTable .attendance-table td {
+                padding: 8px 3px;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            #classicViewTable .course-name-cell {
+                white-space: normal;
+                word-wrap: break-word;
+                text-align: left !important;
+                line-height: 1.3;
             }
 
             .attendance-table th,
@@ -785,7 +800,7 @@
 
             /* Classic Table Mobile Styles */
             #classicViewTable .course-name-cell {
-                width: 22%;
+                width: 28%;
                 font-size: 0.6em;
             }
 
@@ -796,27 +811,18 @@
 
             #classicViewTable .total-hours-cell,
             #classicViewTable .present-hours-cell,
-            #classicViewTable .absent-hours-cell {
-                width: 8%;
+            #classicViewTable .absent-hours-cell,
+            #classicViewTable .classic-updated {
+                width: 7%;
                 font-size: 0.6em;
             }
 
             #classicViewTable .percentage-cell,
-            #classicViewTable .exemption-percentage-cell {
-                width: 10%;
-                font-size: 0.6em;
-            }
-
+            #classicViewTable .exemption-percentage-cell,
             #classicViewTable .classic-bunks,
             #classicViewTable .classic-med-bunks {
-                width: 8%;
+                width: 9%;
                 font-size: 0.6em;
-                padding: 4px 2px;
-            }
-
-            #classicViewTable .classic-updated {
-                width: 8%;
-                font-size: 0.55em;
             }
 
             .attendance-stats {
@@ -886,19 +892,35 @@
                 font-size: 0.75em;
             }
 
-            /* Table View specific styling for extra small mobile - allow wrapping */
-            #classicViewTable .attendance-table th,
-            #classicViewTable .attendance-table td {
-                white-space: normal;
-                word-wrap: break-word;
-                padding: 6px 2px;
-                line-height: 1.1;
-                vertical-align: middle;
-                font-size: 0.6em;
+            /* Table View specific horizontal scrolling for extra small mobile */
+            #classicViewTable {
+                overflow-x: auto;
+            }
+
+            #classicViewTable .attendance-table {
+                min-width: 360px;
+                width: 100%;
             }
 
             #classicViewTable .attendance-table th {
+                white-space: nowrap;
                 font-weight: 600;
+                font-size: 0.6em;
+                padding: 6px 2px;
+            }
+
+            #classicViewTable .attendance-table td {
+                padding: 6px 2px;
+                vertical-align: middle;
+                text-align: center;
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .course-name-cell {
+                white-space: normal;
+                word-wrap: break-word;
+                text-align: left !important;
+                line-height: 1.2;
             }
 
             .attendance-table th,
@@ -955,7 +977,7 @@
 
             /* Classic Table Extra Small Mobile Styles */
             #classicViewTable .course-name-cell {
-                width: 22%;
+                width: 28%;
                 font-size: 0.5em;
                 line-height: 1.1;
             }
@@ -967,27 +989,18 @@
 
             #classicViewTable .total-hours-cell,
             #classicViewTable .present-hours-cell,
-            #classicViewTable .absent-hours-cell {
-                width: 8%;
+            #classicViewTable .absent-hours-cell,
+            #classicViewTable .classic-updated {
+                width: 7%;
                 font-size: 0.5em;
             }
 
             #classicViewTable .percentage-cell,
-            #classicViewTable .exemption-percentage-cell {
-                width: 10%;
-                font-size: 0.5em;
-            }
-
+            #classicViewTable .exemption-percentage-cell,
             #classicViewTable .classic-bunks,
             #classicViewTable .classic-med-bunks {
-                width: 8%;
+                width: 9%;
                 font-size: 0.5em;
-                padding: 2px 1px;
-            }
-
-            #classicViewTable .classic-updated {
-                width: 8%;
-                font-size: 0.45em;
             }
 
             .content {
@@ -1135,15 +1148,15 @@
                 <thead>
                     <tr>
                         <th style="width: 8%;">Code</th>
-                        <th style="width: 22%;">Course</th>
-                        <th style="width: 8%;">Total</th>
-                        <th style="width: 8%;">Present</th>
-                        <th style="width: 8%;">Absent</th>
-                        <th style="width: 10%;">%</th>
-                        <th style="width: 10%;">% (Med)</th>
-                        <th style="width: 8%;">Bunks</th>
-                        <th style="width: 8%;">Med Bunks</th>
-                        <th style="width: 10%;">Updated</th>
+                        <th style="width: 28%;">Course</th>
+                        <th style="width: 7%;">Total</th>
+                        <th style="width: 7%;">Present</th>
+                        <th style="width: 7%;">Absent</th>
+                        <th style="width: 9%;">%</th>
+                        <th style="width: 9%;">% (Med)</th>
+                        <th style="width: 9%;">Bunks</th>
+                        <th style="width: 9%;">Med Bunks</th>
+                        <th style="width: 7%;">Updated</th>
                     </tr>
                 </thead>
                 <tbody>
