@@ -409,7 +409,7 @@
             box-shadow: var(--shadow-primary);
             padding: 20px;
             margin: 25px auto;
-            overflow-x: visible;
+            overflow-x: auto;
         }
 
         .attendance-table {
@@ -689,6 +689,21 @@
                 border-spacing: 0;
             }
 
+            /* Table View specific styling for mobile - allow wrapping */
+            #classicViewTable .attendance-table th,
+            #classicViewTable .attendance-table td {
+                white-space: normal;
+                word-wrap: break-word;
+                padding: 8px 3px;
+                line-height: 1.2;
+                vertical-align: middle;
+            }
+
+            #classicViewTable .attendance-table th {
+                font-size: 0.65em;
+                font-weight: 600;
+            }
+
             .attendance-table th,
             .attendance-table td {
                 padding: 10px 6px;
@@ -869,6 +884,21 @@
             .attendance-table {
                 width: 100%;
                 font-size: 0.75em;
+            }
+
+            /* Table View specific styling for extra small mobile - allow wrapping */
+            #classicViewTable .attendance-table th,
+            #classicViewTable .attendance-table td {
+                white-space: normal;
+                word-wrap: break-word;
+                padding: 6px 2px;
+                line-height: 1.1;
+                vertical-align: middle;
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .attendance-table th {
+                font-weight: 600;
             }
 
             .attendance-table th,
