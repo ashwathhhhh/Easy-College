@@ -252,6 +252,22 @@
             opacity: 0.7;
         }
 
+        /* Attendance percentage color coding */
+        .attendance-low {
+            color: #ff4757 !important;
+            font-weight: 700;
+        }
+
+        .attendance-good {
+            color: #2ed573 !important;
+            font-weight: 600;
+        }
+
+        .attendance-medium {
+            color: #ffa502 !important;
+            font-weight: 600;
+        }
+
         .attendance-card {
             width: 100%;
             max-width: 600px;
@@ -1323,14 +1339,43 @@
                 cell.textContent = dateText;
             });
         }
+
+        // Color code attendance percentages
+        function colorCodeAttendance() {
+            // Color code all percentage cells (both views)
+            const percentageCells = document.querySelectorAll('.percentage-cell, .exemption-percentage-cell');
+            
+            percentageCells.forEach(cell => {
+                const percentageText = cell.textContent.trim();
+                const percentage = parseFloat(percentageText.replace('%', ''));
+                
+                if (!isNaN(percentage)) {
+                    // Remove existing color classes
+                    cell.classList.remove('attendance-low', 'attendance-medium', 'attendance-good');
+                    
+                    if (percentage < 75) {
+                        cell.classList.add('attendance-low');
+                    } else if (percentage >= 80) {
+                        cell.classList.add('attendance-good');
+                    } else {
+                        cell.classList.add('attendance-medium');
+                    }
+                }
+            });
+        }
         
         // Run when page loads
         document.addEventListener('DOMContentLoaded', function() {
             formatUpdatedDates();
+            colorCodeAttendance();
             
             // Add toggle event listener
             const toggle = document.getElementById('viewToggle');
-            toggle.addEventListener('change', toggleView);
+            toggle.addEventListener('change', function() {
+                toggleView();
+                // Reapply color coding after view change
+                setTimeout(colorCodeAttendance, 100);
+            });
         });
         
         setTimeout(closePopup, 12000);
