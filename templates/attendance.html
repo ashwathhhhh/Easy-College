@@ -205,7 +205,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, #667eea, #764ba2);
             transition: 0.4s;
             border-radius: 24px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -222,6 +222,10 @@
             transition: 0.4s;
             border-radius: 50%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
         }
 
         input:checked + .toggle-slider:before {
@@ -266,6 +270,29 @@
         .attendance-medium {
             color: #ffa502 !important;
             font-weight: 600;
+        }
+
+        /* Attend text styling */
+        .attend-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+            padding: 2px 0;
+        }
+
+        .attend-line1 {
+            font-size: 1em;
+            font-weight: 600;
+            color: #ff4757;
+            margin-bottom: 1px;
+        }
+
+        .attend-line2 {
+            font-size: 1em;
+            font-weight: 700;
+            color: #ff4757;
         }
 
         .attendance-card {
@@ -841,6 +868,15 @@
                 font-size: 0.6em;
             }
 
+            /* Mobile attend text styling */
+            #classicViewTable .attend-line1 {
+                font-size: 0.6em;
+            }
+
+            #classicViewTable .attend-line2 {
+                font-size: 0.6em;
+            }
+
             .attendance-stats {
                 grid-template-columns: 1fr;
                 gap: 15px;
@@ -1016,6 +1052,15 @@
             #classicViewTable .classic-bunks,
             #classicViewTable .classic-med-bunks {
                 width: 9%;
+                font-size: 0.5em;
+            }
+
+            /* Extra small mobile attend text styling */
+            #classicViewTable .attend-line1 {
+                font-size: 0.5em;
+            }
+
+            #classicViewTable .attend-line2 {
                 font-size: 0.5em;
             }
 
@@ -1208,7 +1253,12 @@
                         <td class="exemption-percentage-cell">{{ result.Attendance_Exemption }}%</td>
                         <td class="bunks-cell classic-bunks">
                             {% if result.bunk is defined and result.bunk != '' %}
-                                {% if result.status == "Remaining bunks" or result.status == "Normal bunks" %}
+                                {% if result.status == "Attend" %}
+                                    <div class="attend-text">
+                                        <span class="attend-line1">Attend</span>
+                                        <span class="attend-line2">{{ result.bunk }}</span>
+                                    </div>
+                                {% elif result.status == "Remaining bunks" or result.status == "Normal bunks" %}
                                     {{ result.bunk }}
                                 {% else %}
                                     <span class="danger-text">{{ result.bunk }}</span>
