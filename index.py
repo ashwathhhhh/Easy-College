@@ -324,7 +324,7 @@ def cgpa_calculator():
     
     total_credit_points = 0
     total_credits = 0
-    sem_data = {}  # { sem: [ (grade_points, credits), ...] }
+    sem_data = {}
 
     count = 0
     for row in rows:
@@ -332,7 +332,11 @@ def cgpa_calculator():
         columns = row.find_all('td')
         row_data = [column.get_text(strip=True) for column in columns]
         
-        if count in (1,2,len(rows)-1,len(rows)):
+        if count in (1, 2, len(rows)-1, len(rows)):
+            continue
+
+        # 🔹 Skip course code 23Z010 (field index 1)
+        if row_data[1].lower() == "23z010":
             continue
         
         if row_data[7] == "RA":
@@ -346,17 +350,15 @@ def cgpa_calculator():
 
             total_credits += credits
             total_credit_points += grade_points * credits
-
             sem_data.setdefault(sem, []).append((grade_points, credits))
 
-    # compute sem wise sgpa + cumulative cgpa
     sgpa_cgpa_semwise = []
     cumulative_credits = 0
     cumulative_cp = 0
+
     for sem in sorted(sem_data.keys()):
-        sem_grades = sem_data[sem]
-        sem_cp_total = sum(gp * cr for gp, cr in sem_grades)
-        sem_credits = sum(cr for _, cr in sem_grades)
+        sem_cp_total = sum(gp * cr for gp, cr in sem_data[sem])
+        sem_credits = sum(cr for _, cr in sem_data[sem])
         sgpa = round(sem_cp_total / sem_credits, 2) if sem_credits else 0
 
         cumulative_cp += sem_cp_total
@@ -375,7 +377,11 @@ def cgpa_calculator():
         'cgpa': round(total_credit_points / total_credits, 2) if total_credits > 0 else 0
     }
 
-    return render_template('real_cgpa.html', result=result, semwise_data=sgpa_cgpa_semwise, username=username)
-
+    return render_template(
+        'real_cgpa.html',
+        result=result,
+        semwise_data=sgpa_cgpa_semwise,
+        username=username
+    )
 if __name__ == '__main__':
     app.run(debug=True)
