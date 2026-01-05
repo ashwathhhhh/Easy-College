@@ -336,7 +336,7 @@ def cgpa_calculator():
             continue
 
         # 🔹 Skip course code 23Z010 (field index 1)
-        if row_data[1].lower() == "23z010":
+        if row_data[1].lower() in ["23z010", "23n010"]:
             continue
         
         if row_data[7] == "RA":
