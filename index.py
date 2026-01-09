@@ -287,7 +287,7 @@ def attendance():
                             "result.bunk_or_attend" : "attend"
                         })
                     else:
-                        attend=math.ceil(((exemption_threshold * total_hours) - present_hours)/(exemption_threshold))
+                        attend=math.ceil(((exemption_threshold * total_hours) - present_hours)/(1-exemption_threshold))
                         results.append({    
                             "course_name": course_name,
                             "course_code": course_code,
