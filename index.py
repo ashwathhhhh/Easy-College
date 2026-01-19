@@ -75,9 +75,7 @@ def feedback():
     if not session.get('logged_in'):
         return redirect(url_for("login"))
     
-    # Pass the credentials to the template
-    credentials = session.get('credentials', {})
-    return render_template("feedback.html", credentials=credentials)
+    return redirect("https://feedbackauto.streamlit.app/")
 
 @app.route('/cgpa')
 def cgpa():
