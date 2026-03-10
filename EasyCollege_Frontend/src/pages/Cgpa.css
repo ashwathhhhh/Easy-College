@@ -87,18 +87,90 @@
     width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .cgpa-page-wrapper {
+        padding: 20px 8px;
+    }
+
     .cgpa-card {
-        padding: 20px;
+        padding: 20px 10px;
+        border-radius: 16px;
+        gap: 15px;
+    }
+
+    .cgpa-summary {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 15px;
+        text-align: left;
     }
 
     .cgpa-summary h2 {
-        font-size: 1.2rem;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    .cgpa-table th,
+    .cgpa-summary h2:last-child {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1.1rem;
+        color: var(--primary);
+    }
+
+    /* Force Fit Table - No Scroll */
+    .table-section {
+        overflow-x: hidden;
+        background: #252525;
+        border: 1px solid #333;
+        border-radius: 10px;
+    }
+
+    .cgpa-table {
+        min-width: 100%;
+        table-layout: fixed;
+    }
+
+    .cgpa-table th {
+        padding: 12px 4px;
+        font-size: 0.7rem;
+    }
+
     .cgpa-table td {
-        padding: 10px 5px;
-        font-size: 0.8rem;
+        padding: 12px 4px;
+        font-size: 0.85rem;
+        text-align: center;
+        border-bottom: 1px solid #333;
+        display: table-cell;
+        width: auto;
+    }
+
+    /* Column widths for CGPA */
+    .cgpa-table th:nth-child(1),
+    .cgpa-table td:nth-child(1) {
+        width: 25%;
+    }
+
+    .cgpa-table th:nth-child(2),
+    .cgpa-table td:nth-child(2) {
+        width: 37.5%;
+    }
+
+    .cgpa-table th:nth-child(3),
+    .cgpa-table td:nth-child(3) {
+        width: 37.5%;
+    }
+
+    .chart-section {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .chart-container {
+        height: 250px;
     }
 }

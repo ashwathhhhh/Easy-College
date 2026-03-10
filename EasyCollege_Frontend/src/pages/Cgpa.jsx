@@ -152,17 +152,17 @@ function Cgpa() {
                     <table className="cgpa-table">
                         <thead>
                             <tr>
-                                <th>SEMESTER</th>
+                                <th>SEM</th>
                                 <th>SGPA</th>
-                                <th>CGPA (UP TO THIS SEM)</th>
+                                <th>CGPA</th>
                             </tr>
                         </thead>
                         <tbody>
                             {cgpaData.semwise_data.map((sem, index) => (
                                 <tr key={index}>
-                                    <td>{sem.sem}</td>
-                                    <td>{sem.sgpa}</td>
-                                    <td>{sem.cgpa}</td>
+                                    <td data-label="SEMESTER">{sem.sem}</td>
+                                    <td data-label="SGPA">{sem.sgpa}</td>
+                                    <td data-label="CGPA">{sem.cgpa}</td>
                                 </tr>
                             ))}
                         </tbody>

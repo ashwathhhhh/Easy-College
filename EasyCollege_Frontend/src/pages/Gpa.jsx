@@ -74,25 +74,25 @@ function Gpa() {
                     <table className="gpa-modern-table">
                         <thead>
                             <tr>
-                                <th>SEMESTER</th>
-                                <th>COURSE CODE</th>
-                                <th>COURSE NAME</th>
-                                <th>CREDITS</th>
-                                <th>GRADE</th>
+                                <th><span className="full-text">SEMESTER</span><span className="short-text">SEM</span></th>
+                                <th><span className="full-text">COURSE CODE</span><span className="short-text">CODE</span></th>
+                                <th><span className="full-text">COURSE NAME</span><span className="short-text">NAME</span></th>
+                                <th><span className="full-text">CREDITS</span><span className="short-text">CR</span></th>
+                                <th><span className="full-text">GRADE</span><span className="short-text">GR</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             {gpaData.table && gpaData.table.map((course, index) => (
                                 <tr key={index}>
-                                    <td>
+                                    <td data-label="SEMESTER">
                                         <span className="sem-badge">5</span> {/* Hardcoded since not in API response in snippet */}
                                     </td>
-                                    <td className="course-code-cell">{course.course || '-'}</td>
-                                    <td className="course-name-cell">{course.title}</td>
-                                    <td>
+                                    <td data-label="COURSE CODE" className="course-code-cell">{course.course || '-'}</td>
+                                    <td data-label="COURSE NAME" className="course-name-cell">{course.title}</td>
+                                    <td data-label="CREDITS">
                                         <span className="credits-badge-modern">{course.credits}</span>
                                     </td>
-                                    <td className="grade-cell">
+                                    <td data-label="GRADE" className="grade-cell">
                                         {course.grade === 'Completed' ? (
                                             <span className="completed-badge">Completed</span>
                                         ) : (
