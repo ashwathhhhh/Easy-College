@@ -141,9 +141,7 @@ function Login() {
                             </motion.div>
                         )}
 
-                        <p className="privacy-notice" style={{ marginTop: '1.5rem', opacity: 0.6, fontSize: '0.8rem' }}>
-                             Your data is not stored with us
-                        </p>
+                        
                     </form>
                 </motion.div>
             </div>
