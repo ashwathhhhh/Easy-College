@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Info, Plus, Minus, Wand2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './Attendance.css';
 
 function Attendance() {
@@ -165,6 +166,31 @@ function Attendance() {
             <div className="loader"></div>
         </div>
     );
+
+    if (error === 'Attendance data is currently unavailable.') {
+        return (
+            <div className="attendance-sync-wrapper">
+                <motion.div 
+                    className="attendance-sync-card"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+
+                    
+                    <h2 className="sync-title">Attendance is being updated</h2>
+                    <p className="sync-description">
+                        Check back later once it is updated
+                    </p>
+
+                    <button className="sync-retry-btn" onClick={fetchAttendance}>
+                        Refresh Status
+                    </button>
+                </motion.div>
+            </div>
+        );
+    }
+
     if (error) return <div className="error-message">{error}</div>;
 
     return (
