@@ -6,6 +6,9 @@ function Gpa() {
     const [gpaData, setGpaData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [excludedIndices, setExcludedIndices] = useState(new Set());
+    const [calculatedGpa, setCalculatedGpa] = useState(null);
+    const [calculatedCredits, setCalculatedCredits] = useState(0);
 
     const fetchGpa = useCallback(async () => {
         setIsLoading(true);
@@ -21,6 +24,8 @@ function Gpa() {
             const data = await response.json();
             if (response.ok) {
                 setGpaData(data);
+                setCalculatedGpa(data.gpa);
+                setCalculatedCredits(data.total_credits);
             } else {
                 setError(data.error || 'Failed to fetch GPA data.');
             }
@@ -35,6 +40,57 @@ function Gpa() {
     useEffect(() => {
         fetchGpa();
     }, [fetchGpa]);
+
+    const toggleExclude = (index) => {
+        const newExcluded = new Set(excludedIndices);
+        if (newExcluded.has(index)) {
+            newExcluded.delete(index);
+        } else {
+            newExcluded.add(index);
+        }
+        setExcludedIndices(newExcluded);
+        recalculate(newExcluded);
+    };
+
+    const recalculate = (excluded) => {
+        if (!gpaData || !gpaData.table) return;
+
+        let summation = 0;
+        let totalCredits = 0;
+        let hasRA = false;
+
+        gpaData.table.forEach((course, index) => {
+            if (excluded.has(index)) return;
+
+            const credits = parseInt(course.credits) || 0;
+            const grade = course.grade || "";
+
+            if (credits === 0) return;
+
+            if (grade.startsWith("RA") || grade.startsWith("0 ")) {
+                hasRA = true;
+            } else {
+                try {
+                    const gradePoints = parseInt(grade.substring(0, 2));
+                    if (!isNaN(gradePoints)) {
+                        summation += credits * gradePoints;
+                        totalCredits += credits;
+                    }
+                } catch (e) {
+                    console.error("Error parsing grade:", grade);
+                }
+            }
+        });
+
+        if (hasRA) {
+            setCalculatedGpa("RA");
+        } else if (totalCredits === 0) {
+            setCalculatedGpa("0.00");
+        } else {
+            setCalculatedGpa((summation / totalCredits).toFixed(2));
+        }
+        setCalculatedCredits(totalCredits);
+    };
 
     if (isLoading) return (
         <div className="loading-overlay">
@@ -57,15 +113,17 @@ function Gpa() {
                 <div className="summary-cards-row">
                     <div className="gpa-summary-card">
                         <div className="summary-label">Total Credits</div>
-                        <div className="summary-value">{gpaData.total_credits}</div>
+                        <div className="summary-value">{calculatedCredits}</div>
                     </div>
                     <div className="gpa-summary-card">
                         <div className="summary-label">Current GPA</div>
-                        <div className="summary-value gpa-accent">{gpaData.gpa}</div>
+                        <div className="summary-value gpa-accent">{calculatedGpa}</div>
                     </div>
                     <div className="gpa-summary-card">
                         <div className="summary-label">Total Courses</div>
-                        <div className="summary-value courses-accent">{gpaData.table ? gpaData.table.length : 0}</div>
+                        <div className="summary-value courses-accent">
+                            {gpaData.table ? gpaData.table.length - excludedIndices.size : 0}
+                        </div>
                     </div>
                 </div>
 
@@ -74,6 +132,10 @@ function Gpa() {
                     <table className="gpa-modern-table">
                         <thead>
                             <tr>
+                                <th style={{ width: '50px', textAlign: 'center' }}>
+                                    <span className="short-text">SEL</span>
+                                    <span className="full-text">SELECT</span>
+                                </th>
                                 <th><span className="full-text">SEMESTER</span><span className="short-text">SEM</span></th>
                                 <th><span className="full-text">COURSE CODE</span><span className="short-text">CODE</span></th>
                                 <th><span className="full-text">COURSE NAME</span><span className="short-text">NAME</span></th>
@@ -83,9 +145,19 @@ function Gpa() {
                         </thead>
                         <tbody>
                             {gpaData.table && gpaData.table.map((course, index) => (
-                                <tr key={index}>
+                                <tr key={index} className={excludedIndices.has(index) ? 'excluded-row' : ''}>
+                                    <td className="checkbox-cell" style={{ textAlign: 'center' }}>
+                                        <label className="modern-checkbox">
+                                            <input 
+                                                type="checkbox" 
+                                                checked={!excludedIndices.has(index)} 
+                                                onChange={() => toggleExclude(index)}
+                                            />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </td>
                                     <td data-label="SEMESTER">
-                                        <span className="sem-badge">5</span> {/* Hardcoded since not in API response in snippet */}
+                                        <span className="sem-badge">{course.sem || '5'}</span>
                                     </td>
                                     <td data-label="COURSE CODE" className="course-code-cell">{course.course || '-'}</td>
                                     <td data-label="COURSE NAME" className="course-name-cell">{course.title}</td>

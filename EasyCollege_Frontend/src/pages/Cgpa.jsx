@@ -9,6 +9,65 @@ function Cgpa() {
     const [cgpaData, setCgpaData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [excludedIds, setExcludedIds] = useState(new Set());
+    const [displayData, setDisplayData] = useState(null);
+
+    const gradesMap = { 'O': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5 };
+
+    const recalculate = useCallback((data, excluded) => {
+        if (!data || !data.all_subjects) return;
+
+        const semData = {};
+        let totalCredits = 0;
+        let totalCreditPoints = 0;
+        let hasIncludedRA = false;
+
+        data.all_subjects.forEach((subject, index) => {
+            if (excluded.has(index)) return;
+
+            const grade = subject.grade;
+            const credits = parseInt(subject.credits) || 0;
+            const sem = parseInt(subject.sem);
+
+            if (grade === "RA") {
+                hasIncludedRA = true;
+                return;
+            }
+
+            const gradePoints = gradesMap[grade] || 0;
+            totalCredits += credits;
+            totalCreditPoints += gradePoints * credits;
+
+            if (!semData[sem]) semData[sem] = [];
+            semData[sem].push({ gradePoints, credits });
+        });
+
+        const semwise_data = [];
+        let cumulativeCP = 0;
+        let cumulativeCredits = 0;
+
+        Object.keys(semData).sort((a, b) => a - b).forEach(semKey => {
+            const gradesList = semData[semKey];
+            const semCP = gradesList.reduce((sum, item) => sum + item.gradePoints * item.credits, 0);
+            const semCredits = gradesList.reduce((sum, item) => sum + item.credits, 0);
+
+            cumulativeCP += semCP;
+            cumulativeCredits += semCredits;
+
+            semwise_data.push({
+                sem: parseInt(semKey),
+                sgpa: semCredits ? (semCP / semCredits).toFixed(2) : "0.00",
+                cgpa: cumulativeCredits ? (cumulativeCP / cumulativeCredits).toFixed(2) : "0.00"
+            });
+        });
+
+        setDisplayData({
+            cgpa: hasIncludedRA ? "RA" : (semwise_data.length ? semwise_data[semwise_data.length - 1].cgpa : "0.00"),
+            total_credits: totalCredits,
+            credit_points_total: totalCreditPoints,
+            semwise_data
+        });
+    }, []);
 
     const fetchCgpa = useCallback(async () => {
         setIsLoading(true);
@@ -24,6 +83,7 @@ function Cgpa() {
             const data = await response.json();
             if (response.ok) {
                 setCgpaData(data);
+                recalculate(data, new Set());
             } else {
                 setError(data.error || 'Failed to fetch CGPA data.');
             }
@@ -33,11 +93,22 @@ function Cgpa() {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [recalculate]);
 
     useEffect(() => {
         fetchCgpa();
     }, [fetchCgpa]);
+
+    const toggleExclude = (index) => {
+        const newExcluded = new Set(excludedIds);
+        if (newExcluded.has(index)) {
+            newExcluded.delete(index);
+        } else {
+            newExcluded.add(index);
+        }
+        setExcludedIds(newExcluded);
+        recalculate(cgpaData, newExcluded);
+    };
 
     if (isLoading) return (
         <div className="loading-overlay">
@@ -45,7 +116,7 @@ function Cgpa() {
         </div>
     );
     if (error) return <div className="error-message">{error}</div>;
-    if (!cgpaData || !cgpaData.semwise_data || cgpaData.semwise_data.length === 0) {
+    if (!cgpaData || !displayData) {
         return <p>No CGPA data available to display.</p>;
     }
 
@@ -54,11 +125,11 @@ function Cgpa() {
     const cyan = '#4DD0E1';
 
     const chartData = {
-        labels: cgpaData.semwise_data.map(d => `${d.sem}`),
+        labels: displayData.semwise_data.map(d => `${d.sem}`),
         datasets: [
             {
                 label: 'SGPA',
-                data: cgpaData.semwise_data.map(d => d.sgpa),
+                data: displayData.semwise_data.map(d => d.sgpa),
                 borderColor: pink,
                 backgroundColor: pink,
                 fill: false,
@@ -72,7 +143,7 @@ function Cgpa() {
             },
             {
                 label: 'CGPA',
-                data: cgpaData.semwise_data.map(d => d.cgpa),
+                data: displayData.semwise_data.map(d => d.cgpa),
                 borderColor: cyan,
                 backgroundColor: cyan,
                 fill: false,
@@ -142,31 +213,78 @@ function Cgpa() {
             <div className="cgpa-card">
                 {/* Summary Section */}
                 <div className="cgpa-summary" style={{ position: 'relative' }}>
-                    <h2>Total Credits: {cgpaData.total_credits}</h2>
-                    <h2>Total Credit Points: {cgpaData.credit_points_total}</h2>
-                    <h2>Overall CGPA: {cgpaData.cgpa}</h2>
+                    <h2>Total Credits: {displayData.total_credits}</h2>
+                    <h2>Total Credit Points: {displayData.credit_points_total}</h2>
+                    <h2 className={displayData.cgpa === "RA" ? "text-error" : ""}>
+                        Overall CGPA: {displayData.cgpa}
+                    </h2>
                 </div>
 
-                {/* Table Section */}
-                <div className="table-section">
-                    <table className="cgpa-table">
-                        <thead>
-                            <tr>
-                                <th>SEM</th>
-                                <th>SGPA</th>
-                                <th>CGPA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {cgpaData.semwise_data.map((sem, index) => (
-                                <tr key={index}>
-                                    <td data-label="SEMESTER">{sem.sem}</td>
-                                    <td data-label="SGPA">{sem.sgpa}</td>
-                                    <td data-label="CGPA">{sem.cgpa}</td>
+                <div className="cgpa-content-grid">
+                    {/* Table Section */}
+                    <div className="table-section">
+                        <h3 className="section-title">Semester-wise Summary</h3>
+                        <table className="cgpa-table">
+                            <thead>
+                                <tr>
+                                    <th>SEM</th>
+                                    <th>SGPA</th>
+                                    <th>CGPA</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {displayData.semwise_data.map((sem, index) => (
+                                    <tr key={index}>
+                                        <td data-label="SEMESTER">{sem.sem}</td>
+                                        <td data-label="SGPA">{sem.sgpa}</td>
+                                        <td data-label="CGPA">{sem.cgpa}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Subjects Section */}
+                    <div className="subjects-section">
+                        <h3 className="section-title">Course Details (Toggle to exclude)</h3>
+                        <div className="subjects-scroll-area">
+                            <table className="subjects-table">
+                                <thead>
+                                    <tr>
+                                        <th>SEL</th>
+                                        <th>SEM</th>
+                                        <th>CODE</th>
+                                        <th>COURSE NAME</th>
+                                        <th>CR</th>
+                                        <th>GR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {cgpaData.all_subjects && cgpaData.all_subjects.map((subject, index) => (
+                                        <tr key={index} className={excludedIds.has(index) ? 'excluded-row' : ''}>
+                                            <td>
+                                                <label className="modern-checkbox">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        checked={!excludedIds.has(index)} 
+                                                        onChange={() => toggleExclude(index)}
+                                                    />
+                                                    <span className="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>{subject.sem}</td>
+                                            <td className="course-code">{subject.course}</td>
+                                            <td className="course-title">{subject.title}</td>
+                                            <td>{subject.credits}</td>
+                                            <td className={`grade-cell ${subject.grade === 'RA' ? 'grade-ra' : ''}`}>
+                                                {subject.grade}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Chart Section */}
