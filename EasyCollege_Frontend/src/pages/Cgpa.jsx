@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import Modal from '../components/Modal';
 import './Cgpa.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -11,6 +12,19 @@ function Cgpa() {
     const [error, setError] = useState('');
     const [excludedIds, setExcludedIds] = useState(new Set());
     const [displayData, setDisplayData] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        const modalShown = localStorage.getItem('cgpa_modal_shown');
+        if (!modalShown) {
+            setIsModalOpen(true);
+        }
+    }, []);
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        localStorage.setItem('cgpa_modal_shown', 'true');
+    };
 
     const gradesMap = { 'O': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5 };
 
@@ -210,6 +224,14 @@ function Cgpa() {
 
     return (
         <div className="cgpa-page-wrapper">
+            <Modal 
+                isOpen={isModalOpen} 
+                onClose={handleCloseModal} 
+                title="Course Selection Info"
+            >
+                <p>Please note that the option for <strong>selecting courses</strong> has been enabled to accommodate <strong>fast-track courses</strong> and <strong>open elective courses</strong>. This allows for a more accurate calculation of your CGPA based on your specific academic path.</p>
+            </Modal>
+
             <div className="cgpa-card">
                 {/* Summary Section */}
                 <div className="cgpa-summary" style={{ position: 'relative' }}>

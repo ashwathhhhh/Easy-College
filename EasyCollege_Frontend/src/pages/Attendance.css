@@ -325,9 +325,20 @@ input:checked+.slider:before {
 }
 
 @keyframes sync-pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .sync-status-text {
@@ -363,11 +374,11 @@ input:checked+.slider:before {
         padding: 40px 20px;
         border-radius: 24px;
     }
-    
+
     .sync-title {
         font-size: 1.5rem;
     }
-    
+
     .sync-description {
         font-size: 0.95rem;
     }

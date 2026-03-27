@@ -170,14 +170,14 @@ function Attendance() {
     if (error === 'Attendance data is currently unavailable.') {
         return (
             <div className="attendance-sync-wrapper">
-                <motion.div 
+                <motion.div
                     className="attendance-sync-card"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
 
-                    
+
                     <h2 className="sync-title">Attendance is being updated</h2>
                     <p className="sync-description">
                         Check back later once it is updated

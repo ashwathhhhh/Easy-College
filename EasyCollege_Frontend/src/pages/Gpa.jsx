@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
+import Modal from '../components/Modal';
 import './Gpa.css';
 
 function Gpa() {
@@ -9,6 +9,19 @@ function Gpa() {
     const [excludedIndices, setExcludedIndices] = useState(new Set());
     const [calculatedGpa, setCalculatedGpa] = useState(null);
     const [calculatedCredits, setCalculatedCredits] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        const modalShown = localStorage.getItem('gpa_modal_shown');
+        if (!modalShown) {
+            setIsModalOpen(true);
+        }
+    }, []);
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        localStorage.setItem('gpa_modal_shown', 'true');
+    };
 
     const fetchGpa = useCallback(async () => {
         setIsLoading(true);
@@ -102,6 +115,14 @@ function Gpa() {
 
     return (
         <div className="gpa-page-wrapper">
+            <Modal 
+                isOpen={isModalOpen} 
+                onClose={handleCloseModal} 
+                title="Course Selection Info"
+            >
+                <p>Please note that the option for <strong>selecting courses</strong> has been enabled to accommodate <strong>fast-track courses</strong> and <strong>open elective courses</strong>. This allows for a more accurate calculation of your GPA based on your specific academic path.</p>
+            </Modal>
+
             <div className="gpa-card">
                 {/* Header matching image */}
                 <div className="gpa-header-section">
