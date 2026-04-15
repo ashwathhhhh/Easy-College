@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { LogOut, Info, Phone, LayoutDashboard, User } from 'lucide-react';
+import { LogOut, Info, Mail, LayoutDashboard, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 function Navbar() {
@@ -56,7 +56,7 @@ function Navbar() {
                 )}
 
                 <a href={contactUrl} target="_blank" rel="noopener noreferrer">
-                    <Phone size={18} />
+                    <Mail size={18} />
                     <span className="hide-mobile">Contact</span>
                 </a>
 

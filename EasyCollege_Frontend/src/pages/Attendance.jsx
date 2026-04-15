@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Info, Plus, Minus, Wand2 } from 'lucide-react';
+import { Info, Plus, Minus, Wand2, Save, CloudOff, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './Attendance.css';
 
@@ -10,9 +10,13 @@ function Attendance() {
     const [showPopup, setShowPopup] = useState(true);
     const [viewMode, setViewMode] = useState('table'); // 'cards' or 'table'
     const [simulation, setSimulation] = useState({});
+    const [isOfflineView, setIsOfflineView] = useState(false);
+    const [lastSaved, setLastSaved] = useState(null);
+    const [showSavePrompt, setShowSavePrompt] = useState(false);
 
     const fetchAttendance = useCallback(async () => {
         setIsLoading(true);
+        setIsOfflineView(false);
         const authToken = localStorage.getItem('auth_token');
         const apiUrl = import.meta.env.VITE_API_BASE_URL || '';
         setError('');
@@ -25,6 +29,12 @@ function Attendance() {
             const data = await response.json();
             if (response.ok) {
                 setAttendanceData(data);
+
+                // Check if we should prompt to save
+                const saved = localStorage.getItem('saved_attendance_data');
+                if (!saved || JSON.stringify(JSON.parse(saved).data) !== JSON.stringify(data)) {
+                    setShowSavePrompt(true);
+                }
             } else {
                 setError(data.error || 'Failed to fetch data.');
             }
@@ -37,8 +47,34 @@ function Attendance() {
     }, []);
 
     useEffect(() => {
+        const saved = localStorage.getItem('saved_attendance_data');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            setLastSaved(parsed.timestamp);
+        }
         fetchAttendance();
     }, [fetchAttendance]);
+
+    const saveAttendanceLocally = () => {
+        const dataToSave = {
+            data: attendanceData,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('saved_attendance_data', JSON.stringify(dataToSave));
+        setLastSaved(dataToSave.timestamp);
+        setShowSavePrompt(false);
+    };
+
+    const loadSavedAttendance = () => {
+        const saved = localStorage.getItem('saved_attendance_data');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            setAttendanceData(parsed.data);
+            setLastSaved(parsed.timestamp);
+            setIsOfflineView(true);
+            setError('');
+        }
+    };
 
     const togglePopup = () => setShowPopup(!showPopup);
 
@@ -186,6 +222,26 @@ function Attendance() {
                     <button className="sync-retry-btn" onClick={fetchAttendance}>
                         Refresh Status
                     </button>
+
+                    {lastSaved && (
+                        <button
+                            className="sync-offline-btn"
+                            onClick={loadSavedAttendance}
+                            style={{ 
+                                marginTop: '12px', 
+                                background: 'rgba(255,255,255,0.05)', 
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                color: '#94a3b8',
+                                padding: '14px',
+                                borderRadius: '14px',
+                                width: '100%',
+                                cursor: 'pointer',
+                                fontWeight: 600
+                            }}
+                        >
+                            View Last Saved ({new Date(lastSaved).toLocaleDateString()})
+                        </button>
+                    )}
                 </motion.div>
             </div>
         );
@@ -196,12 +252,35 @@ function Attendance() {
     return (
         <div className="attendance-page-wrapper">
             <div className="attendance-main-card">
+                {isOfflineView && (
+                    <div className="offline-banner">
+                        <CloudOff size={16} />
+                        <span>Viewing saved attendance from {new Date(lastSaved).toLocaleString()}</span>
+                        <button onClick={fetchAttendance} className="try-live-btn">Try Live Data</button>
+                    </div>
+                )}
+
+                {showSavePrompt && (
+                    <div className="save-prompt-banner">
+                        <Save size={16} />
+                        <span>Wanna save this attendance to view when ecampus is down?</span>
+                        <div className="save-prompt-actions">
+                            <button onClick={saveAttendanceLocally} className="save-confirm-btn">Save</button>
+                            <button onClick={() => setShowSavePrompt(false)} className="save-cancel-btn">Maybe later</button>
+                        </div>
+                    </div>
+                )}
                 <div className="attendance-header-section">
                     <h1>
                         Attendance Tracker
-                        <button onClick={togglePopup} className="info-icon-btn" title="How is this calculated?">
-                            <Info size={24} />
-                        </button>
+                        <div className="header-actions">
+                            <button onClick={() => setShowSavePrompt(true)} className="action-icon-btn" title="Save for offline">
+                                <Save size={24} />
+                            </button>
+                            <button onClick={togglePopup} className="info-icon-btn" title="How is this calculated?">
+                                <Info size={24} />
+                            </button>
+                        </div>
                     </h1>
                     <p>Monitor your class attendance and simulate predicting future percentage changes</p>
                 </div>
