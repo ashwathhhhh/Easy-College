@@ -30,7 +30,7 @@ function Login() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    roll_number: rollNumber,
+                    roll_number: rollNumber.toUpperCase().trim(),
                     password: password,
                     login_type: loginType
                 })
@@ -97,9 +97,10 @@ function Login() {
                                 <input
                                     type="text"
                                     value={rollNumber}
-                                    onChange={e => setRollNumber(e.target.value)}
+                                    onChange={e => setRollNumber(e.target.value.toUpperCase())}
                                     placeholder="Roll Number"
                                     className="input-field"
+                                    style={{ textTransform: 'uppercase' }}
                                     required
                                 />
                             </div>
