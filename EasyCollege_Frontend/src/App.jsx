@@ -14,6 +14,8 @@ import Gpa from './pages/Gpa';
 import Cgpa from './pages/Cgpa';
 import Feedback from './pages/Feedback';
 import About from './pages/About';
+import Admin from './pages/Admin';
+import Internals from './pages/Internals';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -31,7 +33,9 @@ function App() {
                     <Route path="/attendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
                     <Route path="/gpa" element={<PrivateRoute><Gpa /></PrivateRoute>} />
                     <Route path="/cgpa" element={<PrivateRoute><Cgpa /></PrivateRoute>} />
+                    <Route path="/internals" element={<PrivateRoute><Internals /></PrivateRoute>} />
                     <Route path="/feedback" element={<PrivateRoute><Feedback /></PrivateRoute>} />
+                    <Route path="/admin" element={<Admin />} />
                     <Route path="/about" element={<About />} />
 
                     {/* 404 Route */}

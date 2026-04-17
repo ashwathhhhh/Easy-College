@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BarChart3, Calculator, MessageSquare, GraduationCap } from 'lucide-react';
+import { BarChart3, Calculator, MessageSquare, GraduationCap, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 function Dashboard() {
@@ -53,6 +53,14 @@ function Dashboard() {
                     </div>
                     <div className="dashboard-title">CGPA Calculator</div>
                     <div className="dashboard-description">Monitor your cumulative grade point average across all semesters.</div>
+                </MotionLink>
+
+                <MotionLink to="/internals" className="dashboard-card" variants={item}>
+                    <div className="dashboard-icon-wrapper">
+                        <BookOpen size={32} strokeWidth={1.5} />
+                    </div>
+                    <div className="dashboard-title">Internal Marks</div>
+                    <div className="dashboard-description">View your CA marks and track your internal assessment performance.</div>
                 </MotionLink>
 
                 <MotionLink to="/feedback" className="dashboard-card" variants={item}>
