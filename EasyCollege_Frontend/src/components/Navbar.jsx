@@ -25,7 +25,7 @@ function Navbar() {
         navigate('/');
     };
 
-    const contactUrl = "https://mail.google.com/mail/u/0/?view=cm&to=campuslyapi@gmail.com&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]";
+    const contactUrl = "https://mail.google.com/mail/u/0/?view=cm&to=23z362@psgtech.ac.in&su=Contact%20from%20Easy%20College&body=Hello,%0D%0A%0D%0AI'm%20contacting%20you%20regarding%20Easy%20College.%0D%0A%0D%0ARegards,%0D%0A[Your%20Name]";
 
     return (
         <motion.nav
