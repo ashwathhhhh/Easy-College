@@ -47,7 +47,8 @@ function Admin() {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        if (!rollNumber) return;
+        const normalizedRoll = rollNumber.trim().toUpperCase();
+        if (!normalizedRoll) return;
 
         setError('');
         setIsLoading(true);
@@ -55,7 +56,7 @@ function Admin() {
         setStudentDetails({ attendance: null, gpa: null, cgpa: null });
 
         try {
-            const response = await fetch(`${apiUrl}/api/admin/student-info/${rollNumber}`, {
+            const response = await fetch(`${apiUrl}/api/admin/student-info/${normalizedRoll}`, {
                 headers: { 'Authorization': `Bearer ${adminToken}` }
             });
             const data = await response.json();
