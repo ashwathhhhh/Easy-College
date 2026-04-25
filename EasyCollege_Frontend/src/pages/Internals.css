@@ -12,9 +12,9 @@
 }
 
 .refresh-btn {
-    background: #0f172a;
-    border: 1px solid #1e293b;
-    color: #94a3b8;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
     padding: 0.5rem 1rem;
     border-radius: 6px;
     cursor: pointer;
@@ -27,9 +27,9 @@
 }
 
 .refresh-btn:hover {
-    background: #1e293b;
+    background: var(--glass-bg-hover);
     color: #fff;
-    border-color: #6366f1;
+    border-color: var(--primary);
 }
 
 .refresh-btn span {
@@ -37,8 +37,8 @@
 }
 
 .marks-table-container {
-    background: #0b0f1a;
-    border: 1px solid #1e293b;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -56,13 +56,13 @@
 .marks-table th {
     text-align: left;
     padding: 1rem 1.5rem;
-    background: #0f172a;
-    color: #64748b;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
-    border-bottom: 1px solid #1e293b;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .marks-table td {
@@ -138,7 +138,7 @@
 }
 
 .mark-cell-value.accent {
-    color: #818cf8;
+    color: var(--primary);
 }
 
 .max-mark {
@@ -183,9 +183,9 @@
 
 .sim-toggle:hover,
 .sim-toggle.active {
-    border-color: #6366f1;
-    color: #6366f1;
-    background: rgba(99, 102, 241, 0.05);
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-glow);
 }
 
 .expanded-sim-view {
@@ -253,12 +253,12 @@
 }
 
 .sim-res-item.primary {
-    border-color: #6366f1;
-    background: rgba(99, 102, 241, 0.05);
+    border-color: var(--primary);
+    background: var(--primary-glow);
 }
 
 .sim-res-item.primary strong {
-    color: #818cf8;
+    color: var(--primary);
 }
 
 .loading-container {
