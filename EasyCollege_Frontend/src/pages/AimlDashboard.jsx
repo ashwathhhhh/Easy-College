@@ -256,9 +256,28 @@ function AimlDashboard() {
                                     <span className="metric-value">{calculateMSE() || 'N/A'}</span>
                                     <span className="metric-desc">Lower value indicates higher similarity.</span>
                                 </div>
+                                <div className="metric-card">
+                                    <span className="metric-label">GPA Comparison</span>
+                                    <span className="metric-value">
+                                        <span className="val-alpha">{compareResult.user1.gpa}</span>
+                                        <span className="val-vs">vs</span>
+                                        <span className="val-beta">{compareResult.user2.gpa}</span>
+                                    </span>
+                                    <span className="metric-desc">Most Recent Semester GPA</span>
+                                </div>
+                                <div className="metric-card">
+                                    <span className="metric-label">CGPA Comparison</span>
+                                    <span className="metric-value">
+                                        <span className="val-alpha">{compareResult.user1.cgpa}</span>
+                                        <span className="val-vs">vs</span>
+                                        <span className="val-beta">{compareResult.user2.cgpa}</span>
+                                    </span>
+                                    <span className="metric-desc">Overall Cumulative Grade Point Average</span>
+                                </div>
                             </div>
 
                             <div className="comparison-table-wrapper">
+                                <h3>Internal Marks Comparison</h3>
                                 <table className="comparison-table">
                                     <thead>
                                         <tr>
@@ -315,6 +334,59 @@ function AimlDashboard() {
                                                 </tr>
                                             );
                                         })}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="comparison-table-wrapper" style={{ marginTop: '3rem' }}>
+                                <h3>Semester-wise SGPA Comparison</h3>
+                                <table className="comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Semester</th>
+                                            <th>{compareResult.user1.name || 'User 1'}</th>
+                                            <th>Performance</th>
+                                            <th>{compareResult.user2.name || 'User 2'}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {(() => {
+                                            const sems = Array.from(new Set([
+                                                ...(compareResult.user1.semwise_history || []).map(s => s.sem),
+                                                ...(compareResult.user2.semwise_history || []).map(s => s.sem)
+                                            ])).sort((a, b) => a - b);
+
+                                            return sems.map(sem => {
+                                                const s1 = (compareResult.user1.semwise_history || []).find(s => s.sem === sem);
+                                                const s2 = (compareResult.user2.semwise_history || []).find(s => s.sem === sem);
+                                                const sgpa1 = s1 ? s1.sgpa : 0;
+                                                const sgpa2 = s2 ? s2.sgpa : 0;
+                                                const diff = sgpa1 && sgpa2 ? (sgpa1 - sgpa2).toFixed(2) : null;
+
+                                                return (
+                                                    <tr key={sem}>
+                                                        <td>Sem {sem}</td>
+                                                        <td>
+                                                            <div className="mark-badge info">{sgpa1 || 'N/A'}</div>
+                                                        </td>
+                                                        <td>
+                                                            {diff !== null ? (
+                                                                <div className="diff-container">
+                                                                    {parseFloat(diff) > 0 ? <TrendingUp size={16} className="diff-pos" /> : 
+                                                                     parseFloat(diff) < 0 ? <TrendingDown size={16} className="diff-neg" /> : <Minus size={16} className="diff-neutral" />}
+                                                                    <span className={`diff-indicator ${parseFloat(diff) > 0 ? 'diff-pos' : parseFloat(diff) < 0 ? 'diff-neg' : 'diff-neutral'}`}>
+                                                                        {parseFloat(diff) > 0 ? `+${diff}` : diff}
+                                                                    </span>
+                                                                </div>
+                                                            ) : '—'}
+                                                        </td>
+                                                        <td>
+                                                            <div className="mark-badge info">{sgpa2 || 'N/A'}</div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            });
+                                        })()}
                                     </tbody>
                                 </table>
                             </div>
