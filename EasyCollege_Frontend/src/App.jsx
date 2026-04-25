@@ -16,6 +16,7 @@ import Feedback from './pages/Feedback';
 import About from './pages/About';
 import Admin from './pages/Admin';
 import Internals from './pages/Internals';
+import AimlDashboard from './pages/AimlDashboard';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/feedback" element={<PrivateRoute><Feedback /></PrivateRoute>} />
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/aiml-dashboard" element={<AimlDashboard />} />
 
                     {/* 404 Route */}
                     <Route path="*" element={<NotFound />} />

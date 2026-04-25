@@ -245,32 +245,40 @@ body {
 .input-icon {
     position: absolute;
     left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--text-tertiary);
     pointer-events: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 
 .input-field {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 2.75rem;
-    /* Space for icon */
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--glass-border);
+    padding: 1rem 1rem 1rem 3.25rem; /* Increased left padding */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-family: inherit;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-field::placeholder {
+    color: var(--text-tertiary);
+    font-size: 0.95rem;
+    text-transform: none; /* Keep placeholder case natural */
 }
 
 .input-field:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
-    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.input-field:focus+.input-icon {
+.input-wrapper:focus-within .input-icon {
     color: var(--primary);
 }
 
@@ -305,6 +313,8 @@ body {
 .password-toggle-btn {
     position: absolute;
     right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-tertiary);
@@ -312,16 +322,17 @@ body {
     padding: 0;
     display: flex;
     align-items: center;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 
 .password-toggle-btn:hover {
     color: var(--primary);
 }
 
-.input-field {
-    /* Ensure space for both left icon and right toggle */
-    padding-right: 3rem;
+.input-wrapper .input-field {
+    padding-left: 3.25rem !important;
+    padding-right: 3.25rem !important;
 }
 
 /* Login Type Toggle */

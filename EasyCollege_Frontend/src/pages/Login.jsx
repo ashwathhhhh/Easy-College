@@ -97,10 +97,9 @@ function Login() {
                                 <input
                                     type="text"
                                     value={rollNumber}
-                                    onChange={e => setRollNumber(e.target.value.toUpperCase())}
+                                    onChange={e => setRollNumber(e.target.value)}
                                     placeholder="Roll Number"
                                     className="input-field"
-                                    style={{ textTransform: 'uppercase' }}
                                     required
                                 />
                             </div>
