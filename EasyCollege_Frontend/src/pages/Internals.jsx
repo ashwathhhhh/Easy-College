@@ -24,7 +24,7 @@ function Internals() {
             const data = await response.json();
             if (response.ok) {
                 setInternalsData(data);
-                
+
                 // Initialize simulation data with current values
                 const initialSim = {};
                 data.forEach(course => {
@@ -98,10 +98,10 @@ function Internals() {
             const t1_displayed = val(data.t1) * 0.6;
             const t2_displayed = val(data.t2) * 0.6;
             testTotal = (t1_displayed + t2_displayed) / 2;
-            
+
             mcqTotal = (val(data.mq1) + val(data.mq2)) / 2;
             apTotal = data.type === 'theory_split' ? val(data.ap1) + val(data.ap2) : val(data.ap);
-            
+
             const total50 = testTotal + mcqTotal + apTotal;
             return { raw: total50.toFixed(2), 50: total50, converted: Math.round(total50 * 0.8), max: 40 };
         }
@@ -119,12 +119,12 @@ function Internals() {
 
     const calculateNeededForNext = (course) => {
         if (!course.total || course.total === "Not Updated Yet") return null;
-        
+
         // Only show for theory courses
         if (course.is_lab) return null;
 
         // Check if everything is filled (no * or Pending in row_data)
-        const hasPending = course.row_data && course.row_data.some(val => 
+        const hasPending = course.row_data && course.row_data.some(val =>
             val === "*" || val === "Pending" || val === ""
         );
         if (hasPending) return null;
@@ -134,24 +134,24 @@ function Internals() {
 
         const current40 = Math.round(currentTotal * 0.8);
         const target40 = current40 + 1;
-        
+
         const targetThreshold40 = target40 - 0.5;
         const targetTotal50 = targetThreshold40 / 0.8;
-        
+
         const neededIncreaseTotal = targetTotal50 - currentTotal;
-        
+
         // Needed increase in test average
-        const neededIncreaseAvg = neededIncreaseTotal; 
-        
+        const neededIncreaseAvg = neededIncreaseTotal;
+
         // Needed increase in sum of T1+T2 (displayed)
         const neededIncreaseSumDisplayed = neededIncreaseAvg * 2;
-        
+
         // Conversion from raw 50 to displayed 30: Displayed = Raw * 0.6
         const neededIncreaseRaw = neededIncreaseSumDisplayed / 0.6;
-        
+
         // Ceil to 0.5
         const ceiledIncrease = Math.ceil(neededIncreaseRaw * 2) / 2;
-        
+
         return {
             target: target40,
             increaseRaw: Math.max(0, ceiledIncrease).toFixed(1)
@@ -178,23 +178,19 @@ function Internals() {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
-            <p>Fetching your internal marks...</p>
         </div>
     );
 
     return (
         <div className="internals-container">
-            <motion.div
-                className="internals-header"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-            >
-                <h1>Internal Marks</h1>
-                <p>View your continuous assessment (CA) marks for the current semester.</p>
-                <button className="refresh-btn" onClick={fetchInternals} title="Refresh Marks">
-                    <RefreshCw size={20} />
-                </button>
-            </motion.div>
+            {!isLoading && !error && (
+                <div className="table-controls">
+                    <button className="refresh-btn" onClick={fetchInternals} title="Refresh Marks">
+                        <RefreshCw size={18} />
+                        <span>Sync Marks</span>
+                    </button>
+                </div>
+            )}
 
             {error ? (
                 <motion.div
@@ -208,136 +204,162 @@ function Internals() {
                 </motion.div>
             ) : (
                 <motion.div
-                    className="marks-grid"
-                    initial="hidden"
-                    animate="show"
-                    variants={{
-                        hidden: { opacity: 0 },
-                        show: {
-                            opacity: 1,
-                            transition: {
-                                staggerChildren: 0.1
-                            }
-                        }
-                    }}
+                    className="marks-table-container"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
                 >
                     {internalsData.length > 0 ? (
-                        internalsData.map((course, index) => {
-                            const isSimulating = simulatingId === course.course_code;
-                            const currentSimData = simData[course.course_code] || analyzeComponents(course);
-                            const calculated = calculateTotal(currentSimData);
-                            
-                            return (
-                                <motion.div 
-                                    className={`mark-card ${isSimulating ? 'sim-mode' : getMarkStatus(course.total)}`}
-                                    key={index}
-                                    layout
-                                    variants={{
-                                        hidden: { opacity: 0, scale: 0.9 },
-                                        show: { opacity: 1, scale: 1 }
-                                    }}
-                                    whileHover={!isSimulating ? { y: -5, transition: { duration: 0.2 } } : {}}
-                                >
-                                    <div className="card-top">
-                                        <div className="course-info">
-                                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                <span className="course-code">{course.course_code}</span>
-                                                {course.is_lab && <span className="lab-badge">LAB</span>}
-                                            </div>
-                                            <h3 className="course-name">{course.course_name}</h3>
-                                        </div>
-                                        <button 
-                                            className={`sim-toggle ${isSimulating ? 'active' : ''}`}
-                                            onClick={() => setSimulatingId(isSimulating ? null : course.course_code)}
-                                            title={isSimulating ? "Close Simulator" : "Interactive Simulator"}
-                                        >
-                                            {isSimulating ? <ArrowLeft size={18} /> : <Wand2 size={18} />}
-                                        </button>
-                                    </div>
-                                    
-                                    <AnimatePresence mode="wait">
-                                        {!isSimulating ? (
-                                            <motion.div 
-                                                key="standard"
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                            >
-                                                <div className="card-bottom">
-                                                    <div className="mark-section">
-                                                        <div className="mark-label">Total (50)</div>
-                                                        <div className="mark-value">
-                                                            {course.total}
-                                                            {course.total !== "Not Updated Yet" && <span className="max-mark">/ 50</span>}
-                                                        </div>
-                                                    </div>
-                                                    <div className="mark-section">
-                                                        <div className="mark-label">{course.target_max === 60 ? 'Augmented (60)' : 'Reduced (40)'}</div>
-                                                        <div className="mark-value accent">
-                                                            {course.total_converted}
-                                                            {course.total_converted !== "Not Updated Yet" && <span className="max-mark">/ {course.target_max}</span>}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {calculateNeededForNext(course) && (
-                                                    <div className="prediction-section">
-                                                        <div className="prediction-header">
-                                                            <TrendingUp size={14} />
-                                                            <span>Goal: {calculateNeededForNext(course).target}/40</span>
-                                                        </div>
-                                                        <div className="prediction-body">
-                                                            Need <strong>+{calculateNeededForNext(course).increaseRaw}</strong> in CA2 <small>(out of 50)</small>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </motion.div>
-                                        ) : (
-                                            <motion.div 
-                                                key="simulator"
-                                                className="simulator-view"
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: 'auto' }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                            >
-                                                <div className="sim-grid">
-                                                    {currentSimData.type === 'lab' ? (
-                                                        <>
-                                                            <div className="sim-field"><label>IR I (15)</label><input type="number" step="0.1" value={currentSimData.ir1 !== null ? currentSimData.ir1 : ''} onChange={(e) => handleSimChange(course.course_code, 'ir1', e.target.value)} /></div>
-                                                            <div className="sim-field"><label>IR II (15)</label><input type="number" step="0.1" value={currentSimData.ir2 !== null ? currentSimData.ir2 : ''} onChange={(e) => handleSimChange(course.course_code, 'ir2', e.target.value)} /></div>
-                                                            <div className="sim-field"><label>PLRO I (10)</label><input type="number" step="0.1" value={currentSimData.plro1 !== null ? currentSimData.plro1 : ''} onChange={(e) => handleSimChange(course.course_code, 'plro1', e.target.value)} /></div>
-                                                            <div className="sim-field"><label>PLRO II (10)</label><input type="number" step="0.1" value={currentSimData.plro2 !== null ? currentSimData.plro2 : ''} onChange={(e) => handleSimChange(course.course_code, 'plro2', e.target.value)} /></div>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <div className="sim-field"><label>T1 (out of 50)</label><input type="number" step="0.1" value={currentSimData.t1 !== null ? Math.round(currentSimData.t1 * 10) / 10 : ''} onChange={(e) => handleSimChange(course.course_code, 't1', e.target.value)} /></div>
-                                                            <div className="sim-field"><label>T2 (out of 50)</label><input type="number" step="0.1" value={currentSimData.t2 !== null ? Math.round(currentSimData.t2 * 10) / 10 : ''} onChange={(e) => handleSimChange(course.course_code, 't2', e.target.value)} /></div>
-                                                            <div className="sim-field"><label>MQ1 (10)</label><input type="number" step="0.1" value={currentSimData.mq1 !== null ? currentSimData.mq1 : ''} onChange={(e) => handleSimChange(course.course_code, 'mq1', e.target.value)} /></div>
-                                                            <div className="sim-field"><label>MQ2 (10)</label><input type="number" step="0.1" value={currentSimData.mq2 !== null ? currentSimData.mq2 : ''} onChange={(e) => handleSimChange(course.course_code, 'mq2', e.target.value)} /></div>
-                                                            {currentSimData.type === 'theory_split' ? (
-                                                                <>
-                                                                    <div className="sim-field"><label>AP1 (5)</label><input type="number" step="0.1" value={currentSimData.ap1 !== null ? currentSimData.ap1 : ''} onChange={(e) => handleSimChange(course.course_code, 'ap1', e.target.value)} /></div>
-                                                                    <div className="sim-field"><label>AP2 (5)</label><input type="number" step="0.1" value={currentSimData.ap2 !== null ? currentSimData.ap2 : ''} onChange={(e) => handleSimChange(course.course_code, 'ap2', e.target.value)} /></div>
-                                                                </>
+                        <div className="table-wrapper">
+                            <table className="marks-table">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Split Up</th>
+                                        <th>Total (50)</th>
+                                        <th>Final Converted</th>
+                                        <th>Goal Prediction</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {[...internalsData]
+                                        .sort((a, b) => (a.is_lab === b.is_lab ? 0 : a.is_lab ? 1 : -1))
+                                        .map((course, index) => {
+                                            const isSimulating = simulatingId === course.course_code;
+                                            const currentSimData = simData[course.course_code] || analyzeComponents(course);
+                                            const calculated = calculateTotal(currentSimData);
+                                            const prediction = calculateNeededForNext(course);
+
+                                            // Helper to get split up display
+                                            const components = analyzeComponents(course);
+                                            const splitItems = [];
+                                            if (components.type === 'lab') {
+                                                if (components.ir1 !== null) splitItems.push({ label: 'IR1', val: components.ir1 });
+                                                if (components.ir2 !== null) splitItems.push({ label: 'IR2', val: components.ir2 });
+                                                if (components.plro1 !== null) splitItems.push({ label: 'PL1', val: components.plro1 });
+                                                if (components.plro2 !== null) splitItems.push({ label: 'PL2', val: components.plro2 });
+                                            } else if (components.type === 'theory' || components.type === 'theory_split') {
+                                                if (components.t1 !== null) splitItems.push({ label: 'CA1', val: Math.round(components.t1 * 10) / 10 });
+                                                if (components.t2 !== null) splitItems.push({ label: 'CA2', val: Math.round(components.t2 * 10) / 10 });
+
+                                                if (components.type === 'theory_split') {
+                                                    if (components.ap1 !== null) splitItems.push({ label: 'TUT1', val: components.ap1 });
+                                                    if (components.ap2 !== null) splitItems.push({ label: 'TUT2', val: components.ap2 });
+                                                } else {
+                                                    if (components.ap !== null) splitItems.push({ label: 'AP', val: components.ap });
+                                                }
+
+                                                if (components.mq1 !== null) splitItems.push({ label: 'MQ1', val: components.mq1 });
+                                                if (components.mq2 !== null) splitItems.push({ label: 'MQ2', val: components.mq2 });
+                                            }
+
+                                            return (
+                                                <React.Fragment key={index}>
+                                                    <tr className={`table-row ${isSimulating ? 'sim-active' : ''}`}>
+                                                        <td>
+                                                            <div className="subject-cell">
+                                                                <span className="subject-code-tag">{course.course_code}</span>
+                                                                <span className="subject-name">{course.course_name}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="split-up-container">
+                                                                {splitItems.length > 0 ? splitItems.map((item, i) => (
+                                                                    <div key={i} className="split-item">
+                                                                        <span className="split-label">{item.label}</span>
+                                                                        <span className="split-val">{item.val}</span>
+                                                                    </div>
+                                                                )) : <span className="no-split">No data yet</span>}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="mark-cell-value">
+                                                                {course.total}
+                                                                {course.total !== "Not Updated Yet" && <span className="max-mark">/ 50</span>}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="mark-cell-value accent">
+                                                                {course.total_converted}
+                                                                {course.total_converted !== "Not Updated Yet" && <span className="max-mark">/ {course.target_max}</span>}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            {prediction ? (
+                                                                <div className="goal-cell">
+                                                                    <div className="goal-target">Target: {prediction.target}/40</div>
+                                                                    <div className="goal-needed">Need <strong>+{prediction.increaseRaw}</strong> in CA2</div>
+                                                                </div>
                                                             ) : (
-                                                                <div className="sim-field"><label>AP (10)</label><input type="number" step="0.1" value={currentSimData.ap !== null ? currentSimData.ap : ''} onChange={(e) => handleSimChange(course.course_code, 'ap', e.target.value)} /></div>
+                                                                <span className="no-goal">—</span>
                                                             )}
-                                                        </>
-                                                    )}
-                                                </div>
-                                                <div className="sim-result">
-                                                    <div className="sim-res-item">
-                                                        <span>50: <strong>{calculated.raw}</strong></span>
-                                                    </div>
-                                                    <div className="sim-res-item primary">
-                                                        <span> {calculated.max}: <strong>{calculated.converted}</strong></span>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-                            );
-                        })
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className={`sim-toggle ${isSimulating ? 'active' : ''}`}
+                                                                onClick={() => setSimulatingId(isSimulating ? null : course.course_code)}
+                                                                title={isSimulating ? "Close Simulator" : "Interactive Simulator"}
+                                                            >
+                                                                {isSimulating ? <ArrowLeft size={16} /> : <Wand2 size={16} />}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                    <AnimatePresence>
+                                                        {isSimulating && (
+                                                            <tr className="sim-row">
+                                                                <td colSpan="6" className="sim-container-cell">
+                                                                    <motion.div
+                                                                        className="expanded-sim-view"
+                                                                        initial={{ opacity: 0, height: 0 }}
+                                                                        animate={{ opacity: 1, height: 'auto' }}
+                                                                        exit={{ opacity: 0, height: 0 }}
+                                                                    >
+                                                                        <div className="sim-grid">
+                                                                            {currentSimData.type === 'lab' ? (
+                                                                                <>
+                                                                                    <div className="sim-field"><label>IR I (15)</label><input type="number" step="0.1" value={currentSimData.ir1 !== null ? currentSimData.ir1 : ''} onChange={(e) => handleSimChange(course.course_code, 'ir1', e.target.value)} /></div>
+                                                                                    <div className="sim-field"><label>IR II (15)</label><input type="number" step="0.1" value={currentSimData.ir2 !== null ? currentSimData.ir2 : ''} onChange={(e) => handleSimChange(course.course_code, 'ir2', e.target.value)} /></div>
+                                                                                    <div className="sim-field"><label>PLRO I (10)</label><input type="number" step="0.1" value={currentSimData.plro1 !== null ? currentSimData.plro1 : ''} onChange={(e) => handleSimChange(course.course_code, 'plro1', e.target.value)} /></div>
+                                                                                    <div className="sim-field"><label>PLRO II (10)</label><input type="number" step="0.1" value={currentSimData.plro2 !== null ? currentSimData.plro2 : ''} onChange={(e) => handleSimChange(course.course_code, 'plro2', e.target.value)} /></div>
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <div className="sim-field"><label>CA1 (out of 50)</label><input type="number" step="0.1" value={currentSimData.t1 !== null ? Math.round(currentSimData.t1 * 10) / 10 : ''} onChange={(e) => handleSimChange(course.course_code, 't1', e.target.value)} /></div>
+                                                                                    <div className="sim-field"><label>CA2 (out of 50)</label><input type="number" step="0.1" value={currentSimData.t2 !== null ? Math.round(currentSimData.t2 * 10) / 10 : ''} onChange={(e) => handleSimChange(course.course_code, 't2', e.target.value)} /></div>
+                                                                                    <div className="sim-field"><label>MQ1 (10)</label><input type="number" step="0.1" value={currentSimData.mq1 !== null ? currentSimData.mq1 : ''} onChange={(e) => handleSimChange(course.course_code, 'mq1', e.target.value)} /></div>
+                                                                                    <div className="sim-field"><label>MQ2 (10)</label><input type="number" step="0.1" value={currentSimData.mq2 !== null ? currentSimData.mq2 : ''} onChange={(e) => handleSimChange(course.course_code, 'mq2', e.target.value)} /></div>
+                                                                                    {currentSimData.type === 'theory_split' ? (
+                                                                                        <>
+                                                                                            <div className="sim-field"><label>TUT1 (5)</label><input type="number" step="0.1" value={currentSimData.ap1 !== null ? currentSimData.ap1 : ''} onChange={(e) => handleSimChange(course.course_code, 'ap1', e.target.value)} /></div>
+                                                                                            <div className="sim-field"><label>TUT2 (5)</label><input type="number" step="0.1" value={currentSimData.ap2 !== null ? currentSimData.ap2 : ''} onChange={(e) => handleSimChange(course.course_code, 'ap2', e.target.value)} /></div>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <div className="sim-field"><label>AP (10)</label><input type="number" step="0.1" value={currentSimData.ap !== null ? currentSimData.ap : ''} onChange={(e) => handleSimChange(course.course_code, 'ap', e.target.value)} /></div>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="sim-result">
+                                                                            <div className="sim-res-item">
+                                                                                <span>Internal (50): <strong>{calculated.raw}</strong></span>
+                                                                            </div>
+                                                                            <div className="sim-res-item primary">
+                                                                                <span>Final ({calculated.max}): <strong>{calculated.converted}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </motion.div>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </AnimatePresence>
+                                                </React.Fragment>
+                                            );
+                                        })}
+                                </tbody>
+                            </table>
+                        </div>
                     ) : (
                         <div className="no-data">No internal marks found yet.</div>
                     )}
