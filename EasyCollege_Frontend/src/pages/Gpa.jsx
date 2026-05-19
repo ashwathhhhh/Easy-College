@@ -167,7 +167,7 @@ function Gpa() {
                         <tbody>
                             {gpaData.table && gpaData.table.map((course, index) => (
                                 <tr key={index} className={excludedIndices.has(index) ? 'excluded-row' : ''}>
-                                    <td className="checkbox-cell" style={{ textAlign: 'center' }}>
+                                    <td className="checkbox-cell" style={{ textAlign: 'center' }} data-label="SELECT">
                                         <label className="modern-checkbox">
                                             <input 
                                                 type="checkbox" 

@@ -201,7 +201,7 @@
         font-size: 1.3rem;
     }
 
-    /* Force Fit Table - No Scroll */
+    /* Fixed Table Layout for Mobile (No Scroll) */
     .table-section-glass {
         overflow-x: hidden;
         background: rgba(0, 0, 0, 0.2);
@@ -209,7 +209,7 @@
     }
 
     .gpa-modern-table {
-        min-width: 100%;
+        width: 100%;
         table-layout: fixed;
     }
 
@@ -222,49 +222,49 @@
     }
 
     .gpa-modern-table th {
-        padding: 12px 4px;
+        padding: 8px 2px;
         font-size: 0.65rem;
-        letter-spacing: 0;
         text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     .gpa-modern-table td {
-        padding: 10px 4px;
+        padding: 8px 2px;
         font-size: 0.75rem;
         text-align: center;
+        vertical-align: middle;
     }
 
-    /* Column Widths */
-    .gpa-modern-table th:nth-child(1),
-    .gpa-modern-table td:nth-child(1) {
-        width: 12%;
+    /* Fixed Column Widths */
+    .gpa-modern-table th:nth-child(1), .gpa-modern-table td:nth-child(1) { width: 10%; } /* SEL */
+    .gpa-modern-table th:nth-child(2), .gpa-modern-table td:nth-child(2) { width: 10%; } /* SEM */
+    .gpa-modern-table th:nth-child(3), .gpa-modern-table td:nth-child(3) { width: 22%; } /* CODE */
+    .gpa-modern-table th:nth-child(4), .gpa-modern-table td:nth-child(4) { width: 34%; text-align: left; } /* NAME */
+    .gpa-modern-table th:nth-child(5), .gpa-modern-table td:nth-child(5) { width: 10%; } /* CR */
+    .gpa-modern-table th:nth-child(6), .gpa-modern-table td:nth-child(6) { width: 14%; } /* GR */
+
+    /* Ellipsis for long text */
+    .course-name-cell {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 0; /* Essential for text-overflow in fixed table */
+        font-size: 0.75rem;
     }
 
-    /* SEM */
-    .gpa-modern-table th:nth-child(2),
-    .gpa-modern-table td:nth-child(2) {
-        width: 22%;
+    .course-code-cell {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 0;
+        font-size: 0.7rem;
     }
 
-    /* CODE */
-    .gpa-modern-table th:nth-child(3),
-    .gpa-modern-table td:nth-child(3) {
-        width: 34%;
+    .grade-cell {
+        font-weight: 800;
+        font-size: 0.8rem;
     }
-
-    /* NAME */
-    .gpa-modern-table th:nth-child(4),
-    .gpa-modern-table td:nth-child(4) {
-        width: 16%;
-    }
-
-    /* CREDITS */
-    .gpa-modern-table th:nth-child(5),
-    .gpa-modern-table td:nth-child(5) {
-        width: 16%;
-    }
-
-    /* GRADE */
 
     .sem-badge {
         width: 20px;
@@ -275,23 +275,6 @@
     .credits-badge-modern {
         padding: 2px 4px;
         font-size: 0.7rem;
-        border-radius: 4px;
-    }
-
-    .course-name-cell {
-        white-space: normal;
-        line-height: 1.2;
-        text-align: left !important;
-        font-size: 0.7rem !important;
-    }
-
-    .course-code-cell {
-        font-size: 0.7rem;
-    }
-
-    .grade-cell {
-        text-align: center !important;
-        font-weight: 800;
     }
 }
 
