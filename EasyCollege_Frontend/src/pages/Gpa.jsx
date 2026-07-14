@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Modal from '../components/Modal';
+import { RefreshCw } from 'lucide-react';
 import './Gpa.css';
 
 function Gpa() {
@@ -23,16 +24,16 @@ function Gpa() {
         localStorage.setItem('gpa_modal_shown', 'true');
     };
 
-    const fetchGpa = useCallback(async () => {
+    const fetchGpa = useCallback(async (forceRefresh = false) => {
         setIsLoading(true);
         const authToken = localStorage.getItem('auth_token');
-        const apiUrl = import.meta.env.VITE_API_BASE_URL;
+        const apiUrl = import.meta.env.VITE_API_BASE_URL || '';
         setError('');
         try {
             const response = await fetch(`${apiUrl}/api/gpa`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ auth_token: authToken })
+                body: JSON.stringify({ auth_token: authToken, force_refresh: forceRefresh })
             });
             const data = await response.json();
             if (response.ok) {
@@ -51,7 +52,7 @@ function Gpa() {
     }, []);
 
     useEffect(() => {
-        fetchGpa();
+        fetchGpa(false);
     }, [fetchGpa]);
 
     const toggleExclude = (index) => {
@@ -106,8 +107,25 @@ function Gpa() {
     };
 
     if (isLoading) return (
-        <div className="loading-overlay">
-            <div className="loader"></div>
+        <div className="gpa-page-wrapper">
+            <div className="gpa-card" style={{ padding: '2rem' }}>
+                <div className="gpa-header-section">
+                    <div className="skeleton skeleton-title" style={{ width: '250px' }}></div>
+                    <div className="skeleton skeleton-text" style={{ width: '400px', maxWidth: '100%' }}></div>
+                    <div className="skeleton skeleton-text" style={{ width: '300px', maxWidth: '80%', marginTop: '4px' }}></div>
+                </div>
+                <div className="summary-cards-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '3rem', marginTop: '2rem' }}>
+                    <div className="skeleton skeleton-card" style={{ height: '120px', borderRadius: '16px' }}></div>
+                    <div className="skeleton skeleton-card" style={{ height: '120px', borderRadius: '16px' }}></div>
+                    <div className="skeleton skeleton-card" style={{ height: '120px', borderRadius: '16px' }}></div>
+                </div>
+                <div className="table-section-glass" style={{ border: 'none', background: 'transparent' }}>
+                    <div className="skeleton skeleton-table-row" style={{ height: '40px', borderRadius: '8px', marginBottom: '12px' }}></div>
+                    {[...Array(5)].map((_, i) => (
+                        <div key={i} className="skeleton skeleton-table-row" style={{ height: '50px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
     if (error) return <div className="error-message">{error}</div>;
@@ -125,9 +143,19 @@ function Gpa() {
 
             <div className="gpa-card">
                 {/* Header matching image */}
-                <div className="gpa-header-section">
-                    <h1>GPA Calculator</h1>
-                    <p>Track your academic performance across all courses</p>
+                <div className="gpa-header-section" style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', top: '0', right: '0' }}>
+                        <button onClick={() => fetchGpa(true)} title="Force fetch from eCampus" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '8px', borderRadius: '8px', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <RefreshCw size={20} />
+                        </button>
+                    </div>
+                    <div>
+                        <h1>GPA Calculator</h1>
+                        <p>Track your academic performance across all courses</p>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginTop: '4px', fontStyle: 'italic' }}>
+                            Data may be cached for speed. Use the reload button to fetch live from eCampus.
+                        </p>
+                    </div>
                 </div>
 
                 {/* Summary Cards Row */}
@@ -149,6 +177,12 @@ function Gpa() {
                 </div>
 
                 {/* Modernized Table */}
+                <div style={{ marginBottom: '1.5rem', marginTop: '1rem' }}>
+                    <h3 style={{ color: '#888', fontSize: '0.9rem', marginBottom: '0.5rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Course Details (Toggle to exclude)</h3>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: 0, lineHeight: '1.4' }}>
+                        *While calculating GPA please exclude any additional one credit or fast track or additional open electives you may have done. 
+                    </p>
+                </div>
                 <div className="table-section-glass">
                     <table className="gpa-modern-table">
                         <thead>

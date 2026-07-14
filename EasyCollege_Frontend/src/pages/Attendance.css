@@ -217,7 +217,7 @@ input:checked+.slider:before {
 @media (max-width: 900px) {
 
     .attendance-page-wrapper {
-        padding: 20px 5px;
+        padding: 10px 5px;
     }
 
     .attendance-main-card {

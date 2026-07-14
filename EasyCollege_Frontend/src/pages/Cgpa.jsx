@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import Modal from '../components/Modal';
+import { RefreshCw, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Cgpa.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -83,16 +85,16 @@ function Cgpa() {
         });
     }, []);
 
-    const fetchCgpa = useCallback(async () => {
+    const fetchCgpa = useCallback(async (forceRefresh = false) => {
         setIsLoading(true);
         const authToken = localStorage.getItem('auth_token');
-        const apiUrl = import.meta.env.VITE_API_BASE_URL;
+        const apiUrl = import.meta.env.VITE_API_BASE_URL || '';
         setError('');
         try {
             const response = await fetch(`${apiUrl}/api/cgpa`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ auth_token: authToken })
+                body: JSON.stringify({ auth_token: authToken, force_refresh: forceRefresh })
             });
             const data = await response.json();
             if (response.ok) {
@@ -110,7 +112,7 @@ function Cgpa() {
     }, [recalculate]);
 
     useEffect(() => {
-        fetchCgpa();
+        fetchCgpa(false);
     }, [fetchCgpa]);
 
     const toggleExclude = (index) => {
@@ -125,8 +127,34 @@ function Cgpa() {
     };
 
     if (isLoading) return (
-        <div className="loading-overlay">
-            <div className="loader"></div>
+        <div className="cgpa-page-wrapper">
+            <div className="cgpa-card" style={{ padding: '2rem' }}>
+                <div className="cgpa-summary" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
+                    <div className="skeleton skeleton-title" style={{ width: '200px', margin: '0' }}></div>
+                    <div className="skeleton skeleton-title" style={{ width: '250px', margin: '0' }}></div>
+                    <div className="skeleton skeleton-title" style={{ width: '220px', margin: '0' }}></div>
+                </div>
+                <div className="cgpa-content-grid" style={{ marginTop: '2rem' }}>
+                    <div className="table-section">
+                        <div className="skeleton skeleton-title" style={{ width: '180px' }}></div>
+                        <div className="skeleton skeleton-table-row" style={{ height: '40px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                        {[...Array(6)].map((_, i) => (
+                            <div key={i} className="skeleton skeleton-table-row" style={{ height: '40px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                        ))}
+                    </div>
+                    <div className="subjects-section">
+                        <div className="skeleton skeleton-title" style={{ width: '250px' }}></div>
+                        <div className="skeleton skeleton-table-row" style={{ height: '40px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                        {[...Array(8)].map((_, i) => (
+                            <div key={i} className="skeleton skeleton-table-row" style={{ height: '45px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                        ))}
+                    </div>
+                </div>
+                <div className="chart-section" style={{ marginTop: '2rem' }}>
+                    <div className="skeleton skeleton-title" style={{ width: '300px' }}></div>
+                    <div className="skeleton skeleton-card" style={{ height: '300px', borderRadius: '16px' }}></div>
+                </div>
+            </div>
         </div>
     );
     if (error) return <div className="error-message">{error}</div>;
@@ -235,11 +263,19 @@ function Cgpa() {
             <div className="cgpa-card">
                 {/* Summary Section */}
                 <div className="cgpa-summary" style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
+                        <button onClick={() => fetchCgpa(true)} title="Force fetch from eCampus" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '8px', borderRadius: '8px', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <RefreshCw size={20} />
+                        </button>
+                    </div>
                     <h2>Total Credits: {displayData.total_credits}</h2>
                     <h2>Total Credit Points: {displayData.credit_points_total}</h2>
                     <h2 className={displayData.cgpa === "RA" ? "text-error" : ""}>
                         Overall CGPA: {displayData.cgpa}
                     </h2>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginTop: '12px', fontStyle: 'italic', fontWeight: 'normal' }}>
+                        Data may be cached for speed. Use the reload button to fetch live from eCampus.
+                    </p>
                 </div>
 
                 <div className="cgpa-content-grid">
@@ -268,7 +304,12 @@ function Cgpa() {
 
                     {/* Subjects Section */}
                     <div className="subjects-section">
-                        <h3 className="section-title">Course Details (Toggle to exclude)</h3>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <h3 className="section-title" style={{ marginBottom: '0.5rem' }}>Course Details (Toggle to exclude)</h3>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: 0, lineHeight: '1.4' }}>
+                                *While calculating CGPA please exclude any one credit or fast track or additional open electives you may have done. Only include that while calculating final CGPA at end of college
+                            </p>
+                        </div>
                         <div className="subjects-scroll-area">
                             <table className="subjects-table">
                                 <thead>

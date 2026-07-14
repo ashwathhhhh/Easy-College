@@ -117,6 +117,18 @@ body {
     align-items: center;
 }
 
+.mobile-nav-actions {
+    display: none;
+}
+
+.mobile-menu-btn {
+    display: none;
+}
+
+.mobile-fast-mode-bar {
+    display: none;
+}
+
 .navbar-links a,
 .navbar-links button {
     color: var(--text-secondary);
@@ -255,7 +267,8 @@ body {
 
 .input-field {
     width: 100%;
-    padding: 1rem 1rem 1rem 3.25rem; /* Increased left padding */
+    padding: 1rem 1rem 1rem 3.25rem;
+    /* Increased left padding */
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
@@ -268,7 +281,8 @@ body {
 .input-field::placeholder {
     color: var(--text-tertiary);
     font-size: 0.95rem;
-    text-transform: none; /* Keep placeholder case natural */
+    text-transform: none;
+    /* Keep placeholder case natural */
 }
 
 .input-field:focus {
@@ -373,11 +387,198 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2.5rem 2rem 2rem;
     min-height: calc(100vh - 80px);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 2rem;
+}
+
+.dashboard-greeting {
+    text-align: center;
+    width: 100%;
+}
+
+.dashboard-greeting h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-greeting p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+/* Schedule Card — compact single-card timeline design */
+.schedule-card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    overflow: hidden;
+}
+
+.schedule-card.schedule-free {
+    background: rgba(59, 130, 246, 0.06);
+    border-color: rgba(59, 130, 246, 0.15);
+}
+
+.schedule-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 0.75rem;
+}
+
+.schedule-free .schedule-card-header {
+    color: var(--secondary);
+    padding-bottom: 0;
+    font-size: 0.9rem;
+    text-transform: none;
+    font-weight: 500;
+}
+
+.schedule-count {
+    margin-left: auto;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.schedule-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.schedule-row {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+}
+
+.schedule-row-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 6px;
+    width: 12px;
+    flex-shrink: 0;
+}
+
+.schedule-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+.schedule-dot.dot-active {
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.schedule-line {
+    width: 2px;
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    margin-top: 4px;
+}
+
+.schedule-row-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.schedule-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.schedule-row-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.schedule-row-active .schedule-row-name {
+    color: #fff;
+}
+
+.schedule-bunk-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.badge-safe {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--success);
+}
+
+.badge-danger {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--danger);
+}
+
+.badge-neutral {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-tertiary);
+}
+
+.schedule-row-time {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.schedule-row-periods {
+    color: var(--text-tertiary);
+}
+
+.schedule-row-live {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(59, 130, 246, 0.12);
+    padding: 1px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.bunk-spinner {
+    animation: spin 1s linear infinite;
 }
 
 .dashboard-options {
@@ -1022,12 +1223,18 @@ table.attendance-table tr:hover td {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     body {
-        padding-top: 70px;
+        padding-top: 55px;
+    }
+
+    .mobile-fast-mode-text {
+        display: flex !important;
     }
 
     /* Navbar Mobile */
     .navbar {
-        padding: 0.75rem 1rem;
+        padding: 0.75rem 0.75rem;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
     }
 
     .navbar .logo {
@@ -1035,24 +1242,45 @@ table.attendance-table tr:hover td {
     }
 
     .navbar-links {
-        gap: 0.5rem;
+        display: none !important;
     }
 
-    .navbar-links a,
-    .navbar-links button {
-        padding: 0.5rem;
-        font-size: 0.85rem;
+    .mobile-nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
     }
 
-    .hide-mobile {
-        display: none;
+    .mobile-menu-btn {
+        display: flex !important;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
     }
 
     /* Dashboard Mobile */
     .dashboard-container {
-        padding: 1rem;
-        align-items: flex-start;
-        /* Prevent vertical centering issues on mobile */
+        padding: 1.5rem 1rem 1rem;
+        gap: 1.25rem;
+    }
+
+    .dashboard-greeting h1 {
+        font-size: 1.5rem;
+    }
+
+    .dashboard-greeting p {
+        font-size: 0.85rem;
+    }
+
+    .schedule-card {
+        padding: 0.85rem 1rem;
+    }
+
+    .schedule-row-name {
+        font-size: 0.82rem;
     }
 
     .dashboard-options {
@@ -1151,4 +1379,45 @@ table.attendance-table tr:hover td {
     .navbar-links button {
         padding: 0.4rem;
     }
+}
+
+/* Skeleton Loader */
+.skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+    border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-text {
+    height: 1.2rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.skeleton-title {
+    height: 2rem;
+    width: 50%;
+    margin-bottom: 1rem;
+}
+
+.skeleton-card {
+    height: 150px;
+    width: 100%;
+}
+
+.skeleton-table-row {
+    height: 40px;
+    width: 100%;
+    margin-bottom: 10px;
 }

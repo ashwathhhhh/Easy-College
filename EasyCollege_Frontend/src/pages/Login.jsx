@@ -51,15 +51,20 @@ function Login() {
         }
     };
 
+    if (isLoading) {
+        return (
+            <div className="dashboard-container">
+                <div className="dashboard-options" style={{ width: '100%', maxWidth: '1200px' }}>
+                    {[...Array(5)].map((_, i) => (
+                        <div key={i} className="skeleton skeleton-card" style={{ height: '220px', borderRadius: '20px' }}></div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
-            {/* Loading Overlay */}
-            {isLoading && (
-                <div className="loading-overlay">
-                    <div className="loader"></div>
-                </div>
-            )}
-
             <div className="login-wrapper">
                 <motion.div
                     className="login-container"

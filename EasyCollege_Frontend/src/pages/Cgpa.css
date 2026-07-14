@@ -37,31 +37,46 @@
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #333;
+    background: #252525;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.table-section .section-title {
+    margin-bottom: 15px;
 }
 
 .cgpa-table {
-    width: 100%;
+    width: calc(100% + 40px);
+    margin: 0 -20px -20px -20px;
     border-collapse: collapse;
-    background: rgba(0, 0, 0, 0.2);
+    background: #1a1a1a;
 }
 
 .cgpa-table th {
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    padding: 15px;
-    font-size: 0.85rem;
+    background: #111;
+    color: #888;
+    padding: 14px 15px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     text-align: center;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid #333;
+    border-top: 1px solid #333;
+    letter-spacing: 0.5px;
 }
 
 .cgpa-table td {
-    padding: 15px;
-    color: #ccc;
+    padding: 16px 15px;
+    color: #ddd;
     text-align: center;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #2a2a2a;
     font-size: 0.95rem;
+    transition: background 0.2s ease;
+}
+
+.cgpa-table tr:hover td {
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .cgpa-table tr:last-child td {
@@ -91,7 +106,7 @@
 
 @media (max-width: 768px) {
     .cgpa-page-wrapper {
-        padding: 20px 8px;
+        padding: 10px 8px;
     }
 
     .cgpa-card {
@@ -127,28 +142,27 @@
     /* Force Fit Table - No Scroll */
     .table-section {
         overflow-x: hidden;
-        background: #252525;
-        border: 1px solid #333;
         border-radius: 10px;
+        padding: 15px;
     }
 
     .cgpa-table {
-        min-width: 100%;
+        width: calc(100% + 30px);
+        margin: 0 -15px -15px -15px;
         table-layout: fixed;
     }
 
     .cgpa-table th {
         padding: 12px 4px;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
     }
 
     .cgpa-table td {
-        padding: 12px 4px;
+        padding: 14px 4px;
         font-size: 0.85rem;
         text-align: center;
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid #2a2a2a;
         display: table-cell;
-        width: auto;
     }
 
     /* Column widths for CGPA */
@@ -175,6 +189,60 @@
     .chart-container {
         height: 250px;
     }
+
+    .subjects-section {
+        padding: 10px 5px;
+        border-radius: 10px;
+    }
+
+    .subjects-scroll-area {
+        overflow-x: hidden;
+    }
+
+    .subjects-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .subjects-table th {
+        padding: 8px 2px;
+        font-size: 0.55rem;
+        text-align: center;
+        letter-spacing: -0.5px;
+    }
+
+    .subjects-table td {
+        padding: 8px 2px;
+        font-size: 0.65rem;
+        text-align: center;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .subjects-table th:nth-child(4), 
+    .subjects-table td:nth-child(4) {
+        text-align: left;
+    }
+
+    .course-code {
+        font-size: 0.6rem;
+    }
+
+    .course-title {
+        font-size: 0.6rem;
+        line-height: 1.2;
+    }
+
+    .subjects-table th:nth-child(1), .subjects-table td:nth-child(1) { width: 10%; }
+    .subjects-table th:nth-child(2), .subjects-table td:nth-child(2) { width: 10%; }
+    .subjects-table th:nth-child(3), .subjects-table td:nth-child(3) { width: 20%; }
+    .subjects-table th:nth-child(4), .subjects-table td:nth-child(4) { width: 40%; }
+    .subjects-table th:nth-child(5), .subjects-table td:nth-child(5) { width: 10%; }
+    .subjects-table th:nth-child(6), .subjects-table td:nth-child(6) { width: 10%; }
+
+    .modern-checkbox {
+        margin: 0 auto;
+    }
 }
 
 /* Subjects Breakdown Grid */
@@ -188,6 +256,9 @@
 @media (max-width: 1024px) {
     .cgpa-content-grid {
         grid-template-columns: 1fr;
+    }
+    .subjects-section {
+        order: -1;
     }
 }
 
@@ -211,6 +282,7 @@
 .subjects-scroll-area {
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: auto;
     border-radius: 8px;
     border: 1px solid #1a1a1a;
     background: #1a1a1a;
@@ -330,6 +402,7 @@
 /* Scrollbar styling */
 .subjects-scroll-area::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 .subjects-scroll-area::-webkit-scrollbar-track {

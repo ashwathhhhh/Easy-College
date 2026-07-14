@@ -14,7 +14,7 @@ function Attendance() {
     const [lastSaved, setLastSaved] = useState(null);
     const [showSavePrompt, setShowSavePrompt] = useState(false);
 
-    const fetchAttendance = useCallback(async () => {
+    const fetchAttendance = useCallback(async (forceRefresh = false) => {
         setIsLoading(true);
         setIsOfflineView(false);
         const authToken = localStorage.getItem('auth_token');
@@ -24,7 +24,7 @@ function Attendance() {
             const response = await fetch(`${apiUrl}/api/attendance`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ auth_token: authToken })
+                body: JSON.stringify({ auth_token: authToken, force_refresh: forceRefresh })
             });
             const data = await response.json();
             if (response.ok) {
@@ -52,7 +52,7 @@ function Attendance() {
             const parsed = JSON.parse(saved);
             setLastSaved(parsed.timestamp);
         }
-        fetchAttendance();
+        fetchAttendance(false);
     }, [fetchAttendance]);
 
     const saveAttendanceLocally = () => {
@@ -198,8 +198,23 @@ function Attendance() {
     );
 
     if (isLoading) return (
-        <div className="loading-overlay">
-            <div className="loader"></div>
+        <div className="attendance-page-wrapper">
+            <div className="attendance-main-card">
+                <div className="attendance-header-section">
+                    <div className="skeleton skeleton-title" style={{ width: '300px' }}></div>
+                    <div className="skeleton skeleton-text" style={{ width: '500px', maxWidth: '100%' }}></div>
+                    <div className="skeleton skeleton-text" style={{ width: '400px', maxWidth: '80%', marginTop: '4px' }}></div>
+                </div>
+                <div className="attendance-view-toggle" style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
+                    <div className="skeleton skeleton-text" style={{ width: '200px', height: '40px', borderRadius: '99px' }}></div>
+                </div>
+                <div className="attendance-table-container">
+                    <div className="skeleton skeleton-table-row" style={{ height: '45px', borderRadius: '8px', marginBottom: '16px' }}></div>
+                    {[...Array(8)].map((_, i) => (
+                        <div key={i} className="skeleton skeleton-table-row" style={{ height: '60px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 
@@ -256,7 +271,7 @@ function Attendance() {
                     <div className="offline-banner">
                         <CloudOff size={16} />
                         <span>Viewing saved attendance from {new Date(lastSaved).toLocaleString()}</span>
-                        <button onClick={fetchAttendance} className="try-live-btn">Try Live Data</button>
+                        <button onClick={() => fetchAttendance(false)} className="try-live-btn">Try Live Data</button>
                     </div>
                 )}
 
@@ -274,6 +289,9 @@ function Attendance() {
                     <h1>
                         Attendance Tracker
                         <div className="header-actions">
+                            <button onClick={() => fetchAttendance(true)} className="action-icon-btn" title="Force fetch from eCampus" style={{ color: 'var(--text-secondary)' }}>
+                                <RefreshCw size={24} />
+                            </button>
                             <button onClick={() => setShowSavePrompt(true)} className="action-icon-btn" title="Save for offline">
                                 <Save size={24} />
                             </button>
@@ -283,6 +301,9 @@ function Attendance() {
                         </div>
                     </h1>
                     <p>Monitor your class attendance and simulate predicting future percentage changes</p>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginTop: '4px', fontStyle: 'italic' }}>
+                        Data may be cached for speed. Use the reload button to fetch live from eCampus.
+                    </p>
                 </div>
 
                 <div className="attendance-view-toggle">
