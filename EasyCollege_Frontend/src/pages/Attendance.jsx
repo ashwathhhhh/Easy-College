@@ -75,8 +75,13 @@ function Attendance() {
 
         const originalPhys = parseInt(course.physical_attendance);
         const originalMed = parseInt(course.with_exemption);
-        const exemptionDiff = originalMed - originalPhys;
-        const newMedPercentage = newPercentage + exemptionDiff;
+        const assumedExemptionHours = Math.max(0, Math.floor(((originalMed / 100) * parseInt(course.total_hours))) - Math.floor(((originalPhys / 100) * parseInt(course.total_hours))));
+        
+        let newMedPercentage = simulatedTotal > 0 
+            ? Math.round(((simulatedPresent + assumedExemptionHours) / simulatedTotal) * 100) 
+            : originalMed;
+        
+        newMedPercentage = Math.min(100, newMedPercentage);
 
         // Recalculate status simply based on new percentage (approximation for UI)
         let newStatus = course.status;
@@ -97,7 +102,6 @@ function Attendance() {
                 let p1 = newPercentage;
                 let p2 = newMedPercentage;
                 let dEx = 0;
-                const assumedExemptionHours = Math.max(0, Math.floor(((originalMed / 100) * parseInt(course.total_hours))) - Math.floor(((originalPhys / 100) * parseInt(course.total_hours))));
 
                 while (p1 > 65 && p2 > 75 && dEx < 50) {
                     dEx += 1;
@@ -230,10 +234,19 @@ function Attendance() {
                         Data may be cached for speed. Use the reload button to fetch live from eCampus.
                     </p>
                     {commonUpdatedDate && (
-                        <div style={{ marginTop: '16px', fontSize: '0.9rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: '16px' }}>
+                        <div style={{ marginTop: '16px', textAlign: 'center', width: '100%' }}>
+                            <div style={{ 
+                                display: 'inline-block',
+                                margin: '0 auto',
+                                background: 'rgba(255,255,255,0.05)', 
+                                border: '1px solid rgba(255,255,255,0.1)', 
+                                padding: '6px 16px', 
+                                borderRadius: '99px', 
+                                fontSize: '0.9rem', 
+                                color: 'var(--text-secondary)'
+                            }}>
                                 Last updated on eCampus: <strong style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>{commonUpdatedDate}</strong>
-                            </span>
+                            </div>
                         </div>
                     )}
                 </div>
