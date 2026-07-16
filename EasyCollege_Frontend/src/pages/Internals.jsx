@@ -10,7 +10,7 @@ function Internals() {
     const [simulatingId, setSimulatingId] = useState(null);
     const [simData, setSimData] = useState({});
 
-    const fetchInternals = useCallback(async () => {
+    const fetchInternals = useCallback(async (forceRefresh = false) => {
         setIsLoading(true);
         const authToken = localStorage.getItem('auth_token');
         const apiUrl = import.meta.env.VITE_API_BASE_URL || '';
@@ -19,7 +19,7 @@ function Internals() {
             const response = await fetch(`${apiUrl}/api/internals`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ auth_token: authToken })
+                body: JSON.stringify({ auth_token: authToken, force_refresh: forceRefresh })
             });
             const data = await response.json();
             if (response.ok) {
@@ -159,7 +159,7 @@ function Internals() {
     };
 
     useEffect(() => {
-        fetchInternals();
+        fetchInternals(false);
     }, [fetchInternals]);
 
     const getMarkStatus = (total) => {
@@ -172,23 +172,30 @@ function Internals() {
     };
 
     if (isLoading) return (
-        <div className="loading-container">
-            <motion.div
-                className="loader"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
+        <div className="internals-container" style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+            <div className="skeleton skeleton-text" style={{ width: '120px', marginBottom: '2rem' }}></div>
+            <div className="marks-table-container">
+                <div className="table-wrapper">
+                    <div className="skeleton skeleton-table-row" style={{ height: '40px', borderRadius: '8px', marginBottom: '16px' }}></div>
+                    {[...Array(6)].map((_, i) => (
+                        <div key={i} className="skeleton skeleton-table-row" style={{ height: '80px', borderRadius: '12px', marginBottom: '12px' }}></div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 
     return (
         <div className="internals-container">
             {!isLoading && !error && (
-                <div className="table-controls">
-                    <button className="refresh-btn" onClick={fetchInternals} title="Refresh Marks">
+                <div className="table-controls" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                    <button className="refresh-btn" onClick={() => fetchInternals(true)} title="Force fetch from eCampus">
                         <RefreshCw size={18} />
                         <span>Sync Marks</span>
                     </button>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', fontStyle: 'italic', paddingLeft: '4px' }}>
+                        Data may be cached for speed. Use sync to fetch live from eCampus.
+                    </span>
                 </div>
             )}
 
