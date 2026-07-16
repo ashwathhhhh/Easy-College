@@ -10,13 +10,9 @@ function Attendance() {
     const [showPopup, setShowPopup] = useState(true);
     const [viewMode, setViewMode] = useState('table'); // 'cards' or 'table'
     const [simulation, setSimulation] = useState({});
-    const [isOfflineView, setIsOfflineView] = useState(false);
-    const [lastSaved, setLastSaved] = useState(null);
-    const [showSavePrompt, setShowSavePrompt] = useState(false);
 
     const fetchAttendance = useCallback(async (forceRefresh = false) => {
         setIsLoading(true);
-        setIsOfflineView(false);
         const authToken = localStorage.getItem('auth_token');
         const apiUrl = import.meta.env.VITE_API_BASE_URL || '';
         setError('');
@@ -29,12 +25,6 @@ function Attendance() {
             const data = await response.json();
             if (response.ok) {
                 setAttendanceData(data);
-
-                // Check if we should prompt to save
-                const saved = localStorage.getItem('saved_attendance_data');
-                if (!saved || JSON.stringify(JSON.parse(saved).data) !== JSON.stringify(data)) {
-                    setShowSavePrompt(true);
-                }
             } else {
                 setError(data.error || 'Failed to fetch data.');
             }
@@ -47,34 +37,8 @@ function Attendance() {
     }, []);
 
     useEffect(() => {
-        const saved = localStorage.getItem('saved_attendance_data');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            setLastSaved(parsed.timestamp);
-        }
         fetchAttendance(false);
     }, [fetchAttendance]);
-
-    const saveAttendanceLocally = () => {
-        const dataToSave = {
-            data: attendanceData,
-            timestamp: new Date().toISOString()
-        };
-        localStorage.setItem('saved_attendance_data', JSON.stringify(dataToSave));
-        setLastSaved(dataToSave.timestamp);
-        setShowSavePrompt(false);
-    };
-
-    const loadSavedAttendance = () => {
-        const saved = localStorage.getItem('saved_attendance_data');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            setAttendanceData(parsed.data);
-            setLastSaved(parsed.timestamp);
-            setIsOfflineView(true);
-            setError('');
-        }
-    };
 
     const togglePopup = () => setShowPopup(!showPopup);
 
@@ -237,26 +201,6 @@ function Attendance() {
                     <button className="sync-retry-btn" onClick={fetchAttendance}>
                         Refresh Status
                     </button>
-
-                    {lastSaved && (
-                        <button
-                            className="sync-offline-btn"
-                            onClick={loadSavedAttendance}
-                            style={{ 
-                                marginTop: '12px', 
-                                background: 'rgba(255,255,255,0.05)', 
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                color: '#94a3b8',
-                                padding: '14px',
-                                borderRadius: '14px',
-                                width: '100%',
-                                cursor: 'pointer',
-                                fontWeight: 600
-                            }}
-                        >
-                            View Last Saved ({new Date(lastSaved).toLocaleDateString()})
-                        </button>
-                    )}
                 </motion.div>
             </div>
         );
@@ -264,36 +208,17 @@ function Attendance() {
 
     if (error) return <div className="error-message">{error}</div>;
 
+    const commonUpdatedDate = attendanceData.length > 0 ? attendanceData.find(c => c.updated_till)?.updated_till : null;
+
     return (
         <div className="attendance-page-wrapper">
             <div className="attendance-main-card">
-                {isOfflineView && (
-                    <div className="offline-banner">
-                        <CloudOff size={16} />
-                        <span>Viewing saved attendance from {new Date(lastSaved).toLocaleString()}</span>
-                        <button onClick={() => fetchAttendance(false)} className="try-live-btn">Try Live Data</button>
-                    </div>
-                )}
-
-                {showSavePrompt && (
-                    <div className="save-prompt-banner">
-                        <Save size={16} />
-                        <span>Wanna save this attendance to view when ecampus is down?</span>
-                        <div className="save-prompt-actions">
-                            <button onClick={saveAttendanceLocally} className="save-confirm-btn">Save</button>
-                            <button onClick={() => setShowSavePrompt(false)} className="save-cancel-btn">Maybe later</button>
-                        </div>
-                    </div>
-                )}
                 <div className="attendance-header-section">
                     <h1>
                         Attendance Tracker
                         <div className="header-actions">
                             <button onClick={() => fetchAttendance(true)} className="action-icon-btn" title="Force fetch from eCampus" style={{ color: 'var(--text-secondary)' }}>
                                 <RefreshCw size={24} />
-                            </button>
-                            <button onClick={() => setShowSavePrompt(true)} className="action-icon-btn" title="Save for offline">
-                                <Save size={24} />
                             </button>
                             <button onClick={togglePopup} className="info-icon-btn" title="How is this calculated?">
                                 <Info size={24} />
@@ -304,6 +229,13 @@ function Attendance() {
                     <p style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginTop: '4px', fontStyle: 'italic' }}>
                         Data may be cached for speed. Use the reload button to fetch live from eCampus.
                     </p>
+                    {commonUpdatedDate && (
+                        <div style={{ marginTop: '16px', fontSize: '0.9rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: '16px' }}>
+                                Last updated on eCampus: <strong style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>{commonUpdatedDate}</strong>
+                            </span>
+                        </div>
+                    )}
                 </div>
 
                 <div className="attendance-view-toggle">
@@ -335,7 +267,6 @@ function Attendance() {
                                     <th><span className="full-text">% (Med)</span><span className="short-text">% (ME</span></th>
                                     <th><span className="full-text">Bunks</span><span className="short-text">BUNKS</span></th>
                                     <th><span className="full-text">Med Bunks</span><span className="short-text">MED BU</span></th>
-                                    <th>Updated</th>
                                     <th>Predictor <Wand2 size={12} style={{ marginLeft: '4px' }} /></th>
                                 </tr>
                             </thead>
@@ -359,9 +290,6 @@ function Attendance() {
                                         </td>
                                         <td style={{ fontWeight: 700, color: course.exemption_bunks < 0 ? '#f87171' : '#ccc' }}>
                                             {course.exemption_bunks !== undefined ? course.exemption_bunks : '-'}
-                                        </td>
-                                        <td style={{ fontSize: '0.9em', color: '#888' }}>
-                                            {course.updated_till || '-'}
                                         </td>
                                         <td>
                                             {renderSimulateControls(course)}
@@ -418,18 +346,6 @@ function Attendance() {
                                         </div>
                                         {renderSimulateControls(course)}
                                     </div>
-
-                                    {course.updated_till && !course.isSimulated && (
-                                        <div style={{
-                                            textAlign: 'center',
-                                            fontSize: '0.8em',
-                                            color: 'var(--text-secondary)',
-                                            marginTop: '15px',
-                                            paddingTop: '10px',
-                                        }}>
-                                            Updated till: {course.updated_till}
-                                        </div>
-                                    )}
                                 </div>
                             ))}
                         </div>
