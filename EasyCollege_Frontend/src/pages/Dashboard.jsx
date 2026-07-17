@@ -108,7 +108,7 @@ function Dashboard() {
         const fetchDashboardData = async () => {
             const authToken = localStorage.getItem('auth_token');
             if (!authToken) { setLoading(false); return; }
-            const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:5001';
+            const SERVER_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
             try {
                 const [timetableRes, attendanceRes] = await Promise.all([
                     fetch(`${SERVER_URL}/api/timetable`, {
