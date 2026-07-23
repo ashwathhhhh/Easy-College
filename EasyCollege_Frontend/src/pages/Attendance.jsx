@@ -76,11 +76,11 @@ function Attendance() {
         const originalPhys = parseInt(course.physical_attendance);
         const originalMed = parseInt(course.with_exemption);
         const assumedExemptionHours = Math.max(0, Math.floor(((originalMed / 100) * parseInt(course.total_hours))) - Math.floor(((originalPhys / 100) * parseInt(course.total_hours))));
-        
-        let newMedPercentage = simulatedTotal > 0 
-            ? Math.round(((simulatedPresent + assumedExemptionHours) / simulatedTotal) * 100) 
+
+        let newMedPercentage = simulatedTotal > 0
+            ? Math.round(((simulatedPresent + assumedExemptionHours) / simulatedTotal) * 100)
             : originalMed;
-        
+
         newMedPercentage = Math.min(100, newMedPercentage);
 
         // Recalculate status simply based on new percentage (approximation for UI)
@@ -235,14 +235,14 @@ function Attendance() {
                     </p>
                     {commonUpdatedDate && (
                         <div style={{ marginTop: '16px', textAlign: 'center', width: '100%' }}>
-                            <div style={{ 
+                            <div style={{
                                 display: 'inline-block',
                                 margin: '0 auto',
-                                background: 'rgba(255,255,255,0.05)', 
-                                border: '1px solid rgba(255,255,255,0.1)', 
-                                padding: '6px 16px', 
-                                borderRadius: '99px', 
-                                fontSize: '0.9rem', 
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                padding: '6px 16px',
+                                borderRadius: '99px',
+                                fontSize: '0.9rem',
                                 color: 'var(--text-secondary)'
                             }}>
                                 Last updated on eCampus: <strong style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>{commonUpdatedDate}</strong>

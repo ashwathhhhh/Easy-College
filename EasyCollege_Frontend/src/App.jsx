@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import GoogleAnalyticsTracker from './components/GoogleAnalyticsTracker';
+import FeedbackWidget from './components/FeedbackWidget';
 
 // Page Components
 import Login from './pages/Login';
@@ -24,6 +25,7 @@ function App() {
         <Router>
             <Navbar />
             <GoogleAnalyticsTracker />
+            <FeedbackWidget />
             <main className="container">
                 <Routes>
                     {/* Public Route */}
