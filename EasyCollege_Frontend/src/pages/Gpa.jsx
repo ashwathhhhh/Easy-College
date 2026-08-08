@@ -85,8 +85,12 @@ function Gpa() {
                 hasRA = true;
             } else {
                 try {
-                    const gradePoints = parseInt(grade.substring(0, 2));
-                    if (!isNaN(gradePoints)) {
+                    let gradePoints = parseInt(grade.substring(0, 2));
+                    if (isNaN(gradePoints)) {
+                        const gMap = { 'O': 10, 'S': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5, 'D': 4, 'E': 3 };
+                        gradePoints = gMap[grade.trim()];
+                    }
+                    if (!isNaN(gradePoints) && gradePoints !== undefined) {
                         summation += credits * gradePoints;
                         totalCredits += credits;
                     }

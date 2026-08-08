@@ -28,7 +28,7 @@ function Cgpa() {
         localStorage.setItem('cgpa_modal_shown', 'true');
     };
 
-    const gradesMap = { 'O': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5 };
+    const gradesMap = { 'O': 10, 'S': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5, 'D': 4, 'E': 3 };
 
     const recalculate = useCallback((data, excluded) => {
         if (!data || !data.all_subjects) return;
