@@ -83,16 +83,30 @@ function Attendance() {
 
         newMedPercentage = Math.min(100, newMedPercentage);
 
-        // Recalculate status simply based on new percentage (approximation for UI)
+        // Recalculate status with accurate logic including exemptions
         let newStatus = course.status;
         let newCount = course.count;
-        if (newPercentage >= 75) {
-            newStatus = "Remaining bunks";
-            newCount = Math.floor((simulatedPresent - (0.75 * simulatedTotal)) / 0.75);
-            if (newCount < 0) newCount = 0;
+        if (newPercentage === newMedPercentage) {
+            if (newPercentage >= 75) {
+                newStatus = "Remaining bunks";
+                newCount = Math.floor((simulatedPresent - (0.75 * simulatedTotal)) / 0.75);
+                if (newCount < 0) newCount = 0;
+            } else {
+                newStatus = "Classes to attend";
+                newCount = Math.ceil(((0.75 * simulatedTotal) - simulatedPresent) / 0.25);
+            }
         } else {
-            newStatus = "Classes to attend";
-            newCount = Math.ceil(((0.75 * simulatedTotal) - simulatedPresent) / 0.25);
+            if (newMedPercentage >= 75 && newPercentage >= 65) {
+                newStatus = "Remaining bunks";
+                newCount = Math.max(0, Math.floor((simulatedPresent - (0.75 * simulatedTotal)) / 0.75));
+            } else {
+                newStatus = "Classes to attend";
+                if (newMedPercentage < 75 && newPercentage > 65) {
+                    newCount = Math.ceil(((0.75 * simulatedTotal) - (simulatedPresent + assumedExemptionHours)) / 0.25);
+                } else {
+                    newCount = Math.ceil(((0.65 * simulatedTotal) - simulatedPresent) / 0.35);
+                }
+            }
         }
 
         let newExemptionBunks = course.exemption_bunks;
