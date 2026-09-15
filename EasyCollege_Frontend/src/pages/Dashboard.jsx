@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BarChart3, Calculator, MessageSquare, GraduationCap, BookOpen, Clock, CheckCircle, AlertTriangle, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { isUserBlocked } from '../components/PrivateRoute';
 
 const DAY_MAP = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
@@ -22,7 +23,25 @@ const parseName = (raw) => {
 };
 
 function Dashboard() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const navigate = useNavigate();
+    const rawUser = localStorage.getItem('user');
+    const rawRoll = localStorage.getItem('roll_number');
+
+    useEffect(() => {
+        if (isUserBlocked(rawUser, rawRoll)) {
+            localStorage.removeItem('user');
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('roll_number');
+            localStorage.removeItem('credentials');
+            navigate('/', { replace: true, state: { error: 'This service is not enabled for you' } });
+        }
+    }, [navigate, rawUser, rawRoll]);
+
+    if (isUserBlocked(rawUser, rawRoll)) {
+        return null;
+    }
+
+    const user = JSON.parse(rawUser || '""');
     const userName = parseName(user);
 
     const [classesInfo, setClassesInfo] = useState(null);

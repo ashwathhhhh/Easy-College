@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Lock, ChevronRight, BarChart3, TrendingUp, TrendingDown, Minus, Eye, EyeOff, LogOut } from 'lucide-react';
+import { isUserBlocked } from '../components/PrivateRoute';
 import './AimlDashboard.css';
 
 function AimlDashboard() {
@@ -49,6 +50,11 @@ function AimlDashboard() {
     const handleCompare = async () => {
         if (!user1.roll_number || !user1.password || !user2.roll_number || !user2.password) {
             setError('Please fill in credentials for both buddies.');
+            return;
+        }
+
+        if (isUserBlocked(null, user1.roll_number) || isUserBlocked(null, user2.roll_number)) {
+            setError('This service is not enabled for you');
             return;
         }
 

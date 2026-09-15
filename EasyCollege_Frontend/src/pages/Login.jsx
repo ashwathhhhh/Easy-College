@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { User, Lock, Eye, EyeOff, GraduationCap, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { isUserBlocked } from '../components/PrivateRoute';
 
 function Login() {
     const [rollNumber, setRollNumber] = useState('');
@@ -11,18 +12,43 @@ function Login() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        if (localStorage.getItem('user')) {
+        const storedUser = localStorage.getItem('user');
+        const storedRoll = localStorage.getItem('roll_number');
+
+        if (isUserBlocked(storedUser, storedRoll)) {
+            localStorage.removeItem('user');
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('roll_number');
+            localStorage.removeItem('credentials');
+            setError('This service is not enabled for you');
+            return;
+        }
+
+        if (location.state?.error) {
+            setError(location.state.error);
+            return;
+        }
+
+        if (storedUser) {
             navigate('/dashboard');
         }
-    }, [navigate]);
+    }, [navigate, location]);
 
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        const normalizedRoll = rollNumber.toUpperCase().trim();
+        if (isUserBlocked(null, normalizedRoll)) {
+            setError('This service is not enabled for you');
+            return;
+        }
+
         setIsLoading(true);
 
         try {
@@ -30,14 +56,19 @@ function Login() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    roll_number: rollNumber.toUpperCase().trim(),
+                    roll_number: normalizedRoll,
                     password: password,
                     login_type: loginType
                 })
             });
             const data = await response.json();
             if (response.ok && data.success) {
+                if (isUserBlocked(JSON.stringify(data.user), normalizedRoll)) {
+                    setError('This service is not enabled for you');
+                    return;
+                }
                 localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('roll_number', normalizedRoll);
                 localStorage.setItem('auth_token', data.auth_token);
                 navigate('/dashboard');
             } else {
