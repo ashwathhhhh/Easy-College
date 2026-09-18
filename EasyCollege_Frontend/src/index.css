@@ -1422,29 +1422,7 @@ table.attendance-table tr:hover td {
     margin-bottom: 10px;
 }
 
-/* App Feedback FAB & Modal */
-.fab-button {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
-    color: white;
-    border: none;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 100;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.fab-button:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
-}
+/* App Feedback Modal */
 .feedback-modal-overlay {
     position: fixed;
     top: 0;

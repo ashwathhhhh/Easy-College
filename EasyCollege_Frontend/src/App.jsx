@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import GoogleAnalyticsTracker from './components/GoogleAnalyticsTracker';
-import FeedbackWidget from './components/FeedbackWidget';
+
 
 // Page Components
 import Login from './pages/Login';
@@ -19,13 +19,15 @@ import Admin from './pages/Admin';
 import Internals from './pages/Internals';
 import AimlDashboard from './pages/AimlDashboard';
 import NotFound from './pages/NotFound';
+import PromoLoadingScreen from './components/PromoLoadingScreen';
+import PromoPreview from './components/PromoPreview';
 
 function App() {
     return (
         <Router>
             <Navbar />
             <GoogleAnalyticsTracker />
-            <FeedbackWidget />
+
             <main className="container">
                 <Routes>
                     {/* Public Route */}
@@ -41,6 +43,11 @@ function App() {
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/aiml-dashboard" element={<AimlDashboard />} />
+                    {/* Promo Spotlight Preview Routes */}
+                    <Route path="/promo-preview" element={<PromoPreview />} />
+                    <Route path="/promo-preview-1" element={<PromoPreview initialVariant="balanced" />} />
+                    <Route path="/promo-preview-2" element={<PromoPreview initialVariant="hero" />} />
+                    <Route path="/promo-preview-3" element={<PromoPreview initialVariant="side-by-side" />} />
 
                     {/* 404 Route */}
                     <Route path="*" element={<NotFound />} />

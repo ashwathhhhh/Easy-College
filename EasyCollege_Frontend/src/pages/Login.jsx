@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { User, Lock, Eye, EyeOff, GraduationCap, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { isUserBlocked } from '../components/PrivateRoute';
+import PromoLoadingScreen from '../components/PromoLoadingScreen';
 
 function Login() {
     const [rollNumber, setRollNumber] = useState('');
@@ -15,24 +15,12 @@ function Login() {
     const location = useLocation();
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        const storedRoll = localStorage.getItem('roll_number');
-
-        if (isUserBlocked(storedUser, storedRoll)) {
-            localStorage.removeItem('user');
-            localStorage.removeItem('auth_token');
-            localStorage.removeItem('roll_number');
-            localStorage.removeItem('credentials');
-            setError('This service is not enabled for you');
-            return;
-        }
-
         if (location.state?.error) {
             setError(location.state.error);
             return;
         }
 
-        if (storedUser) {
+        if (localStorage.getItem('user')) {
             navigate('/dashboard');
         }
     }, [navigate, location]);
@@ -42,13 +30,6 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
-        const normalizedRoll = rollNumber.toUpperCase().trim();
-        if (isUserBlocked(null, normalizedRoll)) {
-            setError('This service is not enabled for you');
-            return;
-        }
-
         setIsLoading(true);
 
         try {
@@ -56,19 +37,14 @@ function Login() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    roll_number: normalizedRoll,
+                    roll_number: rollNumber.toUpperCase().trim(),
                     password: password,
                     login_type: loginType
                 })
             });
             const data = await response.json();
             if (response.ok && data.success) {
-                if (isUserBlocked(JSON.stringify(data.user), normalizedRoll)) {
-                    setError('This service is not enabled for you');
-                    return;
-                }
                 localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('roll_number', normalizedRoll);
                 localStorage.setItem('auth_token', data.auth_token);
                 navigate('/dashboard');
             } else {
@@ -84,12 +60,11 @@ function Login() {
 
     if (isLoading) {
         return (
-            <div className="dashboard-container">
-                <div className="dashboard-options" style={{ width: '100%', maxWidth: '1200px' }}>
-                    {[...Array(5)].map((_, i) => (
-                        <div key={i} className="skeleton skeleton-card" style={{ height: '220px', borderRadius: '20px' }}></div>
-                    ))}
-                </div>
+            <div className="dashboard-container" style={{ justifyContent: 'center', minHeight: 'calc(100vh - 120px)' }}>
+                <PromoLoadingScreen
+                    statusMessage="Signing into Ecampus portal..."
+                    subMessage="Authenticating your student account. Check out upcoming club events below 👇"
+                />
             </div>
         );
     }
