@@ -15,7 +15,7 @@ export const CLUB_EVENTS = [
         accentColor: '#facc15',
         iconType: 'code',
         title: 'CommitCon Hackathon',
-        subtitle: 'Ideathon (1st Years) | Hackathon (2nd – 4th Years)',
+        subtitle: 'Ideathon (1st Years) | Hackathon (2nd year onwards)',
         eligibility: 'All Departments Welcome',
         description: 'Organised by GitHub Campus Club under CSEA. Compete for cash prizes, build cutting-edge solutions, and level up your developer portfolio.',
         date: 'October 9–10',
