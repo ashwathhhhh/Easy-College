@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, RefreshCw, AlertCircle, CheckCircle2, Wand2, ArrowLeft, Save, TrendingUp } from 'lucide-react';
-import PromoLoadingScreen from '../components/PromoLoadingScreen';
 import './Internals.css';
 
 function Internals() {
@@ -173,11 +172,16 @@ function Internals() {
     };
 
     if (isLoading) return (
-        <div className="internals-container" style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <PromoLoadingScreen
-                statusMessage="Loading internal marks..."
-                subMessage="Fetching assessment scores and subject criteria. Check out upcoming club events below 👇"
-            />
+        <div className="internals-container" style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+            <div className="skeleton skeleton-text" style={{ width: '120px', marginBottom: '2rem' }}></div>
+            <div className="marks-table-container">
+                <div className="table-wrapper">
+                    <div className="skeleton skeleton-table-row" style={{ height: '40px', borderRadius: '8px', marginBottom: '16px' }}></div>
+                    {[...Array(6)].map((_, i) => (
+                        <div key={i} className="skeleton skeleton-table-row" style={{ height: '80px', borderRadius: '12px', marginBottom: '12px' }}></div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 

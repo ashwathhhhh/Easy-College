@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Info, Plus, Minus, Wand2, Save, CloudOff, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PromoLoadingScreen from '../components/PromoLoadingScreen';
 import './Attendance.css';
 
 function Attendance() {
@@ -181,11 +180,23 @@ function Attendance() {
     );
 
     if (isLoading) return (
-        <div className="attendance-page-wrapper" style={{ display: 'flex', justifyContent: 'center' }}>
-            <PromoLoadingScreen
-                statusMessage="Fetching your attendance records..."
-                subMessage="Retrieving live course attendance from Ecampus. Check out upcoming club events below 👇"
-            />
+        <div className="attendance-page-wrapper">
+            <div className="attendance-main-card">
+                <div className="attendance-header-section">
+                    <div className="skeleton skeleton-title" style={{ width: '300px' }}></div>
+                    <div className="skeleton skeleton-text" style={{ width: '500px', maxWidth: '100%' }}></div>
+                    <div className="skeleton skeleton-text" style={{ width: '400px', maxWidth: '80%', marginTop: '4px' }}></div>
+                </div>
+                <div className="attendance-view-toggle" style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
+                    <div className="skeleton skeleton-text" style={{ width: '200px', height: '40px', borderRadius: '99px' }}></div>
+                </div>
+                <div className="attendance-table-container">
+                    <div className="skeleton skeleton-table-row" style={{ height: '45px', borderRadius: '8px', marginBottom: '16px' }}></div>
+                    {[...Array(8)].map((_, i) => (
+                        <div key={i} className="skeleton skeleton-table-row" style={{ height: '60px', borderRadius: '8px', marginBottom: '8px' }}></div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 
